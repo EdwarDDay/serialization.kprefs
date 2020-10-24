@@ -14,4 +14,4 @@ jobs:
           java-version: 1.8
 
       - name: Run tests
-        run: ./gradlew build
+        run: ./gradlew --info build
