@@ -10,4 +10,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Run tests
-        run: ./gradlew check
+        run: ./gradlew build
