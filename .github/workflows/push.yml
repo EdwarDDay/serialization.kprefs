@@ -20,7 +20,7 @@ jobs:
           java-version: 1.8
 
       - name: Build library with Gradle
-        run: ./gradlew --info :library:build
+        run: ./gradlew :library:build
 
       - name: Build sample project with Gradle
-        run: ./gradlew --info :sample:build
+        run: ./gradlew :sample:build
