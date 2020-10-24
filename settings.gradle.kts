@@ -27,6 +27,9 @@ pluginManagement {
 
         id("org.jmailen.kotlinter") version "3.2.0"
         id("io.gitlab.arturbosch.detekt") version "1.14.1"
+
+        id("org.jetbrains.dokka") version "1.4.10.2"
+        id("com.jfrog.bintray") version "1.8.5"
     }
 
     resolutionStrategy {

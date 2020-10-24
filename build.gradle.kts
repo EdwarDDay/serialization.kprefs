@@ -21,6 +21,9 @@ plugins {
 
     id("org.jmailen.kotlinter")
     id("io.gitlab.arturbosch.detekt") apply false
+
+    id("com.jfrog.bintray") apply false
+    id("org.jetbrains.dokka") apply false
 }
 
 buildscript {
