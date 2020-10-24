@@ -1,4 +1,5 @@
 import org.gradle.jvm.tasks.Jar
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /*
@@ -26,6 +27,8 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
 
     `maven-publish`
+    id("com.jfrog.bintray")
+    id("org.jetbrains.dokka")
 }
 
 repositories {
@@ -82,9 +85,15 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-val sourcesJar = tasks.create<Jar>("sourcesJar") {
+val sourcesJar by tasks.register<Jar>("sourcesJar") {
     from(android.sourceSets["main"].java.srcDirs)
     archiveClassifier.set("sources")
+}
+
+val dokkaJavadocJar by tasks.register<Jar>("dokkaJavadocJar") {
+    dependsOn(tasks.dokkaJavadoc)
+    from(tasks.dokkaJavadoc.flatMap(DokkaTask::outputDirectory))
+    archiveClassifier.set("javadoc")
 }
 
 afterEvaluate {
@@ -92,12 +101,57 @@ afterEvaluate {
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
+
                 artifact(sourcesJar)
+                artifact(dokkaJavadocJar)
 
                 group = "it.edwardday.serialization"
                 artifactId = "kprefs"
-                version = "0.1.0-SNAPSHOT"
+                version = properties["VERSION_NAME"]!!.toString()
+
+                pom {
+                    name.set("Kotlinx.serialization Android SharedPreferences format")
+                    packaging = "aar"
+                    description.set("A serialization format for Android SharedPreferences")
+                    url.set("https://github.com/EdwarDDay/serialization.kprefs")
+                    scm {
+                        url.set("https://github.com/EdwarDDay/serialization.kprefs")
+                        connection.set("scm:git:git://github.com/EdwarDDay/serialization.kprefs.git")
+                        developerConnection.set("scm:git:ssh://github.com/EdwarDDay/serialization.kprefs.git")
+                        tag.set("HEAD")
+                    }
+                    licenses {
+                        license {
+                            name.set("The Apache Software License, Version 2.0")
+                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                            distribution.set("repo")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("EdwarDDay")
+                            name.set("Eduard Wolf")
+                        }
+                    }
+                }
             }
         }
+    }
+}
+
+bintray {
+    fun checkedProperty(key: String, fallbackEnvVar: String): String? =
+        if (project.hasProperty(key)) project.properties[key]!!.toString() else System.getenv(fallbackEnvVar)
+
+    user = checkedProperty("bintray.user", "BINTRAY_USER")
+    key = checkedProperty("bintray.key", "BINTRAY_KEY")
+    setPublications("release")
+
+    with(pkg) {
+        repo = "maven"
+        name = "it.edwardday.serialization:kprefs"
+        vcsUrl = "https://github.com/EdwarDDay/serialization.kprefs.git"
+
+        version.name = properties["VERSION_NAME"]!!.toString()
     }
 }
