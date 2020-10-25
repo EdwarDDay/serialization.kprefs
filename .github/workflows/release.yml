@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Set VCS tag
+        id: variables
+        run: echo '::set-output name=tag::${GITHUB_REF#refs/*/}'
+
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Upload to bintray
+        run: ./gradlew :library:bintrayUpload
+        env:
+          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+          BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
+          VCS_TAG: ${{ steps.variables.outputs.tag }}
