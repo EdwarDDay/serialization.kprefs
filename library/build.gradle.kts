@@ -1,7 +1,8 @@
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.time.Instant
+import java.text.SimpleDateFormat
+import java.util.*
 
 /*
  * Copyright 2020 Eduard Wolf
@@ -146,6 +147,7 @@ bintray {
     setPublications("release")
 
     val versionName = properties["VERSION_NAME"]!!.toString()
+    val bintrayFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
 
     with(pkg) {
         repo = "maven"
@@ -156,7 +158,7 @@ bintray {
         with(version) {
             name = versionName
             desc = "serialization kprefs $versionName release"
-            released = "${Instant.now()}Z"
+            released = bintrayFormat.format(Date())
             vcsTag = System.getenv("VCS_TAG")
         }
     }
