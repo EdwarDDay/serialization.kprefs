@@ -156,7 +156,7 @@ bintray {
         with(version) {
             name = versionName
             desc = "serialization kprefs $versionName release"
-            released = Instant.now().toString()
+            released = "${Instant.now()}Z"
             vcsTag = System.getenv("VCS_TAG")
         }
     }
