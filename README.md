@@ -26,6 +26,26 @@ val person: Person = preferences.decode("person")
 assertEquals(charles, person)
 ```
 
+## Setup
+You need to apply the kotlinx.serialization plugin and add this library as dependency.
+
+Kotlin DSL:
+```kotlin
+plugins {
+    kotlin("plugin.serialization") version "1.4.10"
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation("it.edwardday.serialization:kprefs:0.1.0")
+}
+```
+Note: additional information to the serialization plugin can be found in the
+  [kotlinx.serialization repository](https://github.com/Kotlin/kotlinx.serialization).
+
 ## Features
 * support for all primitive types
   * support for double by encoding it to
