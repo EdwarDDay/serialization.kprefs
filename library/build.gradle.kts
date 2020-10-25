@@ -1,6 +1,8 @@
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.text.SimpleDateFormat
+import java.util.*
 
 /*
  * Copyright 2020 Eduard Wolf
@@ -140,18 +142,24 @@ afterEvaluate {
 }
 
 bintray {
-    fun checkedProperty(key: String, fallbackEnvVar: String): String? =
-        if (project.hasProperty(key)) project.properties[key]!!.toString() else System.getenv(fallbackEnvVar)
-
-    user = checkedProperty("bintray.user", "BINTRAY_USER")
-    key = checkedProperty("bintray.key", "BINTRAY_KEY")
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_KEY")
     setPublications("release")
+
+    val versionName = properties["VERSION_NAME"]!!.toString()
+    val bintrayFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
 
     with(pkg) {
         repo = "maven"
         name = "it.edwardday.serialization:kprefs"
+        setLicenses("Apache-2.0")
         vcsUrl = "https://github.com/EdwarDDay/serialization.kprefs.git"
 
-        version.name = properties["VERSION_NAME"]!!.toString()
+        with(version) {
+            name = versionName
+            desc = "serialization kprefs $versionName release"
+            released = bintrayFormat.format(Date())
+            vcsTag = System.getenv("VCS_TAG")
+        }
     }
 }
