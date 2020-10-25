@@ -15,7 +15,7 @@ jobs:
 
       - name: Set VCS tag
         id: variables
-        run: echo '::set-output name=tag::${GITHUB_REF#refs/*/}'
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: set up JDK
         uses: actions/setup-java@v1
