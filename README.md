@@ -1,5 +1,9 @@
 # Android SharedPreferences serialization
 
+[![License](https://img.shields.io/github/license/EdwarDDay/serialization.kprefs?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Develop](https://github.com/EdwarDDay/serialization.kprefs/workflows/Develop/badge.svg?branch=main)](https://github.com/EdwarDDay/serialization.kprefs/actions?query=workflow%3ADevelop+branch%3Amain)
+[![Download](https://api.bintray.com/packages/edwardday/maven/it.edwardday.serialization%3Akprefs/images/download.svg)](https://bintray.com/edwardday/maven/it.edwardday.serialization%3Akprefs/_latestVersion)
+
 Preferences serialization is a [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) format to
  serialize arbitrary objects in androids
  [SharedPreferences](https://developer.android.com/reference/android/content/SharedPreferences).
