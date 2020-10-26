@@ -57,7 +57,7 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
      */
     public fun <T> encode(serializer: SerializationStrategy<T>, tag: String, value: T) {
         val editor = conf.sharedPreferences.edit()
-        val encoder = PreferenceEncoder(this, editor)
+        val encoder = PreferenceEncoder(this, editor, conf.sharedPreferences)
         encoder.pushInitialTag(tag)
         encoder.encodeSerializableValue(serializer, value)
         editor.apply()

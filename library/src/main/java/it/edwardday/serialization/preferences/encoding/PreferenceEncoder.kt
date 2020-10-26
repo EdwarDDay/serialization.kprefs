@@ -32,17 +32,23 @@ import kotlinx.serialization.modules.SerializersModule
 @Suppress("TooManyFunctions")
 internal class PreferenceEncoder(
     private val preferences: Preferences,
-    private val editor: SharedPreferences.Editor
+    private val editor: SharedPreferences.Editor,
+    private val sharedPreferences: SharedPreferences
 ) : NamedValueEncoder() {
 
     override val serializersModule: SerializersModule = preferences.serializersModule
 
     internal fun pushInitialTag(name: String) {
-        pushTag(nested(name))
+        val tag = nested(name)
+        pushTag(tag)
+        editor.remove(tag)
+        sharedPreferences.all.keys
+            .filter { it.startsWith("$tag.") }
+            .forEach { editor.remove(it) }
     }
 
     override fun encodeTaggedNull(tag: String) {
-        editor.remove(tag)
+        // null is supported, so do not throw an exception
     }
 
     override fun encodeTaggedEnum(tag: String, enumDescriptor: SerialDescriptor, ordinal: Int) {
@@ -110,7 +116,10 @@ internal class PreferenceEncoder(
         if (preferences.conf.encodeObjectStarts) {
             editor.putBoolean(currentTag, true)
         } else {
-            throw SerializationException("cannot encode empty structure ${descriptor.serialName} at $currentTag")
+            throw SerializationException(
+                "cannot encode empty structure ${descriptor.serialName} at $currentTag " +
+                    "(use encodeObjectStarts=true on Preferences creation to change this behavior)"
+            )
         }
     }
 }

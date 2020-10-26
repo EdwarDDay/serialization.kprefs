@@ -276,7 +276,6 @@ class EncodingTest {
 
     @Test
     fun testChangeSharedPreferences() {
-        preferences = Preferences(sharedPreferences)
         val otherSharedPreferences = TestablePreferences()
         val otherPreferences = Preferences(preferences) {
             sharedPreferences = otherSharedPreferences
@@ -288,5 +287,27 @@ class EncodingTest {
         assertEquals(0, sharedPreferences.getInt("bar", 0))
         assertEquals(0, otherSharedPreferences.getInt("foo", 0))
         assertEquals(20, otherSharedPreferences.getInt("bar", 0))
+    }
+
+    @Test
+    fun testNoPreferenceAfterDeletion() {
+        val data = SimpleContainer(5)
+        preferences.encode("foo", data)
+        preferences.encode<SimpleContainer?>("foo", null)
+        val actual = preferences.decode<SimpleContainer?>("foo")
+
+        assertNull(actual)
+        assertEquals(0, sharedPreferences.getInt("foo.bar", 0))
+    }
+
+    @Test
+    fun testNoPreferenceAfterSavingSmallerList() {
+        val longData = listOf(1, 2, 3, 4, 5)
+        preferences.encode("list", longData)
+        val data = listOf(6, 7)
+        preferences.encode("list", data)
+        val actual = preferences.decode<List<Int>>("list")
+
+        assertEquals(data, actual)
     }
 }
