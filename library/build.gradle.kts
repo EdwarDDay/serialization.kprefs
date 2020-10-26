@@ -88,11 +88,13 @@ dependencies {
 }
 
 val sourcesJar by tasks.register<Jar>("sourcesJar") {
+    group = "publishing"
     from(android.sourceSets["main"].java.srcDirs)
     archiveClassifier.set("sources")
 }
 
 val dokkaJavadocJar by tasks.register<Jar>("dokkaJavadocJar") {
+    group = "publishing"
     dependsOn(tasks.dokkaJavadoc)
     from(tasks.dokkaJavadoc.flatMap(DokkaTask::outputDirectory))
     archiveClassifier.set("javadoc")
