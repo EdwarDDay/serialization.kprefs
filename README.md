@@ -26,6 +26,22 @@ val person: Person = preferences.decode("person")
 assertEquals(charles, person)
 ```
 
+## Delegated Properties Example
+
+```kotlin
+val preferences = Preferences(context.getSharedPreferences("application data", Context.MODE_PRIVATE))
+
+val someFlag: Boolean by preferences.asProperty()
+
+fun test() {
+    someFlag = false // stores false in SharedPreferences at key "someFlag"
+    // ...
+    if (someFlag) { // reads value from SharedPreferences at key "someFlag"
+
+    }
+}
+```
+
 ## Setup
 You need to apply the kotlinx.serialization plugin and add this library as dependency.
 
@@ -55,6 +71,7 @@ Note: additional information to the serialization plugin can be found in the
 * support for encoding classes
 * support for sealed classes
 * support for objects by encoding an object start with a Boolean
+* support for property delegated properties
 
 ## What doesn't work
 `SharedPreferences` don't support nullability. So I decided to decode nonexistent values as `null`. That's why nullable
