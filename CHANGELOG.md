@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 0.3.0 *(2020-11-03)*
+----------------------------
+
+Support delegated properties
+Do not use SharedPreferences default value for primitives
+
 Version 0.2.0 *(2020-10-26)*
 ----------------------------
 
