@@ -52,7 +52,7 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
         get() = conf.serializersModule
 
     /**
-     * Serializes and encodes the given [value] into the SharedPreferences at the specified [tag] using the given
+     * Serializes and encodes the given [value] into the [SharedPreferences] at the specified [tag] using the given
      * [serializer].
      */
     public fun <T> encode(serializer: SerializationStrategy<T>, tag: String, value: T) {
@@ -64,7 +64,7 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
     }
 
     /**
-     * Decodes and deserializes from the SharedPreferences at the specified [tag] to the value of type [T] using the
+     * Decodes and deserializes from the [SharedPreferences] at the specified [tag] to the value of type [T] using the
      * given [deserializer]
      */
     public fun <T> decode(deserializer: DeserializationStrategy<T>, tag: String): T {
@@ -75,7 +75,7 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
 }
 
 /**
- * Serializes and encodes the given [value] into the SharedPreferences at the specified [tag] using serializer
+ * Serializes and encodes the given [value] into the [SharedPreferences] at the specified [tag] using serializer
  * retrieved from the reified type parameter.
  */
 public inline fun <reified T> Preferences.encode(tag: String, value: T) {
@@ -83,7 +83,7 @@ public inline fun <reified T> Preferences.encode(tag: String, value: T) {
 }
 
 /**
- * Decodes and deserializes from the SharedPreferences at the specified [tag] to the value of type [T] using
+ * Decodes and deserializes from the [SharedPreferences] at the specified [tag] to the value of type [T] using
  * deserializer retrieved from the reified type parameter.
  */
 public inline fun <reified T> Preferences.decode(tag: String): T = decode(serializersModule.serializer(), tag)
