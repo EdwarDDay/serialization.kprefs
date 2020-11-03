@@ -17,9 +17,11 @@
 package it.edwardday.serialization.preferences
 
 import android.content.SharedPreferences
+import kotlinx.serialization.SerializationException
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -45,6 +47,13 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun failOnNotStoredBoolean() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Boolean>("useFancyFeature")
+        }
+    }
+
+    @Test
     fun getBooleanNullable() {
         val actual = preferences.decode<Boolean?>("useFancyFeature")
 
@@ -62,12 +71,26 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun failOnNotStoredByte() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Byte>("windowFlags")
+        }
+    }
+
+    @Test
     fun getShort() {
         sharedPreferences.edit().putInt("age", 255).apply()
 
         val actual = preferences.decode<Short>("age")
 
         assertEquals(255, actual)
+    }
+
+    @Test
+    fun failOnNotStoredShort() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Short>("age")
+        }
     }
 
     @Test
@@ -81,6 +104,13 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun failOnNotStoredInt() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Int>("amount")
+        }
+    }
+
+    @Test
     fun getLong() {
         sharedPreferences.edit()
             .putLong("count", 10987654321).apply()
@@ -91,6 +121,13 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun failOnNotStoredLong() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Long>("count")
+        }
+    }
+
+    @Test
     fun getFloat() {
         sharedPreferences.edit().putFloat("wallet", 123.45f)
             .apply()
@@ -98,6 +135,13 @@ class DecodePrimitivesTest {
         val actual = preferences.decode<Float>("wallet")
 
         assertEquals(123.45f, actual)
+    }
+
+    @Test
+    fun failOnNotStoredFloat() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Float>("wallet")
+        }
     }
 
     @Test
@@ -140,6 +184,13 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun failOnNotStoredDouble() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Double>("a_value")
+        }
+    }
+
+    @Test
     fun getChar() {
         sharedPreferences.edit().putString("letter", "$")
             .apply()
@@ -150,6 +201,13 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun failOnNotStoredChar() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Char>("letter")
+        }
+    }
+
+    @Test
     fun getString() {
         sharedPreferences.edit()
             .putString("theText", "loading a string").apply()
@@ -157,5 +215,12 @@ class DecodePrimitivesTest {
         val actual = preferences.decode<String>("theText")
 
         assertEquals("loading a string", actual)
+    }
+
+    @Test
+    fun failOnNotStoredString() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<String>("theText")
+        }
     }
 }

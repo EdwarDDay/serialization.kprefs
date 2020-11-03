@@ -48,6 +48,20 @@ class EncodingTest {
         val actual = preferences.decode<SimplePrimitivesContainer>("container")
 
         assertEquals(data, actual)
+        assertEquals(
+            expected = setOf(
+                "container.a",
+                "container.b",
+                "container.c",
+                "container.d",
+                "container.e",
+                "container.f",
+                "container.g",
+                "container.h",
+                "container.i"
+            ),
+            actual = sharedPreferences.all.keys
+        )
         assertTrue(sharedPreferences.getBoolean("container.a", false))
         assertEquals(4, sharedPreferences.getInt("container.b", 0))
         assertEquals(8, sharedPreferences.getInt("container.c", 0))
@@ -66,6 +80,13 @@ class EncodingTest {
         val actual = preferences.decode<Complex>("complex")
 
         assertEquals(data, actual)
+        assertEquals(
+            expected = setOf(
+                "complex.simple.bar",
+                "complex.optional.foo"
+            ),
+            actual = sharedPreferences.all.keys
+        )
         assertEquals(9, sharedPreferences.getInt("complex.simple.bar", 0))
         assertEquals("hello", sharedPreferences.getString("complex.optional.foo", null))
     }
@@ -77,6 +98,13 @@ class EncodingTest {
         val actual = preferences.decode<Complex?>("complex")
 
         assertEquals(data, actual)
+        assertEquals(
+            expected = setOf(
+                "complex.simple.bar",
+                "complex.optional.foo"
+            ),
+            actual = sharedPreferences.all.keys
+        )
         assertEquals(42, sharedPreferences.getInt("complex.simple.bar", 0))
         assertEquals("World", sharedPreferences.getString("complex.optional.foo", null))
     }
@@ -98,6 +126,13 @@ class EncodingTest {
         val actual = preferences.decode<List<SimpleContainer>>("list")
 
         assertEquals(data, actual)
+        assertEquals(
+            expected = setOf(
+                "list.0.bar",
+                "list.1.bar"
+            ),
+            actual = sharedPreferences.all.keys
+        )
         assertEquals(1, sharedPreferences.getInt("list.0.bar", 0))
         assertEquals(2, sharedPreferences.getInt("list.1.bar", 0))
     }
@@ -108,6 +143,10 @@ class EncodingTest {
         val actual = preferences.decode<List<SimpleContainer>>("list")
 
         assertEquals(emptyList(), actual)
+        assertEquals(
+            expected = setOf("list"),
+            actual = sharedPreferences.all.keys
+        )
         assertTrue(sharedPreferences.getBoolean("list", false))
     }
 
@@ -120,6 +159,7 @@ class EncodingTest {
         assertFailsWith<SerializationException> {
             preferences.encode<List<SimpleContainer>>("list", emptyList())
         }
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
@@ -128,6 +168,10 @@ class EncodingTest {
         val actual = preferences.decode<Array<SimpleContainer>>("array")
 
         assertEquals(0, actual.size)
+        assertEquals(
+            expected = setOf("array"),
+            actual = sharedPreferences.all.keys
+        )
         assertTrue(sharedPreferences.getBoolean("array", false))
     }
 
@@ -140,6 +184,7 @@ class EncodingTest {
         assertFailsWith<SerializationException> {
             preferences.encode<Array<SimpleContainer>>("array", emptyArray())
         }
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
@@ -149,6 +194,15 @@ class EncodingTest {
         val actual = preferences.decode<Map<String, SimpleContainer>>("map")
 
         assertEquals(data, actual)
+        assertEquals(
+            expected = setOf(
+                "map.0",
+                "map.1.bar",
+                "map.2",
+                "map.3.bar",
+            ),
+            actual = sharedPreferences.all.keys
+        )
         assertEquals("a", sharedPreferences.getString("map.0", null))
         assertEquals(1, sharedPreferences.getInt("map.1.bar", 0))
         assertEquals("b", sharedPreferences.getString("map.2", null))
@@ -161,6 +215,10 @@ class EncodingTest {
         val actual = preferences.decode<Map<String, SimpleContainer>>("map")
 
         assertEquals(emptyMap(), actual)
+        assertEquals(
+            expected = setOf("map"),
+            actual = sharedPreferences.all.keys
+        )
         assertTrue(sharedPreferences.getBoolean("map", false))
     }
 
@@ -173,6 +231,7 @@ class EncodingTest {
         assertFailsWith<SerializationException> {
             preferences.encode<Map<String, SimpleContainer>>("map", emptyMap())
         }
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
@@ -185,6 +244,15 @@ class EncodingTest {
         val actual = preferences.decode<Map<SimpleContainer, DateWithOptional>>("map")
 
         assertEquals(data, actual)
+        assertEquals(
+            expected = setOf(
+                "map.0.bar",
+                "map.1.foo",
+                "map.2.bar",
+                "map.3.foo",
+            ),
+            actual = sharedPreferences.all.keys
+        )
         assertEquals(1, sharedPreferences.getInt("map.0.bar", 0))
         assertEquals("optional", sharedPreferences.getString("map.1.foo", null))
         assertEquals(2, sharedPreferences.getInt("map.2.bar", 0))
@@ -217,6 +285,17 @@ class EncodingTest {
         val actual = preferences.decode<List<SealedDate>>("sealed")
 
         assertEquals(data, actual)
+        assertEquals(
+            expected = setOf(
+                "sealed.0.type",
+                "sealed.0.value.a",
+                "sealed.1.type",
+                "sealed.1.value.b",
+                "sealed.2.type",
+                "sealed.2.value"
+            ),
+            actual = sharedPreferences.all.keys
+        )
         assertEquals("sealed1", sharedPreferences.getString("sealed.0.type", null))
         assertFalse(sharedPreferences.getBoolean("sealed.0.value.a", true))
         assertEquals("sealed2", sharedPreferences.getString("sealed.1.type", null))
