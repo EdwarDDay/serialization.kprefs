@@ -70,6 +70,7 @@ internal class PreferenceDecoder(
     }
 
     override fun decodeTaggedEnum(tag: String, enumDescriptor: SerialDescriptor): Int {
+        checkTagIsStored(tag)
         return try {
             val value = sharedPreferences.getString(tag, null)
                 ?: throw SerializationException("Value '$tag' is not stored")
@@ -87,23 +88,40 @@ internal class PreferenceDecoder(
     override fun decodeTaggedNotNullMark(tag: String): Boolean =
         tag in sharedPreferences || sharedPreferences.all.any { it.key.startsWith("$tag.") }
 
-    override fun decodeTaggedBoolean(tag: String): Boolean = sharedPreferences.getBoolean(tag, false)
+    override fun decodeTaggedBoolean(tag: String): Boolean {
+        checkTagIsStored(tag)
+        return sharedPreferences.getBoolean(tag, false)
+    }
 
     override fun decodeTaggedByte(tag: String): Byte = decodeTaggedInt(tag).toByte()
     override fun decodeTaggedShort(tag: String): Short = decodeTaggedInt(tag).toShort()
-    override fun decodeTaggedInt(tag: String): Int = sharedPreferences.getInt(tag, 0)
-    override fun decodeTaggedLong(tag: String): Long = sharedPreferences.getLong(tag, 0)
+    override fun decodeTaggedInt(tag: String): Int {
+        checkTagIsStored(tag)
+        return sharedPreferences.getInt(tag, 0)
+    }
 
-    override fun decodeTaggedFloat(tag: String): Float = sharedPreferences.getFloat(tag, 0f)
+    override fun decodeTaggedLong(tag: String): Long {
+        checkTagIsStored(tag)
+        return sharedPreferences.getLong(tag, 0)
+    }
+
+    override fun decodeTaggedFloat(tag: String): Float {
+        checkTagIsStored(tag)
+        return sharedPreferences.getFloat(tag, 0f)
+    }
+
     override fun decodeTaggedDouble(tag: String): Double =
         when (preferences.conf.doubleRepresentation) {
             DoubleRepresentation.FLOAT -> decodeTaggedFloat(tag).toDouble()
             DoubleRepresentation.LONG_BITS -> decodeTaggedLong(tag).let(Double.Companion::fromBits)
             DoubleRepresentation.STRING -> decodeTaggedString(tag).toDouble()
         }
-
     override fun decodeTaggedChar(tag: String): Char = decodeTaggedString(tag).first()
+
     override fun decodeTaggedString(tag: String): String {
-        return sharedPreferences.getString(tag, null) ?: throw SerializationException("Null value saved in $tag")
+        return sharedPreferences.getString(tag, null) ?: throw SerializationException("missing property $tag")
+    }
+    private fun checkTagIsStored(tag: String) {
+        if (tag !in sharedPreferences) throw SerializationException("missing property $tag")
     }
 }
