@@ -22,6 +22,13 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Generate changelog
+        id: changelog
+        uses: metcalfc/changelog-generator@v0.4.4
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+          base-ref: v0.2.0
+
       - name: Upload to bintray
         run: ./gradlew :library:bintrayUpload
         env:
@@ -37,6 +44,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+          body: ${{ steps.changelog.outputs.changelog }}
           draft: true
           prerelease: true
 
