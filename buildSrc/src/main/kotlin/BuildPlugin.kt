@@ -14,5 +14,21 @@
  * limitations under the License.
  */
 
-include(":library")
-include(":sample")
+object BuildPlugin {
+
+    const val androidLibrary = "com.android.library"
+    const val androidApplication = "com.android.application"
+
+    const val bintray = "com.jfrog.bintray"
+
+    const val detekt = "io.gitlab.arturbosch.detekt"
+    const val dokka = "org.jetbrains.dokka"
+
+    const val ktlint = "org.jmailen.kotlinter"
+
+    object Kotlin {
+        const val android = "android"
+
+        const val serialization = "plugin.serialization"
+    }
+}

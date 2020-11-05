@@ -14,5 +14,10 @@
  * limitations under the License.
  */
 
-include(":library")
-include(":sample")
+plugins {
+    `kotlin-dsl`
+}
+
+repositories {
+    mavenCentral()
+}

@@ -14,5 +14,15 @@
  * limitations under the License.
  */
 
-include(":library")
-include(":sample")
+object BuildVersion {
+
+    const val android = "4.1.0"
+
+    const val bintray = "1.8.5"
+
+    const val detekt = "1.14.1"
+    const val dokka = "1.4.10.2"
+
+    const val kotlin = "1.4.10"
+    const val ktlint = "3.2.0"
+}

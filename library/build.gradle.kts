@@ -21,16 +21,16 @@ import java.util.*
  */
 
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("plugin.serialization")
+    id(BuildPlugin.androidLibrary)
+    kotlin(BuildPlugin.Kotlin.android)
+    kotlin(BuildPlugin.Kotlin.serialization)
 
-    id("org.jmailen.kotlinter")
-    id("io.gitlab.arturbosch.detekt")
+    id(BuildPlugin.ktlint)
+    id(BuildPlugin.detekt)
 
     `maven-publish`
-    id("com.jfrog.bintray")
-    id("org.jetbrains.dokka")
+    id(BuildPlugin.bintray)
+    id(BuildPlugin.dokka)
 }
 
 repositories {

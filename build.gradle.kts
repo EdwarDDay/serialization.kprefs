@@ -15,15 +15,14 @@
  */
 
 plugins {
-    id("com.android.library") apply false
-    id("org.jetbrains.kotlin.android") apply false
-    kotlin("plugin.serialization") apply false
+    kotlin(BuildPlugin.Kotlin.android) version BuildVersion.kotlin apply false
+    kotlin(BuildPlugin.Kotlin.serialization) version BuildVersion.kotlin apply false
 
-    id("org.jmailen.kotlinter")
-    id("io.gitlab.arturbosch.detekt") apply false
+    id(BuildPlugin.ktlint) version BuildVersion.ktlint
+    id(BuildPlugin.detekt) version BuildVersion.detekt apply false
 
-    id("com.jfrog.bintray") apply false
-    id("org.jetbrains.dokka") apply false
+    id(BuildPlugin.bintray) version BuildVersion.bintray apply false
+    id(BuildPlugin.dokka) version BuildVersion.dokka apply false
 }
 
 buildscript {
@@ -33,7 +32,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:4.1.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10")
+        classpath(BuildClasspath.androidTools)
+        classpath(BuildClasspath.kotlinGradle)
     }
 }
