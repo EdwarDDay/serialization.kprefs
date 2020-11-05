@@ -46,8 +46,7 @@ class EncodePrimitivesTest {
     fun putBooleanNullable() {
         preferences.encode<Boolean?>("useFancyFeature", null)
 
-        val actual = sharedPreferences.contains("useFancyFeature")
-        assertFalse(actual)
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
@@ -70,8 +69,7 @@ class EncodePrimitivesTest {
     fun putByteNullable() {
         preferences.encode<Byte?>("windowFlags", null)
 
-        val actual = sharedPreferences.contains("windowFlags")
-        assertFalse(actual)
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
@@ -86,8 +84,7 @@ class EncodePrimitivesTest {
     fun putShortNullable() {
         preferences.encode<Short?>("age", null)
 
-        val actual = sharedPreferences.contains("age")
-        assertFalse(actual)
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
@@ -102,8 +99,7 @@ class EncodePrimitivesTest {
     fun putIntNullable() {
         preferences.encode<Int?>("amount", null)
 
-        val actual = sharedPreferences.contains("amount")
-        assertFalse(actual)
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
@@ -118,8 +114,7 @@ class EncodePrimitivesTest {
     fun putLongNullable() {
         preferences.encode<Long?>("count", null)
 
-        val actual = sharedPreferences.contains("count")
-        assertFalse(actual)
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
@@ -134,8 +129,7 @@ class EncodePrimitivesTest {
     fun putFloatNullable() {
         preferences.encode<Float?>("wallet", null)
 
-        val actual = sharedPreferences.contains("wallet")
-        assertFalse(actual)
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
@@ -145,9 +139,7 @@ class EncodePrimitivesTest {
         }
         preferences.encode("a_value", 123.45)
 
-        val actual =
-            sharedPreferences.getFloat("a_value", 0f)
-                .toDouble()
+        val actual = sharedPreferences.getFloat("a_value", 0f).toDouble()
         assertTrue(actual > 123.449)
         assertTrue(actual < 123.451)
     }
@@ -159,9 +151,7 @@ class EncodePrimitivesTest {
         }
         preferences.encode("a_value", 123.45)
 
-        val actual = Double.fromBits(
-            sharedPreferences.getLong("a_value", 0)
-        )
+        val actual = Double.fromBits(sharedPreferences.getLong("a_value", 0))
         assertEquals(123.45, actual)
     }
 
@@ -189,16 +179,14 @@ class EncodePrimitivesTest {
     fun putCharNullable() {
         preferences.encode<Char?>("letter", null)
 
-        val actual = sharedPreferences.contains("letter")
-        assertFalse(actual)
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 
     @Test
     fun putString() {
         preferences.encode("theText", "a common text to save")
 
-        val actual =
-            sharedPreferences.getString("theText", null)
+        val actual = sharedPreferences.getString("theText", null)
         assertEquals("a common text to save", actual)
     }
 
@@ -206,7 +194,20 @@ class EncodePrimitivesTest {
     fun putStringNullable() {
         preferences.encode<String?>("theText", null)
 
-        val actual = sharedPreferences.contains("theText")
-        assertFalse(actual)
+        assertTrue(sharedPreferences.all.isEmpty())
+    }
+
+    @Test
+    fun putEnum() {
+        preferences.encode("enum", Weekday.WEDNESDAY)
+
+        assertEquals("WEDNESDAY", sharedPreferences.getString("enum", null))
+    }
+
+    @Test
+    fun putEnumNullable() {
+        preferences.encode<Weekday?>("enum", null)
+
+        assertTrue(sharedPreferences.all.isEmpty())
     }
 }

@@ -71,17 +71,12 @@ internal class PreferenceDecoder(
 
     override fun decodeTaggedEnum(tag: String, enumDescriptor: SerialDescriptor): Int {
         checkTagIsStored(tag)
-        return try {
-            val value = sharedPreferences.getString(tag, null)
-                ?: throw SerializationException("Value '$tag' is not stored")
-            enumDescriptor.getElementIndex(value)
-        } catch (_: ClassCastException) {
-            try {
-                sharedPreferences.getInt(tag, -1).takeIf { it >= 0 }
-                    ?: throw SerializationException("Value '$tag' is not stored")
-            } catch (_: ClassCastException) {
-                throw SerializationException("Value of enum entry '$tag' is neither an Int, nor a String")
-            }
+        val value = sharedPreferences.getString(tag, null) ?: throw SerializationException("Value '$tag' is not stored")
+        val foundIndex = enumDescriptor.getElementIndex(value)
+        if (foundIndex == CompositeDecoder.UNKNOWN_NAME) {
+            throw SerializationException("Value of enum entry '$tag' has unknown value $value")
+        } else {
+            return foundIndex
         }
     }
 
@@ -116,11 +111,13 @@ internal class PreferenceDecoder(
             DoubleRepresentation.LONG_BITS -> decodeTaggedLong(tag).let(Double.Companion::fromBits)
             DoubleRepresentation.STRING -> decodeTaggedString(tag).toDouble()
         }
+
     override fun decodeTaggedChar(tag: String): Char = decodeTaggedString(tag).first()
 
     override fun decodeTaggedString(tag: String): String {
         return sharedPreferences.getString(tag, null) ?: throw SerializationException("missing property $tag")
     }
+
     private fun checkTagIsStored(tag: String) {
         if (tag !in sharedPreferences) throw SerializationException("missing property $tag")
     }

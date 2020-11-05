@@ -24,6 +24,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class DecodePrimitivesTest {
@@ -62,8 +63,7 @@ class DecodePrimitivesTest {
 
     @Test
     fun getByte() {
-        sharedPreferences.edit().putInt("windowFlags", 0x5B)
-            .apply()
+        sharedPreferences.edit().putInt("windowFlags", 0x5B).apply()
 
         val actual = preferences.decode<Byte>("windowFlags")
 
@@ -95,8 +95,7 @@ class DecodePrimitivesTest {
 
     @Test
     fun getInt() {
-        sharedPreferences.edit().putInt("amount", 7654321)
-            .apply()
+        sharedPreferences.edit().putInt("amount", 7654321).apply()
 
         val actual = preferences.decode<Int>("amount")
 
@@ -112,8 +111,7 @@ class DecodePrimitivesTest {
 
     @Test
     fun getLong() {
-        sharedPreferences.edit()
-            .putLong("count", 10987654321).apply()
+        sharedPreferences.edit().putLong("count", 10987654321).apply()
 
         val actual = preferences.decode<Long>("count")
 
@@ -129,8 +127,7 @@ class DecodePrimitivesTest {
 
     @Test
     fun getFloat() {
-        sharedPreferences.edit().putFloat("wallet", 123.45f)
-            .apply()
+        sharedPreferences.edit().putFloat("wallet", 123.45f).apply()
 
         val actual = preferences.decode<Float>("wallet")
 
@@ -149,8 +146,7 @@ class DecodePrimitivesTest {
         preferences = Preferences(sharedPreferences) {
             doubleRepresentation = DoubleRepresentation.FLOAT
         }
-        sharedPreferences.edit().putFloat("a_value", 123.45f)
-            .apply()
+        sharedPreferences.edit().putFloat("a_value", 123.45f).apply()
 
         val actual = preferences.decode<Double>("a_value")
 
@@ -175,8 +171,7 @@ class DecodePrimitivesTest {
         preferences = Preferences(sharedPreferences) {
             doubleRepresentation = DoubleRepresentation.STRING
         }
-        sharedPreferences.edit()
-            .putString("a_value", "123.45").apply()
+        sharedPreferences.edit().putString("a_value", "123.45").apply()
 
         val actual = preferences.decode<Double>("a_value")
 
@@ -192,8 +187,7 @@ class DecodePrimitivesTest {
 
     @Test
     fun getChar() {
-        sharedPreferences.edit().putString("letter", "$")
-            .apply()
+        sharedPreferences.edit().putString("letter", "$").apply()
 
         val actual = preferences.decode<Char>("letter")
 
@@ -209,8 +203,7 @@ class DecodePrimitivesTest {
 
     @Test
     fun getString() {
-        sharedPreferences.edit()
-            .putString("theText", "loading a string").apply()
+        sharedPreferences.edit().putString("theText", "loading a string").apply()
 
         val actual = preferences.decode<String>("theText")
 
@@ -221,6 +214,33 @@ class DecodePrimitivesTest {
     fun failOnNotStoredString() {
         assertFailsWith<SerializationException> {
             preferences.decode<String>("theText")
+        }
+    }
+
+    @Test
+    fun decodeEnumMonday() {
+        sharedPreferences.edit().putString("enum", "MONDAY").apply()
+
+        val actual = preferences.decode<Weekday>("enum")
+
+        assertSame(Weekday.MONDAY, actual)
+    }
+
+    @Test
+    fun decodeEnumSunday() {
+        sharedPreferences.edit().putString("enum", "SUNDAY").apply()
+
+        val actual = preferences.decode<Weekday>("enum")
+
+        assertSame(Weekday.SUNDAY, actual)
+    }
+
+    @Test
+    fun decodeEnumNonExistent() {
+        sharedPreferences.edit().putString("enum", "NODAY").apply()
+
+        assertFailsWith<SerializationException> {
+            preferences.decode<Weekday>("enum")
         }
     }
 }
