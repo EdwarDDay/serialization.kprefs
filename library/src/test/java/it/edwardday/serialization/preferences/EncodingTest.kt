@@ -389,4 +389,13 @@ class EncodingTest {
 
         assertEquals(data, actual)
     }
+
+    @Test
+    fun testListOfEnums() {
+        val data = listOf(Weekday.TUESDAY, Weekday.SATURDAY, Weekday.THURSDAY, Weekday.FRIDAY)
+        preferences.encode("enums", data)
+        val actual = preferences.decode<List<Weekday>>("enums")
+
+        assertEquals(data, actual)
+    }
 }
