@@ -15,9 +15,9 @@
  */
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    kotlin("plugin.serialization")
+    id(BuildPlugin.androidApplication)
+    kotlin(BuildPlugin.Kotlin.android)
+    kotlin(BuildPlugin.Kotlin.serialization)
 }
 
 repositories {
@@ -68,7 +68,6 @@ android {
 
 dependencies {
     implementation(project(":library"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.10")
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.appcompat:appcompat:1.2.0")
 }
