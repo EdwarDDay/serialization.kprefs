@@ -70,13 +70,12 @@ internal class PreferenceDecoder(
     }
 
     override fun decodeTaggedEnum(tag: String, enumDescriptor: SerialDescriptor): Int {
-        checkTagIsStored(tag)
-        val value = sharedPreferences.getString(tag, null) ?: throw SerializationException("Value '$tag' is not stored")
+        val value = decodeTaggedString(tag)
         val foundIndex = enumDescriptor.getElementIndex(value)
-        if (foundIndex == CompositeDecoder.UNKNOWN_NAME) {
-            throw SerializationException("Value of enum entry '$tag' has unknown value $value")
-        } else {
+        if (foundIndex != CompositeDecoder.UNKNOWN_NAME) {
             return foundIndex
+        } else {
+            throw SerializationException("Value of enum entry '$tag' has unknown value $value")
         }
     }
 
