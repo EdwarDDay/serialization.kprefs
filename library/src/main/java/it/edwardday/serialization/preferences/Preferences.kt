@@ -23,6 +23,7 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialFormat
 import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.modules.EmptySerializersModule
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
@@ -140,6 +141,7 @@ private inline fun generatePreferences(
  * Builder of the [Preferences] instance provided by `Preferences(sharedPreferences) { ... }` factory function.
  */
 public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
+    private val previousStringSetDescriptorNames = conf.stringSetDescriptorNames
 
     /**
      * Specifies the [SharedPreferences] where everything will be encoded to and decoded from.
@@ -171,17 +173,39 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
     public var encodeObjectStarts: Boolean = conf.encodeObjectStarts
 
     /**
+     * Specifies whether [Set]s of [String], [Char] and [Enum] will be encoded with
+     * [putStringSet][SharedPreferences.Editor.putStringSet] or not.
+     *
+     * `true` by default
+     */
+    public var encodeStringSetNatively: Boolean = conf.encodeStringSetNatively
+
+    /**
+     * Specifies the names of the [SerialDescriptor] which are used to detect Set<String> to encode these natively.
+     *
+     * `true` by default
+     */
+    public val stringSetDescriptorNames: MutableList<String> = conf.stringSetDescriptorNames.toMutableList()
+
+    /**
      * Module with contextual and polymorphic serializers to be used in the resulting [Preferences] instance.
      */
     public var serializersModule: SerializersModule = conf.serializersModule
 
     @OptIn(ExperimentalSerializationApi::class)
     internal fun build(): PreferenceConf {
+        if (stringSetDescriptorNames != previousStringSetDescriptorNames) {
+            require(encodeStringSetNatively) {
+                "stringSetDescriptorNames is only used when encodeStringSetNatively is enabled"
+            }
+        }
         return PreferenceConf(
             sharedPreferences = sharedPreferences,
             serializersModule = serializersModule,
             doubleRepresentation = doubleRepresentation,
-            encodeObjectStarts = encodeObjectStarts
+            encodeObjectStarts = encodeObjectStarts,
+            encodeStringSetNatively = encodeStringSetNatively,
+            stringSetDescriptorNames = stringSetDescriptorNames
         )
     }
 }
@@ -216,5 +240,8 @@ internal data class PreferenceConf(
     val sharedPreferences: SharedPreferences,
     val serializersModule: SerializersModule = EmptySerializersModule,
     val doubleRepresentation: DoubleRepresentation = DoubleRepresentation.LONG_BITS,
-    val encodeObjectStarts: Boolean = true
+    val encodeObjectStarts: Boolean = true,
+    val encodeStringSetNatively: Boolean = true,
+    val stringSetDescriptorNames: List<String> =
+        listOf("kotlin.collections.HashSet", "kotlin.collections.LinkedHashSet")
 )

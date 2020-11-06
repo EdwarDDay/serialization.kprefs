@@ -24,6 +24,7 @@ import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.StructureKind
+import kotlinx.serialization.encoding.AbstractDecoder
 import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.internal.NamedValueDecoder
 import kotlinx.serialization.modules.SerializersModule
@@ -48,6 +49,11 @@ internal class PreferenceDecoder(
     }
 
     override fun beginStructure(descriptor: SerialDescriptor): CompositeDecoder {
+        if (preferences.conf.shouldSerializeStringSet(descriptor)) {
+            val stringSet: Set<String?> = sharedPreferences.getStringSet(currentTag, null)
+                ?: throw SerializationException("missing property $currentTag")
+            return PreferencesStringSetDecoder(preferences, stringSet)
+        }
         return PreferenceDecoder(preferences, descriptor).also { copyTagsTo(it) }
     }
 
@@ -71,12 +77,7 @@ internal class PreferenceDecoder(
 
     override fun decodeTaggedEnum(tag: String, enumDescriptor: SerialDescriptor): Int {
         val value = decodeTaggedString(tag)
-        val foundIndex = enumDescriptor.getElementIndex(value)
-        if (foundIndex != CompositeDecoder.UNKNOWN_NAME) {
-            return foundIndex
-        } else {
-            throw SerializationException("Value of enum entry '$tag' has unknown value $value")
-        }
+        return enumDescriptor.getElementIndexOrThrow(value)
     }
 
     override fun decodeTaggedNotNullMark(tag: String): Boolean =
@@ -119,5 +120,46 @@ internal class PreferenceDecoder(
 
     private fun checkTagIsStored(tag: String) {
         if (tag !in sharedPreferences) throw SerializationException("missing property $tag")
+    }
+}
+
+@OptIn(ExperimentalSerializationApi::class)
+internal class PreferencesStringSetDecoder(
+    private val preferences: Preferences,
+    set: Set<String?>
+) : AbstractDecoder() {
+
+    override val serializersModule: SerializersModule get() = preferences.serializersModule
+    private val values = set.iterator()
+    private val size = set.size
+    private var currentIndex = -1
+    private var useCachedValue = false
+    private var cache: String? = null
+
+    override fun decodeSequentially(): Boolean = true
+
+    override fun decodeCollectionSize(descriptor: SerialDescriptor): Int = size
+
+    override fun decodeElementIndex(descriptor: SerialDescriptor): Int =
+        if (values.hasNext()) ++currentIndex else CompositeDecoder.DECODE_DONE
+
+    override fun decodeChar(): Char = decodeString().first()
+
+    override fun decodeString(): String {
+        return if (useCachedValue) {
+            useCachedValue = false
+            cache!!
+        } else {
+            values.next()!!
+        }
+    }
+
+    override fun decodeEnum(enumDescriptor: SerialDescriptor): Int =
+        enumDescriptor.getElementIndexOrThrow(decodeString())
+
+    override fun decodeNotNullMark(): Boolean {
+        useCachedValue = true
+        cache = values.next()
+        return cache != null
     }
 }

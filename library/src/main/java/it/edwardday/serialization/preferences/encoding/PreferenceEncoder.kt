@@ -24,6 +24,7 @@ import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.AbstractEncoder
 import kotlinx.serialization.encoding.CompositeEncoder
 import kotlinx.serialization.internal.NamedValueEncoder
 import kotlinx.serialization.modules.SerializersModule
@@ -99,6 +100,9 @@ internal class PreferenceEncoder(
         descriptor: SerialDescriptor,
         collectionSize: Int
     ): CompositeEncoder {
+        if (preferences.conf.shouldSerializeStringSet(descriptor)) {
+            return PreferencesStringSetEncoder(preferences, editor, popTag())
+        }
         if (collectionSize == 0) {
             encodeEmptyStructureStart(descriptor)
         }
@@ -121,5 +125,40 @@ internal class PreferenceEncoder(
                     "(use encodeObjectStarts=true on Preferences creation to change this behavior)"
             )
         }
+    }
+}
+
+@OptIn(ExperimentalSerializationApi::class)
+internal class PreferencesStringSetEncoder(
+    private val preferences: Preferences,
+    private val editor: SharedPreferences.Editor,
+    private val currentTag: String
+) : AbstractEncoder() {
+
+    override val serializersModule: SerializersModule get() = preferences.serializersModule
+    private val setBuilder = mutableSetOf<String?>()
+
+    override fun encodeValue(value: Any) {
+        throw SerializationException("${value::class} encoding is not supported while encrypting a string set")
+    }
+
+    override fun encodeNull() {
+        setBuilder.add(null)
+    }
+
+    override fun encodeChar(value: Char) {
+        setBuilder.add(value.toString())
+    }
+
+    override fun encodeString(value: String) {
+        setBuilder.add(value)
+    }
+
+    override fun encodeEnum(enumDescriptor: SerialDescriptor, index: Int) {
+        setBuilder.add(enumDescriptor.getElementName(index))
+    }
+
+    override fun endStructure(descriptor: SerialDescriptor) {
+        editor.putStringSet(currentTag, setBuilder)
     }
 }
