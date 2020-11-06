@@ -54,6 +54,10 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
     /**
      * Serializes and encodes the given [value] into the [SharedPreferences] at the specified [tag] using the given
      * [serializer].
+     *
+     * @param serializer strategy used to encode the data
+     * @param tag key to encode data to
+     * @param value value to encode
      */
     public fun <T> encode(serializer: SerializationStrategy<T>, tag: String, value: T) {
         val editor = conf.sharedPreferences.edit()
@@ -66,6 +70,9 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
     /**
      * Decodes and deserializes from the [SharedPreferences] at the specified [tag] to the value of type [T] using the
      * given [deserializer]
+     *
+     * @param deserializer strategy used to decode the data
+     * @param tag key to decode data from
      */
     public fun <T> decode(deserializer: DeserializationStrategy<T>, tag: String): T {
         val decoder = PreferenceDecoder(this, deserializer.descriptor)
@@ -77,6 +84,9 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
 /**
  * Serializes and encodes the given [value] into the [SharedPreferences] at the specified [tag] using serializer
  * retrieved from the reified type parameter.
+ *
+ * @param tag key to encode data to
+ * @param value value to encode
  */
 public inline fun <reified T> Preferences.encode(tag: String, value: T) {
     encode(serializersModule.serializer(), tag, value)
@@ -85,39 +95,50 @@ public inline fun <reified T> Preferences.encode(tag: String, value: T) {
 /**
  * Decodes and deserializes from the [SharedPreferences] at the specified [tag] to the value of type [T] using
  * deserializer retrieved from the reified type parameter.
+ *
+ * @param tag key to decode data from
  */
 public inline fun <reified T> Preferences.decode(tag: String): T = decode(serializersModule.serializer(), tag)
 
 /**
  * Creates an instance of [Preferences] encoding and decoding data from the given
  * [SharedPreferences][sharedPreferences] and adjusted with [builderAction].
+ *
+ * @param sharedPreferences the storage to encode data into and decode data from
+ * @param builderAction builder to change the behavior of the [Preferences] format
  */
 @Suppress("FunctionName")
 public fun Preferences(
     sharedPreferences: SharedPreferences,
     builderAction: PreferencesBuilder.() -> Unit = {}
+): Preferences = generatePreferences(PreferenceConf(sharedPreferences), builderAction)
+
+/**
+ * Creates an instance of [Preferences] using the configuration of the previous created
+ * [Preferences][preferences] and adjusted with [builderAction].
+ *
+ * @param preferences format to copy the configuration from
+ * @param builderAction builder to change the behavior of the [Preferences] format
+ */
+@Suppress("FunctionName")
+public fun Preferences(
+    preferences: Preferences,
+    builderAction: PreferencesBuilder.() -> Unit = {}
+): Preferences = generatePreferences(preferences.conf, builderAction)
+
+private inline fun generatePreferences(
+    preferenceConf: PreferenceConf,
+    builderAction: PreferencesBuilder.() -> Unit
 ): Preferences {
-    val builder = PreferencesBuilder(PreferenceConf(sharedPreferences))
+    val builder = PreferencesBuilder(preferenceConf)
     builder.builderAction()
     val conf = builder.build()
     return PreferencesImpl(conf)
 }
 
 /**
- * Creates an instance of [Preferences] using the configuration of the previous created
- * [Preferences][preferences] and adjusted with [builderAction].
+ * Builder of the [Preferences] instance provided by `Preferences(sharedPreferences) { ... }` factory function.
  */
-@Suppress("FunctionName")
-public fun Preferences(
-    preferences: Preferences,
-    builderAction: PreferencesBuilder.() -> Unit = {}
-): Preferences {
-    val builder = PreferencesBuilder(preferences.conf)
-    builder.builderAction()
-    val conf = builder.build()
-    return PreferencesImpl(conf)
-}
-
 public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
 
     /**
@@ -165,6 +186,9 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
     }
 }
 
+/**
+ * Representation possibilities for [Double]. [SharedPreferences] don't have `getDouble` or `putDouble` methods.
+ */
 public enum class DoubleRepresentation {
 
     /**

@@ -243,4 +243,11 @@ class DecodePrimitivesTest {
             preferences.decode<Weekday>("enum")
         }
     }
+
+    @Test
+    fun decodeNotStoredEnum() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Weekday>("enum")
+        }
+    }
 }
