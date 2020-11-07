@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+Version 0.4.0 *(2020-11-07)*
+----------------------------
+
+Enum handling only via `name` serialization - removed Int decoding
+Support native Set<String> serialization
+
+BREAKING:
+min SDK level raised to 11
+
 Version 0.3.0 *(2020-11-03)*
 ----------------------------
 
