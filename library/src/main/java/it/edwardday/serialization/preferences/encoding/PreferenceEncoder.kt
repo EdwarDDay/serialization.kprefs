@@ -139,7 +139,7 @@ internal class PreferencesStringSetEncoder(
     private val setBuilder = mutableSetOf<String?>()
 
     override fun encodeValue(value: Any) {
-        throw SerializationException("${value::class} encoding is not supported while encrypting a string set")
+        throw SerializationException("${value::class} encoding is not supported while encoding a string set")
     }
 
     override fun encodeNull() {

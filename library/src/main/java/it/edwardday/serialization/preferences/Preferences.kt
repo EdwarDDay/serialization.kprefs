@@ -150,7 +150,7 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
 
     /**
      * Specifies how [Double] fields will be encoded.
-     * `DoubleRepresentation.LONG_BITS` by default
+     * [DoubleRepresentation.LONG_BITS] by default
      */
     public var doubleRepresentation: DoubleRepresentation = conf.doubleRepresentation
 
@@ -211,7 +211,7 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
 }
 
 /**
- * Representation possibilities for [Double]. [SharedPreferences] don't have `getDouble` or `putDouble` methods.
+ * Representation possibilities for [Double], because [SharedPreferences] don't have `getDouble` or `putDouble` methods.
  */
 public enum class DoubleRepresentation {
 
