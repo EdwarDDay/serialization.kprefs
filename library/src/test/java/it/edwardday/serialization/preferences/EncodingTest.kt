@@ -398,4 +398,133 @@ class EncodingTest {
 
         assertEquals(data, actual)
     }
+
+    @Test
+    fun testNativeStringSet() {
+        val data = setOf("foo", "bar")
+        preferences.encode("set", data)
+        val actual = preferences.decode<Set<String>>("set")
+
+        assertEquals(data, actual)
+        assertEquals(setOf("set"), sharedPreferences.all.keys)
+        assertEquals(data, sharedPreferences.getStringSet("set", null))
+    }
+
+    @Test
+    fun testNativeStringSetThrowOnNotFound() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Set<String>>("set")
+        }
+    }
+
+    @Test
+    fun testNativeStringSetWithNull() {
+        val data = setOf("foo", null, "bar")
+        preferences.encode("set", data)
+        val actual = preferences.decode<Set<String?>>("set")
+
+        assertEquals(data, actual)
+        assertEquals(setOf("set"), sharedPreferences.all.keys)
+        assertEquals(data, sharedPreferences.getStringSet("set", null))
+    }
+
+    @Test
+    fun testNonNativeStringSet() {
+        val preferences = Preferences(preferences) {
+            encodeStringSetNatively = false
+        }
+        val data = setOf("foo", "bar")
+        preferences.encode("set", data)
+        val actual = preferences.decode<Set<String>>("set")
+
+        assertEquals(data, actual)
+        assertEquals(setOf("set.0", "set.1"), sharedPreferences.all.keys)
+    }
+
+    @Test
+    fun testNativeCharSet() {
+        val data = setOf('a', 'b', 'c')
+        preferences.encode("set", data)
+        val actual = preferences.decode<Set<Char>>("set")
+
+        assertEquals(data, actual)
+        assertEquals(setOf("set"), sharedPreferences.all.keys)
+        assertEquals(data.mapTo(mutableSetOf(), Char::toString), sharedPreferences.getStringSet("set", null))
+    }
+
+    @Test
+    fun testNonNativeCharSet() {
+        val preferences = Preferences(preferences) {
+            encodeStringSetNatively = false
+        }
+        val data = setOf('a', 'b', 'c')
+        preferences.encode("set", data)
+        val actual = preferences.decode<Set<Char>>("set")
+
+        assertEquals(data, actual)
+        assertEquals(setOf("set.0", "set.1", "set.2"), sharedPreferences.all.keys)
+    }
+
+    @Test
+    fun testNativeEnumSet() {
+        val data = setOf(Weekday.THURSDAY, Weekday.MONDAY)
+        preferences.encode("set", data)
+        val actual = preferences.decode<Set<Weekday>>("set")
+
+        assertEquals(data, actual)
+        assertEquals(setOf("set"), sharedPreferences.all.keys)
+        assertEquals(data.mapTo(mutableSetOf(), Weekday::name), sharedPreferences.getStringSet("set", null))
+    }
+
+    @Test
+    fun testNonNativeIntSet() {
+        val data = setOf(1, 2, 3)
+        preferences.encode("set", data)
+        val actual = preferences.decode<Set<Int>>("set")
+
+        assertEquals(data, actual)
+        assertEquals(setOf("set.0", "set.1", "set.2"), sharedPreferences.all.keys)
+    }
+
+    @Test
+    fun testNonNativeEnumSet() {
+        val preferences = Preferences(preferences) {
+            encodeStringSetNatively = false
+        }
+        val data = setOf(Weekday.THURSDAY, Weekday.MONDAY)
+        preferences.encode("set", data)
+        val actual = preferences.decode<Set<Weekday>>("set")
+
+        assertEquals(data, actual)
+        assertEquals(setOf("set.0", "set.1"), sharedPreferences.all.keys)
+    }
+
+    @Test
+    fun testWrappedStringSet() {
+        val data = listOf(setOf("1", "2"), setOf("foo", null, "bar"))
+
+        preferences.encode("wrapper", data)
+        val actual = preferences.decode<List<Set<String?>>>("wrapper")
+
+        assertEquals(data, actual)
+        assertEquals(setOf("wrapper.0", "wrapper.1"), sharedPreferences.all.keys)
+    }
+
+    @Test
+    fun testNativeOnlyListDescriptor() {
+        preferences = Preferences(preferences) {
+            stringSetDescriptorNames.clear()
+            stringSetDescriptorNames += "kotlin.collections.ArrayList"
+        }
+        val data = StringSetWrapper(setOf("1", "2"), listOf("foo", "bar"))
+
+        preferences.encode("wrapper", data)
+        val actual = preferences.decode<StringSetWrapper>("wrapper")
+
+        assertEquals(data, actual)
+        assertEquals(
+            setOf("wrapper.kotlinSet.0", "wrapper.kotlinSet.1", "wrapper.customSet"),
+            sharedPreferences.all.keys
+        )
+    }
 }

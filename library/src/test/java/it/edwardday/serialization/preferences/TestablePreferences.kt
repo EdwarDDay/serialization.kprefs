@@ -26,9 +26,9 @@ class TestablePreferences : SharedPreferences {
     override fun getString(key: String?, defValue: String?): String? =
         map[key] as? String ?: defValue
 
-    override fun getStringSet(key: String?, defValues: MutableSet<String>?): MutableSet<String> {
-        error("not needed")
-    }
+    @Suppress("UNCHECKED_CAST")
+    override fun getStringSet(key: String?, defValues: Set<String>?): Set<String>? =
+        map[key] as? Set<String> ?: defValues
 
     override fun getInt(key: String?, defValue: Int): Int = map[key] as? Int ?: defValue
 
@@ -51,11 +51,9 @@ class TestablePreferences : SharedPreferences {
             return this
         }
 
-        override fun putStringSet(
-            key: String?,
-            values: MutableSet<String>?
-        ): SharedPreferences.Editor {
-            error("not needed")
+        override fun putStringSet(key: String, values: Set<String>?): SharedPreferences.Editor {
+            editorMap[key] = values
+            return this
         }
 
         override fun putInt(key: String, value: Int): SharedPreferences.Editor {

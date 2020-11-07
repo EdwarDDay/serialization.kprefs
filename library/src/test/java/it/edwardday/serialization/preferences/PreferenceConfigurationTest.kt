@@ -21,6 +21,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.modules.EmptySerializersModule
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
@@ -43,9 +45,24 @@ class PreferenceConfigurationTest {
             assertSame(sharedPreferences, this.sharedPreferences)
             assertSame(DoubleRepresentation.LONG_BITS, this.doubleRepresentation)
             assertTrue(this.encodeObjectStarts)
+            assertTrue(this.encodeStringSetNatively)
+            assertEquals(
+                expected = listOf("kotlin.collections.HashSet", "kotlin.collections.LinkedHashSet"),
+                actual = this.stringSetDescriptorNames
+            )
             assertSame(EmptySerializersModule, this.serializersModule)
             checked = true
         }
         assertTrue(checked)
+    }
+
+    @Test
+    fun throwOnChangingStringSetDesciptorNamesWithoutNativeSetEncoding() {
+        assertFailsWith<IllegalArgumentException> {
+            Preferences(preferences) {
+                encodeStringSetNatively = false
+                stringSetDescriptorNames.clear()
+            }
+        }
     }
 }

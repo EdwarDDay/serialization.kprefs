@@ -68,6 +68,7 @@ Note: additional information to the serialization plugin can be found in the
     * Float - with loss of precision
     * String - with the string representation
     * Long - with the bits representation
+* support for native String<Set> encoding
 * support for encoding classes
 * support for sealed classes
 * support for objects by encoding an object start with a Boolean

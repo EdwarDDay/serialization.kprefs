@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalSerializationApi::class)
+
 package it.edwardday.serialization.preferences
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.SerializersModule
@@ -89,3 +92,9 @@ enum class Weekday {
     SATURDAY,
     SUNDAY
 }
+
+@Serializable
+public data class StringSetWrapper(
+    val kotlinSet: Set<String>,
+    val customSet: List<String>
+)
