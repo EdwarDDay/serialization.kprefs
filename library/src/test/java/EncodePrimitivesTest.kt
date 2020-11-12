@@ -17,8 +17,8 @@
 package it.edwardday.serialization.preferences
 
 import android.content.SharedPreferences
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -28,7 +28,7 @@ class EncodePrimitivesTest {
     lateinit var sharedPreferences: SharedPreferences
     lateinit var preferences: Preferences
 
-    @Before
+    @BeforeTest
     fun setup() {
         sharedPreferences = TestablePreferences()
         preferences = Preferences(sharedPreferences)

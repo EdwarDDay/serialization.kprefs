@@ -19,8 +19,8 @@ package it.edwardday.serialization.preferences
 import android.content.SharedPreferences
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.modules.EmptySerializersModule
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
@@ -32,7 +32,7 @@ class PreferenceConfigurationTest {
     lateinit var sharedPreferences: SharedPreferences
     lateinit var preferences: Preferences
 
-    @Before
+    @BeforeTest
     fun setup() {
         sharedPreferences = TestablePreferences()
         preferences = Preferences(sharedPreferences)

@@ -83,8 +83,7 @@ tasks.withType<KotlinCompile> {
 dependencies {
     api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.0.0")
 
-    testImplementation("junit:junit:4.13.1")
-    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
 }
 
 val sourcesJar by tasks.register<Jar>("sourcesJar") {
