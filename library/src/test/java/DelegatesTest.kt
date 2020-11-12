@@ -18,8 +18,8 @@ package it.edwardday.serialization.preferences
 
 import android.content.SharedPreferences
 import kotlinx.serialization.SerializationException
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -31,7 +31,7 @@ class DelegatesTest {
     lateinit var sharedPreferences: SharedPreferences
     lateinit var preferences: Preferences
 
-    @Before
+    @BeforeTest
     fun setup() {
         sharedPreferences = TestablePreferences()
         preferences = Preferences(sharedPreferences)

@@ -16,11 +16,11 @@
 
 object BuildVersion {
 
-    const val android = "4.1.0"
+    const val android = "4.1.1"
 
     const val bintray = "1.8.5"
 
-    const val detekt = "1.14.1"
+    const val detekt = "1.14.2"
     const val dokka = "1.4.10.2"
 
     const val kotlin = "1.4.10"
