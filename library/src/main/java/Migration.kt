@@ -28,7 +28,7 @@ import net.edwardday.serialization.preferences.encode as netEncode
 
 /**
  * **This artifact will be replaced by net.edwardday.serialization:kprefs**
- * 
+ *
  * @see [net.edwardday.serialization.preferences.Preferences]
  */
 @Deprecated(
