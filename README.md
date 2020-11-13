@@ -56,7 +56,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.edwardday.serialization:kprefs:0.5.0")
+    implementation("net.edwardday.serialization:kprefs:0.5.1")
 }
 ```
 Note: additional information to the serialization plugin can be found in the

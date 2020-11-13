@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.5.1 *(2020-11-13)*
+----------------------------
+
+Change artifact from `it.edwardday.serialization:kpref` to  `net.edwardday.serialization:kpref`
+
 Version 0.5.0 *(2020-11-13)*
 ----------------------------
 
