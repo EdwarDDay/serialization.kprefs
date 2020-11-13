@@ -108,7 +108,7 @@ afterEvaluate {
                 artifact(sourcesJar)
                 artifact(dokkaJavadocJar)
 
-                group = "it.edwardday.serialization"
+                group = "net.edwardday.serialization"
                 artifactId = "kprefs"
                 version = properties["VERSION_NAME"]!!.toString()
 
@@ -152,7 +152,7 @@ bintray {
 
     with(pkg) {
         repo = "maven"
-        name = "it.edwardday.serialization:kprefs"
+        name = "net.edwardday.serialization:kprefs"
         setLicenses("Apache-2.0")
         vcsUrl = "https://github.com/EdwarDDay/serialization.kprefs.git"
 
