@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package it.edwardday.serialization.preferences
+package net.edwardday.serialization.preferences
 
 import android.content.SharedPreferences
-import it.edwardday.serialization.preferences.encoding.PreferenceDecoder
-import it.edwardday.serialization.preferences.encoding.PreferenceEncoder
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialFormat
@@ -27,6 +25,8 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.modules.EmptySerializersModule
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
+import net.edwardday.serialization.preferences.encoding.PreferenceDecoder
+import net.edwardday.serialization.preferences.encoding.PreferenceEncoder
 
 /**
  *

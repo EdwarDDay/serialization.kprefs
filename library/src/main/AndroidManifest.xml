@@ -14,4 +14,4 @@
   ~ limitations under the License.
   -->
 
-<manifest package="it.edwardday.serialization.preferences" />
+<manifest package="net.edwardday.serialization.preferences" />

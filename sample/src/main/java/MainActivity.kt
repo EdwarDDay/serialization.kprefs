@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package it.edwardday.serialization.preferences.testapplication
+package net.edwardday.serialization.preferences.testapplication
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import it.edwardday.serialization.preferences.Preferences
-import it.edwardday.serialization.preferences.testapplication.databinding.ActivityMainBinding
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.nullable
+import net.edwardday.serialization.preferences.Preferences
+import net.edwardday.serialization.preferences.testapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

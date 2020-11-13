@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package it.edwardday.serialization.preferences.encoding
+package net.edwardday.serialization.preferences.encoding
 
-import it.edwardday.serialization.preferences.PreferenceConf
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -24,6 +23,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.SerialKind
 import kotlinx.serialization.descriptors.StructureKind
 import kotlinx.serialization.encoding.CompositeDecoder
+import net.edwardday.serialization.preferences.PreferenceConf
 
 @OptIn(ExperimentalSerializationApi::class)
 internal fun PreferenceConf.shouldSerializeStringSet(descriptor: SerialDescriptor): Boolean {
