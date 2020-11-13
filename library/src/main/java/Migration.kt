@@ -27,6 +27,8 @@ import net.edwardday.serialization.preferences.decode as netDecode
 import net.edwardday.serialization.preferences.encode as netEncode
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ * 
  * @see [net.edwardday.serialization.preferences.Preferences]
  */
 @Deprecated(
@@ -36,6 +38,8 @@ import net.edwardday.serialization.preferences.encode as netEncode
 public typealias Preferences = netPreferences
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * @see [net.edwardday.serialization.preferences.encode]
  */
 @Deprecated(
@@ -51,6 +55,8 @@ public inline fun <reified T> Preferences.encode(tag: String, value: T) {
 }
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * @see [net.edwardday.serialization.preferences.decode]
  */
 @Deprecated(
@@ -64,6 +70,8 @@ public inline fun <reified T> Preferences.encode(tag: String, value: T) {
 public inline fun <reified T> Preferences.decode(tag: String): T = netDecode(tag)
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * @see [net.edwardday.serialization.preferences.Preferences]
  */
 @Deprecated(
@@ -79,6 +87,8 @@ public fun Preferences(
 ): Preferences = netPreferences(sharedPreferences, builderAction)
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * @see [net.edwardday.serialization.preferences.Preferences]
  */
 @Deprecated(
@@ -92,6 +102,8 @@ public fun Preferences(
 ): Preferences = netPreferences(preferences, builderAction)
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * @see [net.edwardday.serialization.preferences.PreferencesBuilder]
  */
 @Deprecated(
@@ -101,6 +113,8 @@ public fun Preferences(
 public typealias PreferencesBuilder = netPreferencesBuilder
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * @see [net.edwardday.serialization.preferences.DoubleRepresentation]
  */
 @Deprecated(
@@ -110,6 +124,8 @@ public typealias PreferencesBuilder = netPreferencesBuilder
 public typealias DoubleRepresentation = netDoubleRepresentation
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * @see [net.edwardday.serialization.preferences.asProperty]
  */
 @Deprecated(
@@ -124,6 +140,8 @@ public fun <T> Preferences.asProperty(serializer: KSerializer<T>, tag: String? =
     netAsProperty(serializer, tag)
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * @see [net.edwardday.serialization.preferences.asProperty]
  */
 @Deprecated(

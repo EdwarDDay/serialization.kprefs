@@ -29,6 +29,7 @@ import net.edwardday.serialization.preferences.encoding.PreferenceDecoder
 import net.edwardday.serialization.preferences.encoding.PreferenceEncoder
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
  *
  * Serializes and deserializes class properties into [SharedPreferences] consisting of string keys and primitive type
  * values.
@@ -53,6 +54,8 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
         get() = conf.serializersModule
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * Serializes and encodes the given [value] into the [SharedPreferences] at the specified [tag] using the given
      * [serializer].
      *
@@ -69,6 +72,8 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
     }
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * Decodes and deserializes from the [SharedPreferences] at the specified [tag] to the value of type [T] using the
      * given [deserializer]
      *
@@ -83,6 +88,8 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
 }
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * Serializes and encodes the given [value] into the [SharedPreferences] at the specified [tag] using serializer
  * retrieved from the reified type parameter.
  *
@@ -94,6 +101,8 @@ public inline fun <reified T> Preferences.encode(tag: String, value: T) {
 }
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * Decodes and deserializes from the [SharedPreferences] at the specified [tag] to the value of type [T] using
  * deserializer retrieved from the reified type parameter.
  *
@@ -102,6 +111,8 @@ public inline fun <reified T> Preferences.encode(tag: String, value: T) {
 public inline fun <reified T> Preferences.decode(tag: String): T = decode(serializersModule.serializer(), tag)
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * Creates an instance of [Preferences] encoding and decoding data from the given
  * [SharedPreferences][sharedPreferences] and adjusted with [builderAction].
  *
@@ -115,6 +126,8 @@ public fun Preferences(
 ): Preferences = generatePreferences(PreferenceConf(sharedPreferences), builderAction)
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * Creates an instance of [Preferences] using the configuration of the previous created
  * [Preferences][preferences] and adjusted with [builderAction].
  *
@@ -138,23 +151,31 @@ private inline fun generatePreferences(
 }
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * Builder of the [Preferences] instance provided by `Preferences(sharedPreferences) { ... }` factory function.
  */
 public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
     private val previousStringSetDescriptorNames = conf.stringSetDescriptorNames
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * Specifies the [SharedPreferences] where everything will be encoded to and decoded from.
      */
     public var sharedPreferences: SharedPreferences = conf.sharedPreferences
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * Specifies how [Double] fields will be encoded.
      * [DoubleRepresentation.LONG_BITS] by default
      */
     public var doubleRepresentation: DoubleRepresentation = conf.doubleRepresentation
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * Specifies whether objects, empty classes and empty collections will be serialized by
      * encoding a marker at the position.
      *
@@ -173,6 +194,8 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
     public var encodeObjectStarts: Boolean = conf.encodeObjectStarts
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * Specifies whether [Set]s of [String], [Char] and [Enum] will be encoded with
      * [putStringSet][SharedPreferences.Editor.putStringSet] or not.
      *
@@ -181,6 +204,8 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
     public var encodeStringSetNatively: Boolean = conf.encodeStringSetNatively
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * Specifies the names of the [SerialDescriptor] which are used to detect Set<String> to encode these natively.
      *
      * `true` by default
@@ -188,6 +213,8 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
     public val stringSetDescriptorNames: MutableList<String> = conf.stringSetDescriptorNames.toMutableList()
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * Module with contextual and polymorphic serializers to be used in the resulting [Preferences] instance.
      */
     public var serializersModule: SerializersModule = conf.serializersModule
@@ -211,22 +238,30 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
 }
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * Representation possibilities for [Double], because [SharedPreferences] don't have `getDouble` or `putDouble` methods.
  */
 public enum class DoubleRepresentation {
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * [Double] will be encoded as and decoded from [Float]. Note, that precision will be lost.
      */
     FLOAT,
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * [Double] will be encoded as and decoded from [Long] using [Double.toBits] and
      * [Double.Companion.fromBits]
      */
     LONG_BITS,
 
     /**
+     * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+     *
      * [Double] will be encoded as and decoded from [String] using [Double.toString] and
      * [String.toDouble]
      */
