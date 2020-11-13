@@ -32,7 +32,7 @@ android {
     buildToolsVersion = "29.0.3"
 
     defaultConfig {
-        applicationId = "it.edwardday.serialization.preferences.testapplication"
+        applicationId = "net.edwardday.serialization.preferences.testapplication"
         minSdkVersion(22)
         targetSdkVersion(29)
         versionCode = 1

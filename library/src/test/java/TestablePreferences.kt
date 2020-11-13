@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package it.edwardday.serialization.preferences
+package net.edwardday.serialization.preferences
 
 import android.content.SharedPreferences
 

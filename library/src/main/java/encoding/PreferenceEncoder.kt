@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package it.edwardday.serialization.preferences.encoding
+package net.edwardday.serialization.preferences.encoding
 
 import android.content.SharedPreferences
-import it.edwardday.serialization.preferences.DoubleRepresentation
-import it.edwardday.serialization.preferences.Preferences
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerializationException
@@ -28,6 +26,8 @@ import kotlinx.serialization.encoding.AbstractEncoder
 import kotlinx.serialization.encoding.CompositeEncoder
 import kotlinx.serialization.internal.NamedValueEncoder
 import kotlinx.serialization.modules.SerializersModule
+import net.edwardday.serialization.preferences.DoubleRepresentation
+import net.edwardday.serialization.preferences.Preferences
 
 @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
 @Suppress("TooManyFunctions")
