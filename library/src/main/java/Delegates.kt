@@ -23,6 +23,8 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * Encodes changes to the delegated property into the [SharedPreferences] and decodes the current value from them.
  * ```
  * val setting by preferences.asProperty(Boolean.serializer())
@@ -35,6 +37,8 @@ public fun <T> Preferences.asProperty(serializer: KSerializer<T>, tag: String? =
     PreferenceProperty(this, serializer, tag)
 
 /**
+ * **This artifact will be replaced by net.edwardday.serialization:kprefs**
+ *
  * Encodes changes to the delegated property into the [SharedPreferences] and decodes the current value from them.
  * ```
  * val setting: Boolean by preferences.asProperty()
