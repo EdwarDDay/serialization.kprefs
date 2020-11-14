@@ -22,13 +22,34 @@ import kotlinx.serialization.serializer
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+/* Knit setup
+<!--- INCLUDE .*-property-.*
+import kotlin.test.*
+import kotlinx.serialization.builtins.*
+import net.edwardday.serialization.preferences.*
+
+class PropertyTest {
+
+    val preferences = Preferences(TestablePreferences())
+
+----- SUFFIX .*-property-.*
+    @Test
+    fun test() {
+        setting = false
+        assertFalse(setting)
+        setting = true
+        assertTrue(setting)
+    }
+}
+-->
+*/
 /**
- * **This artifact will be replaced by net.edwardday.serialization:kprefs**
- *
  * Encodes changes to the delegated property into the [SharedPreferences] and decodes the current value from them.
+ * ```kotlin
+ * var setting by preferences.asProperty(Boolean.serializer())
  * ```
- * val setting by preferences.asProperty(Boolean.serializer())
- * ```
+ *
+ * <!--- KNIT example-property-01.kt -->
  *
  * @param serializer which encodes and decodes the value
  * @param tag optional tag which is used as SharedPreferences key - default to property name
@@ -37,12 +58,12 @@ public fun <T> Preferences.asProperty(serializer: KSerializer<T>, tag: String? =
     PreferenceProperty(this, serializer, tag)
 
 /**
- * **This artifact will be replaced by net.edwardday.serialization:kprefs**
- *
  * Encodes changes to the delegated property into the [SharedPreferences] and decodes the current value from them.
+ * ```kotlin
+ * var setting: Boolean by preferences.asProperty()
  * ```
- * val setting: Boolean by preferences.asProperty()
- * ```
+ *
+ * <!--- KNIT example-property-02.kt -->
  *
  * @param tag optional tag which is used as SharedPreferences key - default to property name
  */

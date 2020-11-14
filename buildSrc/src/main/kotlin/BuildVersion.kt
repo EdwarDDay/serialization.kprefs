@@ -23,6 +23,7 @@ object BuildVersion {
     const val detekt = "1.14.2"
     const val dokka = "1.4.10.2"
 
+    const val knit = "0.2.2"
     const val kotlin = "1.4.10"
     const val ktlint = "3.2.0"
 }

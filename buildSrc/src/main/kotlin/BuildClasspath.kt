@@ -18,6 +18,7 @@ object BuildClasspath {
 
     const val androidTools = "com.android.tools.build:gradle:${BuildVersion.android}"
 
+    const val knit = "org.jetbrains.kotlinx:kotlinx-knit:${BuildVersion.knit}"
     const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${BuildVersion.kotlin}"
 
 }

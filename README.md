@@ -8,13 +8,53 @@ Preferences serialization is a [kotlinx.serialization](https://github.com/Kotlin
  serialize arbitrary objects in androids
  [SharedPreferences](https://developer.android.com/reference/android/content/SharedPreferences).
 
+## Contents
+<!--- TOC -->
+
+* [Small Example](#small-example)
+* [Delegated Properties Example](#delegated-properties-example)
+* [Setup](#setup)
+* [Features](#features)
+* [What doesn't work](#what-doesn't-work)
+* [Building](#building)
+
+<!--- END -->
+
+<!--- INCLUDE .*-simple-.*
+import kotlin.test.*
+import kotlinx.serialization.*
+import net.edwardday.serialization.preferences.*
+
+class ReadmeExample {
+
+    val sharedPreferences = TestablePreferences()
+
+    @Test
+    fun readmeTest() {
+----- SUFFIX .*-simple-.*
+    }
+}
+-->
+
+<!--- INCLUDE .*-basic-.*
+import kotlin.test.*
+import net.edwardday.serialization.preferences.*
+
+class ReadmeExample {
+
+    val sharedPreferences = TestablePreferences()
+
+----- SUFFIX .*-basic-.*
+}
+-->
+
 ## Small Example
 
 ```kotlin
 @Serializable
 data class Person(val name: String, val age: Int, val children: List<Person> = emptyList())
 
-val preferences = Preferences(context.getSharedPreferences("application data", Context.MODE_PRIVATE))
+val preferences = Preferences(sharedPreferences)
 
 val abby = Person("Abby", 12)
 val bob = Person("Bob", 10)
@@ -25,28 +65,38 @@ preferences.encode("person", charles)
 val person: Person = preferences.decode("person")
 assertEquals(charles, person)
 ```
+> You can get the full code [here](library/src/test/java/example/example-simple-01.kt).
 
 ## Delegated Properties Example
 
+<!--- INCLUDE
+    fun someComputation() {
+        someFlag = true
+    }
+-->
+
 ```kotlin
-val preferences = Preferences(context.getSharedPreferences("application data", Context.MODE_PRIVATE))
+val preferences = Preferences(sharedPreferences)
 
-val someFlag: Boolean by preferences.asProperty()
+var someFlag: Boolean by preferences.asProperty()
 
+@Test
 fun test() {
     someFlag = false // stores false in SharedPreferences at key "someFlag"
-    // ...
-    if (someFlag) { // reads value from SharedPreferences at key "someFlag"
-
+    someComputation() // some computation where someFlag is set to true
+    if (!someFlag) { // reads value from SharedPreferences at key "someFlag"
+        fail()
     }
 }
 ```
+
+> You can get the full code [here](library/src/test/java/example/example-basic-01.kt).
 
 ## Setup
 You need to apply the kotlinx.serialization plugin and add this library as dependency.
 
 Kotlin DSL:
-```kotlin
+```
 plugins {
     kotlin("plugin.serialization") version "1.4.10"
 }
@@ -89,6 +139,8 @@ val test: Test = preferences.decode("test")
 
 assertEquals(Test(21, null), test)
 ```
+
+> You can get the full code [here](library/src/test/java/example/example-simple-02.kt).
 
 ## Building
 To build the library just run `./gradlew library:build`. To publish it to you local maven repository use

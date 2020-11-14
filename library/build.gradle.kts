@@ -1,6 +1,7 @@
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jmailen.gradle.kotlinter.tasks.LintTask
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,6 +32,10 @@ plugins {
     `maven-publish`
     id(BuildPlugin.bintray)
     id(BuildPlugin.dokka)
+}
+
+apply {
+    plugin(BuildPlugin.knit)
 }
 
 repositories {
@@ -78,6 +83,11 @@ tasks.withType<KotlinCompile> {
         }
         freeCompilerArgs = args
     }
+}
+
+// ktlint should ignore knit generated files
+tasks.withType<LintTask> {
+    exclude("**/example/**")
 }
 
 dependencies {
