@@ -10,6 +10,7 @@ Preferences serialization is a [kotlinx.serialization](https://github.com/Kotlin
 
 <!--- TEST_NAME ReadmeTest -->
 
+## Contents
 <!--- TOC -->
 
 * [Small Example](#small-example)
