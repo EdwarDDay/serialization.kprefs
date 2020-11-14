@@ -24,9 +24,11 @@ object BuildPlugin {
     const val detekt = "io.gitlab.arturbosch.detekt"
     const val dokka = "org.jetbrains.dokka"
 
+    const val knit = "kotlinx-knit"
     const val ktlint = "org.jmailen.kotlinter"
 
     object Kotlin {
+
         const val android = "android"
 
         const val serialization = "plugin.serialization"

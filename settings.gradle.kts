@@ -14,5 +14,15 @@
  * limitations under the License.
  */
 
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            when (requested.id.id) {
+                "kotlinx-knit" -> useModule("org.jetbrains.kotlinx:kotlinx-knit:0.2.2")
+            }
+        }
+    }
+}
+
 include(":library")
 include(":sample")

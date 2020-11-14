@@ -15,6 +15,7 @@
  */
 
 plugins {
+    base // needed for knit
     kotlin(BuildPlugin.Kotlin.android) version BuildVersion.kotlin apply false
     kotlin(BuildPlugin.Kotlin.serialization) version BuildVersion.kotlin apply false
 
@@ -23,6 +24,10 @@ plugins {
 
     id(BuildPlugin.bintray) version BuildVersion.bintray apply false
     id(BuildPlugin.dokka) version BuildVersion.dokka apply false
+}
+
+apply {
+    plugin(BuildPlugin.knit)
 }
 
 buildscript {
@@ -34,5 +39,6 @@ buildscript {
     dependencies {
         classpath(BuildClasspath.androidTools)
         classpath(BuildClasspath.kotlinGradle)
+        classpath(BuildClasspath.knit)
     }
 }
