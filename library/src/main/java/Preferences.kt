@@ -17,8 +17,10 @@
 package net.edwardday.serialization.preferences
 
 import android.content.SharedPreferences
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialFormat
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.descriptors.SerialDescriptor
@@ -61,12 +63,16 @@ class PreferencesTest {
  * assertEquals("Abby", sharedPreferences.getString("person.name", null))
  * assertEquals(20, sharedPreferences.getInt("person.age", 0))
  * ```
- *
- * <!--- KNIT example-preferences-01.kt -->
  */
+// <!--- KNIT example-preferences-01.kt -->
 @OptIn(ExperimentalSerializationApi::class)
 public sealed class Preferences(internal val conf: PreferenceConf) : SerialFormat {
 
+    /**
+     * Contains all serializers registered by format user for [Contextual] and [Polymorphic] serialization.
+     *
+     * @see SerialFormat.serializersModule
+     */
     override val serializersModule: SerializersModule
         get() = conf.serializersModule
 
@@ -186,10 +192,9 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
      * assertTrue(sharedPreferences.getBoolean("test.u", false))
      * ```
      *
-     * <!--- KNIT example-preferences-02.kt -->
-     *
      * `true` by default
      */
+    // <!--- KNIT example-preferences-02.kt -->
     public var encodeObjectStarts: Boolean = conf.encodeObjectStarts
 
     /**

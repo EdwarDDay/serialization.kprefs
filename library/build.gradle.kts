@@ -2,6 +2,7 @@ import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.tasks.LintTask
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -94,6 +95,27 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.0.0")
 
     testImplementation(kotlin("test-junit"))
+}
+
+tasks.withType<DokkaTask> {
+    moduleName.set("kprefs")
+    dokkaSourceSets {
+        configureEach {
+            reportUndocumented.set(true)
+            noAndroidSdkLink.set(false)
+            externalDocumentationLink {
+                url.set(URL("https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-core/kotlinx-serialization-core/"))
+            }
+        }
+    }
+}
+
+// fix for https://github.com/Kotlin/dokka/issues/1302
+tasks.register<Copy>("dokkaHtmlIndexFix") {
+    group = "documentation"
+    dependsOn(tasks.dokkaHtml)
+    from("dokka/index.html")
+    into(tasks.dokkaHtml.get().outputDirectory)
 }
 
 val sourcesJar by tasks.register<Jar>("sourcesJar") {

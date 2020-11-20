@@ -49,11 +49,10 @@ class PropertyTest {
  * var setting by preferences.asProperty(Boolean.serializer())
  * ```
  *
- * <!--- KNIT example-property-01.kt -->
- *
  * @param serializer which encodes and decodes the value
  * @param tag optional tag which is used as SharedPreferences key - default to property name
  */
+// <!--- KNIT example-property-01.kt -->
 public fun <T> Preferences.asProperty(serializer: KSerializer<T>, tag: String? = null): ReadWriteProperty<Any?, T> =
     PreferenceProperty(this, serializer, tag)
 
@@ -63,10 +62,9 @@ public fun <T> Preferences.asProperty(serializer: KSerializer<T>, tag: String? =
  * var setting: Boolean by preferences.asProperty()
  * ```
  *
- * <!--- KNIT example-property-02.kt -->
- *
  * @param tag optional tag which is used as SharedPreferences key - default to property name
  */
+// <!--- KNIT example-property-02.kt -->
 public inline fun <reified T> Preferences.asProperty(tag: String? = null): ReadWriteProperty<Any?, T> =
     asProperty(serializersModule.serializer(), tag)
 
