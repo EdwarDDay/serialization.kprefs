@@ -76,3 +76,13 @@ jobs:
           asset_path: ./library/build/outputs/aar/library-release.aar
           asset_name: library-release.aar
           asset_content_type: application/jar
+
+      - name: Build html documentation
+        run: ./gradlew :library:dokkaHtmlIndexFix
+
+      - name: Upload html documentation
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: library/build/dokka/html

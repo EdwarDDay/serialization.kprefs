@@ -8,6 +8,9 @@ Preferences serialization is a [kotlinx.serialization](https://github.com/Kotlin
  serialize arbitrary objects in androids
  [SharedPreferences](https://developer.android.com/reference/android/content/SharedPreferences).
 
+The documentation can be found on the projects
+ [Github Page](https://edwardday.github.io/serialization.kprefs/index.html).
+
 ## Contents
 <!--- TOC -->
 
