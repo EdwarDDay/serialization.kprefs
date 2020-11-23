@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 0.7.0 *(2020-11-23)*
+----------------------------
+
+Upgrade kotlin and kotlinx.serialization
+Fix some docs
+
 Version 0.6.0 *(2020-11-14)*
 ----------------------------
 
