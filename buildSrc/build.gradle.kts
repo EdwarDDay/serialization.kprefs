@@ -20,4 +20,9 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven("https://plugins.gradle.org/m2/")
+}
+
+dependencies {
+    implementation("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
 }

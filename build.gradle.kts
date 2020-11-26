@@ -22,7 +22,6 @@ plugins {
     id(BuildPlugin.ktlint) version BuildVersion.ktlint
     id(BuildPlugin.detekt) version BuildVersion.detekt apply false
 
-    id(BuildPlugin.bintray) version BuildVersion.bintray apply false
     id(BuildPlugin.dokka) version BuildVersion.dokka apply false
 }
 
