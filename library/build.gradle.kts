@@ -1,10 +1,8 @@
+import net.edwardday.serialization.kprefs.setup.configurePublish
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.tasks.LintTask
-import java.net.URL
-import java.text.SimpleDateFormat
-import java.util.*
 
 /*
  * Copyright 2020 Eduard Wolf
@@ -30,8 +28,6 @@ plugins {
     id(BuildPlugin.ktlint)
     id(BuildPlugin.detekt)
 
-    `maven-publish`
-    id(BuildPlugin.bintray)
     id(BuildPlugin.dokka)
 }
 
@@ -73,16 +69,15 @@ android {
     }
 }
 
+// workaround, because explicit api mode is not yet supported for android projects
+// https://youtrack.jetbrains.com/issue/KT-37652
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        @kotlin.OptIn(ExperimentalStdlibApi::class)
-        val args = buildList(2) {
-            add("-Xopt-in=kotlin.RequiresOptIn")
-            if (!name.contains("test", ignoreCase = true)) {
-                add("-Xexplicit-api=strict")
-            }
+        freeCompilerArgs = if (name.contains("test", ignoreCase = true)) {
+            listOf("-Xopt-in=kotlin.RequiresOptIn")
+        } else {
+            listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xexplicit-api=strict")
         }
-        freeCompilerArgs = args
     }
 }
 
@@ -103,9 +98,9 @@ tasks.withType<DokkaTask> {
         configureEach {
             reportUndocumented.set(true)
             noAndroidSdkLink.set(false)
-            externalDocumentationLink {
-                url.set(URL("https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-core/kotlinx-serialization-core/"))
-            }
+            externalDocumentationLink(
+                "https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-core/kotlinx-serialization-core/"
+            )
         }
     }
 }
@@ -131,68 +126,7 @@ val dokkaJavadocJar by tasks.register<Jar>("dokkaJavadocJar") {
     archiveClassifier.set("javadoc")
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                from(components["release"])
-
-                artifact(sourcesJar)
-                artifact(dokkaJavadocJar)
-
-                group = "net.edwardday.serialization"
-                artifactId = "kprefs"
-                version = properties["VERSION_NAME"]!!.toString()
-
-                pom {
-                    name.set("Kotlinx.serialization Android SharedPreferences format")
-                    packaging = "aar"
-                    description.set("A serialization format for Android SharedPreferences")
-                    url.set("https://github.com/EdwarDDay/serialization.kprefs")
-                    scm {
-                        url.set("https://github.com/EdwarDDay/serialization.kprefs")
-                        connection.set("scm:git:git://github.com/EdwarDDay/serialization.kprefs.git")
-                        developerConnection.set("scm:git:ssh://github.com/EdwarDDay/serialization.kprefs.git")
-                        tag.set("HEAD")
-                    }
-                    licenses {
-                        license {
-                            name.set("The Apache Software License, Version 2.0")
-                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                            distribution.set("repo")
-                        }
-                    }
-                    developers {
-                        developer {
-                            id.set("EdwarDDay")
-                            name.set("Eduard Wolf")
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_KEY")
-    setPublications("release")
-
-    val versionName = properties["VERSION_NAME"]!!.toString()
-    val bintrayFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
-
-    with(pkg) {
-        repo = "maven"
-        name = "net.edwardday.serialization:kprefs"
-        setLicenses("Apache-2.0")
-        vcsUrl = "https://github.com/EdwarDDay/serialization.kprefs.git"
-
-        with(version) {
-            name = versionName
-            desc = "serialization kprefs $versionName release"
-            released = bintrayFormat.format(Date())
-            vcsTag = System.getenv("VCS_TAG")
-        }
-    }
-}
+configurePublish(
+    sourcesTask = sourcesJar,
+    javadocTask = dokkaJavadocJar
+)
