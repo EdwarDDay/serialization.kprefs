@@ -31,11 +31,11 @@ jobs:
       - name: Upload to maven central
         run: ./gradlew :library:publishReleasePublicationToMavenCentralRepository
         env:
-          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.ORG_GRADLE_PROJECT_signingKeyId }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_signingKey }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.ORG_GRADLE_PROJECT_signingPassword }}
-          ORG_GRADLE_PROJECT_sonatypeNexusUsername: ${{ secrets.ORG_GRADLE_PROJECT_sonatypeNexusUsername }}
-          ORG_GRADLE_PROJECT_sonatypeNexusPassword: ${{ secrets.ORG_GRADLE_PROJECT_sonatypeNexusPassword }}
+          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGKEYID }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGKEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGPASSWORD }}
+          ORG_GRADLE_PROJECT_sonatypeNexusUsername: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPENEXUSUSERNAME }}
+          ORG_GRADLE_PROJECT_sonatypeNexusPassword: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPENEXUSPASSWORD }}
           VCS_TAG: ${{ steps.variables.outputs.tag }}
 
       - name: create Github release
