@@ -24,7 +24,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     google()
-    jcenter()
+    jcenter() // https://youtrack.jetbrains.com/issue/IDEA-261387
 }
 
 android {

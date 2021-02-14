@@ -28,11 +28,14 @@ jobs:
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload to bintray
-        run: ./gradlew :library:bintrayUpload
+      - name: Upload to maven central
+        run: ./gradlew :library:publishReleasePublicationToMavenCentralRepository
         env:
-          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
-          BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
+          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.ORG_GRADLE_PROJECT_signingKeyId }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_signingKey }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.ORG_GRADLE_PROJECT_signingPassword }}
+          ORG_GRADLE_PROJECT_sonatypeNexusUsername: ${{ secrets.ORG_GRADLE_PROJECT_sonatypeNexusUsername }}
+          ORG_GRADLE_PROJECT_sonatypeNexusPassword: ${{ secrets.ORG_GRADLE_PROJECT_sonatypeNexusPassword }}
           VCS_TAG: ${{ steps.variables.outputs.tag }}
 
       - name: create Github release
