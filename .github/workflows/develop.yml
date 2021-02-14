@@ -20,7 +20,4 @@ jobs:
           java-version: 11
 
       - name: Build library with Gradle
-        run: ./gradlew :library:build
-
-      - name: Build sample project with Gradle
-        run: ./gradlew :sample:build
+        run: ./gradlew build
