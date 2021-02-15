@@ -1,4 +1,3 @@
-import net.edwardday.serialization.kprefs.setup.configurePublish
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -29,6 +28,8 @@ plugins {
     id(BuildPlugin.detekt)
 
     id(BuildPlugin.dokka)
+
+    id("publishing.maven-convention")
 }
 
 apply {
@@ -38,7 +39,7 @@ apply {
 repositories {
     mavenCentral()
     google()
-    jcenter()
+    jcenter() // https://youtrack.jetbrains.com/issue/IDEA-261387
 }
 
 android {
@@ -113,20 +114,15 @@ tasks.register<Copy>("dokkaHtmlIndexFix") {
     into(tasks.dokkaHtml.get().outputDirectory)
 }
 
-val sourcesJar by tasks.register<Jar>("sourcesJar") {
+tasks.register<Jar>("sourcesJar") {
     group = "publishing"
     from(android.sourceSets["main"].java.srcDirs)
     archiveClassifier.set("sources")
 }
 
-val dokkaJavadocJar by tasks.register<Jar>("dokkaJavadocJar") {
+tasks.register<Jar>("dokkaJavadocJar") {
     group = "publishing"
     dependsOn(tasks.dokkaJavadoc)
     from(tasks.dokkaJavadoc.flatMap(DokkaTask::outputDirectory))
     archiveClassifier.set("javadoc")
 }
-
-configurePublish(
-    sourcesTask = sourcesJar,
-    javadocTask = dokkaJavadocJar
-)
