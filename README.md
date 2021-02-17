@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/EdwarDDay/serialization.kprefs?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Develop](https://github.com/EdwarDDay/serialization.kprefs/workflows/Develop/badge.svg?branch=main)](https://github.com/EdwarDDay/serialization.kprefs/actions?query=workflow%3ADevelop+branch%3Amain)
-[![Download](https://api.bintray.com/packages/edwardday/maven/net.edwardday.serialization%3Akprefs/images/download.svg)](https://bintray.com/edwardday/maven/net.edwardday.serialization%3Akprefs/_latestVersion)
+[![Download](https://img.shields.io/maven-central/v/net.edwardday.serialization/kprefs)](https://search.maven.org/artifact/net.edwardday.serialization/kprefs)
 
 Preferences serialization is a [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) format to
  serialize arbitrary objects in androids
@@ -105,11 +105,11 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    implementation("net.edwardday.serialization:kprefs:0.7.0")
+    implementation("net.edwardday.serialization:kprefs:0.7.1")
 }
 ```
 Note: additional information to the serialization plugin can be found in the
