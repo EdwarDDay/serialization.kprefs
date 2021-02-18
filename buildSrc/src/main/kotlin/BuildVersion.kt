@@ -16,12 +16,12 @@
 
 object BuildVersion {
 
-    const val android = "4.1.1"
+    const val android = "4.1.2"
 
-    const val detekt = "1.14.2"
-    const val dokka = "1.4.10.2"
+    const val detekt = "1.15.0"
+    const val dokka = "1.4.20"
 
-    const val knit = "0.2.2"
-    const val kotlin = "1.4.20"
-    const val ktlint = "3.2.0"
+    const val knit = "0.2.3"
+    const val kotlin = "1.4.30"
+    const val ktlint = "3.3.0"
 }
