@@ -98,6 +98,5 @@ jobs:
       - name: Upload html documentation
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: library/build/dokka/html
+          branch: gh-pages
+          folder: library/build/dokka/html
