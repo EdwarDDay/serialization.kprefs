@@ -20,20 +20,20 @@ import org.jmailen.gradle.kotlinter.tasks.LintTask
  */
 
 plugins {
-    id(BuildPlugin.androidLibrary)
-    kotlin(BuildPlugin.Kotlin.android)
-    kotlin(BuildPlugin.Kotlin.serialization)
+    id("com.android.library")
+    kotlin("android")
+    kotlin("plugin.serialization")
 
-    id(BuildPlugin.ktlint)
-    id(BuildPlugin.detekt)
+    id("org.jmailen.kotlinter")
+    id("io.gitlab.arturbosch.detekt")
 
-    id(BuildPlugin.dokka)
+    id("org.jetbrains.dokka")
 
     id("publishing.maven-convention")
 }
 
 apply {
-    plugin(BuildPlugin.knit)
+    plugin("kotlinx-knit")
 }
 
 repositories {

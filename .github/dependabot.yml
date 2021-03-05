@@ -1,0 +1,26 @@
+version: 2
+
+updates:
+  # github actions
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+
+  # root project
+  - package-ecosystem: gradle
+    directory: "/"
+    schedule:
+      interval: daily
+
+  # library project
+  - package-ecosystem: gradle
+    directory: "library"
+    schedule:
+      interval: daily
+
+  # sample project
+  - package-ecosystem: gradle
+    directory: "sample"
+    schedule:
+      interval: daily
