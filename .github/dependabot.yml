@@ -5,26 +5,22 @@ updates:
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: weekly
-      day: monday
+      interval: daily
 
   # root project
   - package-ecosystem: gradle
     directory: "/"
     schedule:
-      interval: weekly
-      day: monday
+      interval: daily
 
   # library project
   - package-ecosystem: gradle
     directory: "library"
     schedule:
-      interval: weekly
-      day: monday
+      interval: daily
 
   # sample project
   - package-ecosystem: gradle
     directory: "sample"
     schedule:
-      interval: weekly
-      day: monday
+      interval: daily
