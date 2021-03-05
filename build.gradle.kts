@@ -16,17 +16,17 @@
 
 plugins {
     base // needed for knit
-    kotlin(BuildPlugin.Kotlin.android) version BuildVersion.kotlin apply false
-    kotlin(BuildPlugin.Kotlin.serialization) version BuildVersion.kotlin apply false
+    kotlin("android") version "1.4.30" apply false
+    kotlin("plugin.serialization") version "1.4.30" apply false
 
-    id(BuildPlugin.ktlint) version BuildVersion.ktlint
-    id(BuildPlugin.detekt) version BuildVersion.detekt apply false
+    id("org.jmailen.kotlinter") version "3.3.0"
+    id("io.gitlab.arturbosch.detekt") version "1.15.0" apply false
 
-    id(BuildPlugin.dokka) version BuildVersion.dokka apply false
+    id("org.jetbrains.dokka") version "1.4.20" apply false
 }
 
 apply {
-    plugin(BuildPlugin.knit)
+    plugin("kotlinx-knit")
 }
 
 buildscript {
@@ -36,8 +36,8 @@ buildscript {
     }
 
     dependencies {
-        classpath(BuildClasspath.androidTools)
-        classpath(BuildClasspath.kotlinGradle)
-        classpath(BuildClasspath.knit)
+        classpath("com.android.tools.build:gradle:4.1.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
+        classpath("org.jetbrains.kotlinx:kotlinx-knit:0.2.3")
     }
 }

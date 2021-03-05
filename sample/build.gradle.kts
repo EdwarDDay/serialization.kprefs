@@ -15,9 +15,9 @@
  */
 
 plugins {
-    id(BuildPlugin.androidApplication)
-    kotlin(BuildPlugin.Kotlin.android)
-    kotlin(BuildPlugin.Kotlin.serialization)
+    id("com.android.application")
+    kotlin("android")
+    kotlin("plugin.serialization")
 }
 
 repositories {
