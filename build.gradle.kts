@@ -16,7 +16,7 @@
 
 plugins {
     base // needed for knit
-    kotlin("android") version "1.4.31" apply false
+    kotlin("android") version "1.4.32" apply false
     kotlin("plugin.serialization") version "1.4.32" apply false
 
     id("org.jmailen.kotlinter") version "3.3.0"
