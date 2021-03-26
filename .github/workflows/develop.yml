@@ -19,5 +19,8 @@ jobs:
         with:
           java-version: 11
 
-      - name: Build library with Gradle
+      - name: Build
         run: ./gradlew build
+
+      - name: Test publication
+        run: ./gradlew publishSnapshotPublicationToMavenLocal
