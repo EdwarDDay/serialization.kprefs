@@ -22,7 +22,7 @@ plugins {
     id("org.jmailen.kotlinter") version "3.3.0"
     id("io.gitlab.arturbosch.detekt") version "1.16.0" apply false
 
-    id("org.jetbrains.dokka") version "1.4.20" apply false
+    id("org.jetbrains.dokka") version "1.4.30" apply false
 }
 
 apply {
