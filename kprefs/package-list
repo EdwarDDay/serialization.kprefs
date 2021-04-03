@@ -1,5 +1,32 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
-
+$dokka.location:net.edwardday.serialization.preferences////PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/index.html
+$dokka.location:net.edwardday.serialization.preferences//Preferences/#android.content.SharedPreferences#kotlin.Function1[net.edwardday.serialization.preferences.PreferencesBuilder,kotlin.Unit]/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences.html
+$dokka.location:net.edwardday.serialization.preferences//Preferences/#net.edwardday.serialization.preferences.Preferences#kotlin.Function1[net.edwardday.serialization.preferences.PreferencesBuilder,kotlin.Unit]/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences.html
+$dokka.location:net.edwardday.serialization.preferences//asProperty/net.edwardday.serialization.preferences.Preferences#kotlin.String?/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/as-property.html
+$dokka.location:net.edwardday.serialization.preferences//asProperty/net.edwardday.serialization.preferences.Preferences#kotlinx.serialization.KSerializer[TypeParam(bounds=[kotlin.Any?])]#kotlin.String?/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/as-property.html
+$dokka.location:net.edwardday.serialization.preferences//decode/net.edwardday.serialization.preferences.Preferences#kotlin.String/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/decode.html
+$dokka.location:net.edwardday.serialization.preferences//encode/net.edwardday.serialization.preferences.Preferences#kotlin.String#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/encode.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation.FLOAT///PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/-f-l-o-a-t/index.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation.FLOAT/name/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/-f-l-o-a-t/name.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation.FLOAT/ordinal/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/-f-l-o-a-t/ordinal.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation.LONG_BITS///PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/-l-o-n-g_-b-i-t-s/index.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation.LONG_BITS/name/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/-l-o-n-g_-b-i-t-s/name.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation.LONG_BITS/ordinal/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/-l-o-n-g_-b-i-t-s/ordinal.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation.STRING///PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/-s-t-r-i-n-g/index.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation.STRING/name/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/-s-t-r-i-n-g/name.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation.STRING/ordinal/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/-s-t-r-i-n-g/ordinal.html
+$dokka.location:net.edwardday.serialization.preferences/DoubleRepresentation///PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-double-representation/index.html
+$dokka.location:net.edwardday.serialization.preferences/Preferences///PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences/index.html
+$dokka.location:net.edwardday.serialization.preferences/Preferences/decode/#kotlinx.serialization.DeserializationStrategy[TypeParam(bounds=[kotlin.Any?])]#kotlin.String/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences/decode.html
+$dokka.location:net.edwardday.serialization.preferences/Preferences/encode/#kotlinx.serialization.SerializationStrategy[TypeParam(bounds=[kotlin.Any?])]#kotlin.String#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences/encode.html
+$dokka.location:net.edwardday.serialization.preferences/Preferences/serializersModule/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences/serializers-module.html
+$dokka.location:net.edwardday.serialization.preferences/PreferencesBuilder///PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences-builder/index.html
+$dokka.location:net.edwardday.serialization.preferences/PreferencesBuilder/doubleRepresentation/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences-builder/double-representation.html
+$dokka.location:net.edwardday.serialization.preferences/PreferencesBuilder/encodeObjectStarts/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences-builder/encode-object-starts.html
+$dokka.location:net.edwardday.serialization.preferences/PreferencesBuilder/encodeStringSetNatively/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences-builder/encode-string-set-natively.html
+$dokka.location:net.edwardday.serialization.preferences/PreferencesBuilder/serializersModule/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences-builder/serializers-module.html
+$dokka.location:net.edwardday.serialization.preferences/PreferencesBuilder/sharedPreferences/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences-builder/shared-preferences.html
+$dokka.location:net.edwardday.serialization.preferences/PreferencesBuilder/stringSetDescriptorNames/#/PointingToDeclaration/kprefs/net.edwardday.serialization.preferences/-preferences-builder/string-set-descriptor-names.html
 net.edwardday.serialization.preferences
 
