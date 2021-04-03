@@ -101,7 +101,7 @@ You need to apply the kotlinx.serialization plugin and add this library as depen
 Kotlin DSL:
 ```
 plugins {
-    kotlin("plugin.serialization") version "1.4.10"
+    kotlin("plugin.serialization") version "1.4.32"
 }
 
 repositories {
@@ -109,7 +109,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.edwardday.serialization:kprefs:0.7.1")
+    implementation("net.edwardday.serialization:kprefs:0.8.0")
 }
 ```
 Note: additional information to the serialization plugin can be found in the

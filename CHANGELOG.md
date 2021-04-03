@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 0.8.0 *(2021-04-03)*
+----------------------------
+
+Upgrade kotlin to 1.4.32
+Upgrade kotlinx.serialization to 1.1.0
+
 Version 0.7.1 *(2021-02-15)*
 ----------------------------
 
