@@ -72,16 +72,16 @@ fun MavenPublication.configurePublication() {
 
 fun getSourcesArtifactTask(): Task {
     return tasks.filterIsInstance<Jar>()
-        .first {
-            it.name.contains("sources", true) &&
+        .single {
+            it.name.contains("releaseSources", ignoreCase = true) &&
                 it.archiveClassifier.get() == "sources"
         }
 }
 
 fun getJavaDocArtifactTask(): Task {
     return tasks.filterIsInstance<Jar>()
-        .first {
-            it.name.contains("javadoc", true) &&
+        .single {
+            it.name.contains("javadoc", ignoreCase = true) &&
                 it.archiveClassifier.get() == "javadoc"
         }
 }

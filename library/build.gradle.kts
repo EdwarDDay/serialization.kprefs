@@ -114,12 +114,6 @@ tasks.register<Copy>("dokkaHtmlIndexFix") {
     into(tasks.dokkaHtml.get().outputDirectory)
 }
 
-tasks.register<Jar>("sourcesJar") {
-    group = "publishing"
-    from(android.sourceSets["main"].java.srcDirs)
-    archiveClassifier.set("sources")
-}
-
 tasks.register<Jar>("dokkaJavadocJar") {
     group = "publishing"
     dependsOn(tasks.dokkaJavadoc)
