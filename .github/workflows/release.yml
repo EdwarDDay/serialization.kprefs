@@ -93,7 +93,7 @@ jobs:
           java-version: 11
 
       - name: Build html documentation
-        run: ./gradlew :library:dokkaHtmlIndexFix
+        run: ./gradlew :library:dokkaHtml
 
       - name: Upload html documentation
         uses: JamesIves/github-pages-deploy-action@4.1.0

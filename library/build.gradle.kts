@@ -106,14 +106,6 @@ tasks.withType<DokkaTask> {
     }
 }
 
-// fix for https://github.com/Kotlin/dokka/issues/1302
-tasks.register<Copy>("dokkaHtmlIndexFix") {
-    group = "documentation"
-    dependsOn(tasks.dokkaHtml)
-    from("dokka/index.html")
-    into(tasks.dokkaHtml.get().outputDirectory)
-}
-
 tasks.register<Jar>("dokkaJavadocJar") {
     group = "publishing"
     dependsOn(tasks.dokkaJavadoc)
