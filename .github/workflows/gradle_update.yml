@@ -2,7 +2,7 @@ name: Gradle version update
 
 on:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '30 9 * * *'
 
 
 jobs:
