@@ -27,3 +27,12 @@ jobs:
 
       - name: Test publication
         run: ./gradlew publishSnapshotPublicationToMavenLocal
+
+      - name: Build html documentation
+        run: ./gradlew :library:dokkaHtml
+
+      - name: Upload html documentation
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: library/build/dokka/html
