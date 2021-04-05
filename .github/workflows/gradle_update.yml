@@ -1,9 +1,6 @@
 name: Gradle version update
 
-on:
-  schedule:
-    - cron: '30 9 * * *'
-
+on: pull_request
 
 jobs:
   update:
