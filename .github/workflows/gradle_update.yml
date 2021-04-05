@@ -1,4 +1,4 @@
-name: Gradle version check
+name: Gradle version update
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-  check:
+  update:
     runs-on: ubuntu-20.04
 
     steps:
@@ -17,15 +17,15 @@ jobs:
         id: gradleUpdate
         run: .github/scripts/update-gradle-version.sh
 
-      - name: update gradle
+      - name: create pull request
         uses: peter-evans/create-pull-request@v3.8.2
         with:
-          commit-message: "Update gradle to {{ steps.gradleUpdate.outputs.gradleVersion }}"
-          branch: "gradle_update/version_{{ steps.gradleUpdate.outputs.gradleVersion }}"
+          commit-message: "Update gradle to ${{ steps.gradleUpdate.outputs.gradleVersion }}"
+          branch: "gradle_update/version_${{ steps.gradleUpdate.outputs.gradleVersion }}"
           delete-branch: true
-          title: "Update gradle to {{ steps.gradleUpdate.outputs.gradleVersion }}"
+          title: "Update gradle to ${{ steps.gradleUpdate.outputs.gradleVersion }}"
           body: |
-            New [gradle version {{ steps.gradleUpdate.outputs.gradleVersion }}](https://docs.gradle.org/{{ steps.gradleUpdate.outputs.gradleVersion }}/release-notes.html)
+            New [gradle version ${{ steps.gradleUpdate.outputs.gradleVersion }}](https://docs.gradle.org/${{ steps.gradleUpdate.outputs.gradleVersion }}/release-notes.html)
 
             Automated changes by [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub action
           labels: "dependencies,gradle"
