@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/EdwarDDay/serialization.kprefs?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Develop](https://github.com/EdwarDDay/serialization.kprefs/workflows/Develop/badge.svg?branch=main)](https://github.com/EdwarDDay/serialization.kprefs/actions?query=workflow%3ADevelop+branch%3Amain)
-[![Download](https://img.shields.io/maven-central/v/net.edwardday.serialization/kprefs)](https://search.maven.org/artifact/net.edwardday.serialization/kprefs)
+[![Maven Central](https://img.shields.io/maven-central/v/net.edwardday.serialization/kprefs.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22net.edwardday.serialization%22%20AND%20a:%22kprefs%22)
 
 Preferences serialization is a [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) format to
  serialize arbitrary objects in androids
