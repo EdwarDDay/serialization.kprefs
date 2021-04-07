@@ -20,6 +20,7 @@ jobs:
       - name: set up JDK
         uses: actions/setup-java@v2
         with:
+          distribution: 'adopt'
           java-version: 11
 
       - name: Generate changelog
@@ -90,6 +91,7 @@ jobs:
       - name: set up JDK
         uses: actions/setup-java@v2
         with:
+          distribution: 'adopt'
           java-version: 11
 
       - name: Build html documentation
