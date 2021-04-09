@@ -1,8 +1,7 @@
 name: Gradle version update
 
 on:
-  schedule:
-    - cron: '0 6 * * *'
+  pull_request:
 
 
 jobs:
@@ -16,6 +15,9 @@ jobs:
       - name: update gradle
         id: gradleUpdate
         uses: EdwarDDay/upgrade-gradle-action@v1.0.1
+        with:
+          distribution-type: all
+          release-channel: release-candidate
 
       - name: create pull request
         uses: peter-evans/create-pull-request@v3.8.2
