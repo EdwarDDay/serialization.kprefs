@@ -25,6 +25,7 @@ jobs:
           commit-message: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
           branch: "gradle_update/version_${{ steps.gradleUpdate.outputs.gradle-version }}"
           delete-branch: true
+          base: main
           title: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
           body: |
             New [gradle version ${{ steps.gradleUpdate.outputs.gradle-version }}](https://docs.gradle.org/${{ steps.gradleUpdate.outputs.gradle-version }}/release-notes.html)
