@@ -15,7 +15,7 @@ jobs:
 
       - name: update gradle
         id: gradleUpdate
-        uses: EdwarDDay/upgrade-gradle-action@v1.0.0
+        uses: EdwarDDay/upgrade-gradle-action@v1.0.1
 
       - name: create pull request
         uses: peter-evans/create-pull-request@v3.8.2
