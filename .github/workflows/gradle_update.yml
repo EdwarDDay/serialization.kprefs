@@ -20,6 +20,9 @@ jobs:
       - name: create pull request
         uses: peter-evans/create-pull-request@v3.8.2
         with:
+          # cannot trigger other workflow with default token, so use another token
+          # https://github.com/peter-evans/create-pull-request/blob/master/docs/concepts-guidelines.md#triggering-further-workflow-runs
+          token: "${{ secrets.WORKFLOW_TOKEN }}"
           commit-message: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
           branch: "gradle_update/version_${{ steps.gradleUpdate.outputs.gradle-version }}"
           delete-branch: true
