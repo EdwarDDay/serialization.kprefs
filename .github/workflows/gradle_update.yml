@@ -1,8 +1,9 @@
 name: Gradle version update
 
 on:
-  schedule:
-    - cron: '0 6 * * *'
+  push:
+    branches:
+      - "trigger_workflow_after_gradle_upgrade_test"
 
 
 jobs:
@@ -23,8 +24,10 @@ jobs:
           # cannot trigger other workflow with default token, so use another token
           # https://github.com/peter-evans/create-pull-request/blob/master/docs/concepts-guidelines.md#triggering-further-workflow-runs
           token: "${{ secrets.WORKFLOW_TOKEN }}"
+          base: "trigger_workflow_after_gradle_upgrade_test"
+          draft: true
           commit-message: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
-          branch: "gradle_update/version_${{ steps.gradleUpdate.outputs.gradle-version }}"
+          branch: "gradle_update/version_${{ steps.gradleUpdate.outputs.gradle-version }}_test"
           delete-branch: true
           title: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
           body: |
