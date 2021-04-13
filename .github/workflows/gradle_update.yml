@@ -28,7 +28,7 @@ jobs:
           delete-branch: true
           title: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
           body: |
-            New [gradle version ${{ steps.gradleUpdate.outputs.gradle-version }}](https://docs.gradle.org/${{ steps.gradleUpdate.outputs.gradle-version }}/release-notes.html)
+            ${{ steps.gradleUpdate.outputs.version-information }}
 
             Automated changes by [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub action
           labels: "dependencies,gradle"
