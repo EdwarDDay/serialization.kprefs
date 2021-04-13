@@ -1,8 +1,9 @@
 name: Gradle version update
 
 on:
-  schedule:
-    - cron: '0 6 * * *'
+  push:
+    branches:
+      - gradle_upgrade_improved_body_test
 
 
 jobs:
@@ -24,7 +25,9 @@ jobs:
           # https://github.com/peter-evans/create-pull-request/blob/master/docs/concepts-guidelines.md#triggering-further-workflow-runs
           token: "${{ secrets.WORKFLOW_TOKEN }}"
           commit-message: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
-          branch: "gradle_update/version_${{ steps.gradleUpdate.outputs.gradle-version }}"
+          draft: true
+          base: gradle_upgrade_improved_body_test
+          branch: "gradle_update/version_${{ steps.gradleUpdate.outputs.gradle-version }}_test"
           delete-branch: true
           title: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
           body: |
