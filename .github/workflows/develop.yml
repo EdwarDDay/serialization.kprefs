@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020-2021 Eduard Wolf
+#
+# SPDX-License-Identifier: Apache-2.0
+
 name: Develop
 
 on:
@@ -13,6 +17,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+
+      - name: REUSE compliance check
+        uses: fsfe/reuse-action@v1
 
       - name: validation
         uses: gradle/wrapper-validation-action@v1

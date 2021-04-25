@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020-2021 Eduard Wolf
+//
+// SPDX-License-Identifier: Apache-2.0
+
 // This file was automatically generated from Preferences.kt by Knit tool. Do not edit.
 package net.edwardday.serialization.preferences.example.examplePreferences02
 
