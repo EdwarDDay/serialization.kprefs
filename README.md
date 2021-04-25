@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020-2021 Eduard Wolf
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Android SharedPreferences serialization
 
 [![License](https://img.shields.io/github/license/EdwarDDay/serialization.kprefs?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)

@@ -1,0 +1,14 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: serialization.kprefs
+Upstream-Contact: Eduard Wolf <edwar_d_day@canis-tech.de>
+Source: https://github.com/EdwarDDay/serialization.kprefs
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
+
+Files: gradlew gradlew.bat gradle/wrapper/gradle-wrapper.properties gradle/wrapper/gradle-wrapper.jar
+Copyright: Copyright 2015 the original author or authors.
+License: Apache-2.0
