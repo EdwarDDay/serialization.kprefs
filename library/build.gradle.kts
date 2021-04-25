@@ -39,7 +39,13 @@ apply {
 repositories {
     mavenCentral()
     google()
-    jcenter() // https://youtrack.jetbrains.com/issue/IDEA-261387
+    // needed, as long as kotlinx.html is not on maven central
+    // https://github.com/Kotlin/kotlinx.html/issues/81
+    maven("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") {
+        content {
+            includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+        }
+    }
 }
 
 android {
