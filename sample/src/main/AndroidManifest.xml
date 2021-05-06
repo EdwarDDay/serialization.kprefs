@@ -11,6 +11,7 @@ SPDX-License-Identifier: Apache-2.0
             android:allowBackup="false"
             android:label="@string/app_name"
             android:supportsRtl="true"
+            android:icon="@android:drawable/ic_menu_preferences"
             android:theme="@style/Theme.AppCompat">
         <activity android:name=".MainActivity">
             <intent-filter>

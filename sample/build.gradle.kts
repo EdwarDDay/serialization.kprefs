@@ -12,25 +12,18 @@ repositories {
     mavenLocal()
     mavenCentral()
     google()
-    jcenter() // https://youtrack.jetbrains.com/issue/IDEA-261387
 }
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion = "29.0.3"
+    compileSdkVersion(30)
 
     defaultConfig {
         applicationId = "net.edwardday.serialization.preferences.testapplication"
         minSdkVersion(22)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
         versionCode = 1
         versionName = "0.0.1"
         multiDexEnabled = true
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     buildFeatures {

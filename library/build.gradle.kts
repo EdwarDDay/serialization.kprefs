@@ -38,15 +38,9 @@ repositories {
 
 android {
     compileSdkVersion(30)
-    buildToolsVersion = "30.0.3"
 
     defaultConfig {
         minSdkVersion(11)
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
@@ -59,8 +53,9 @@ android {
     }
 
     buildFeatures {
-        // androidResources = false
+        androidResources = false
         buildConfig = false
+        resValues = false
     }
 }
 
