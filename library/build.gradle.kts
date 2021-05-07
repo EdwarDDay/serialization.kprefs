@@ -59,20 +59,24 @@ android {
     }
 }
 
-// workaround, because explicit api mode is not yet supported for android projects
-// https://youtrack.jetbrains.com/issue/KT-37652
 tasks.withType<KotlinCompile> {
+    val isTestTask = name.contains("test", ignoreCase = true)
     kotlinOptions {
-        freeCompilerArgs = if (name.contains("test", ignoreCase = true)) {
+        // workaround, because explicit api mode is not yet supported for android projects
+        // https://youtrack.jetbrains.com/issue/KT-37652
+        freeCompilerArgs = if (isTestTask) {
             listOf("-Xopt-in=kotlin.RequiresOptIn")
         } else {
             listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xexplicit-api=strict")
         }
+
+        // https://github.com/Kotlin/kotlinx.serialization/issues/1457
+        useOldBackend = isTestTask
     }
 }
 
-// ktlint should ignore knit generated files
 tasks.withType<LintTask> {
+    // ktlint should ignore knit generated files
     exclude("**/example/**")
 }
 
