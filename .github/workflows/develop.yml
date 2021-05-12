@@ -22,7 +22,7 @@ jobs:
         uses: fsfe/reuse-action@v1.1
 
       - name: validation
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v1.0.3
 
       - name: set up JDK
         uses: actions/setup-java@v2
