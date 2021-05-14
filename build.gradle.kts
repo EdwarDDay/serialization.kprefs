@@ -24,7 +24,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:4.2.0")
+        classpath("com.android.tools.build:gradle:4.2.1")
         classpath("org.jetbrains.kotlinx:kotlinx-knit:0.2.3")
     }
 }
