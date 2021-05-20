@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -27,13 +28,6 @@ apply {
 repositories {
     mavenCentral()
     google()
-    // needed, as long as kotlinx.html is not on maven central
-    // https://github.com/Kotlin/kotlinx.html/issues/81
-    maven("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") {
-        content {
-            includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
-        }
-    }
 }
 
 android {
@@ -77,6 +71,11 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<LintTask> {
     // ktlint should ignore knit generated files
+    exclude("**/example/**")
+}
+
+tasks.withType<Detekt> {
+    // detekt should ignore knit generated files
     exclude("**/example/**")
 }
 

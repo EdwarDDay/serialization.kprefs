@@ -14,6 +14,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+@Suppress("VarCouldBeVal")
 class DelegatesTest {
 
     lateinit var sharedPreferences: SharedPreferences
