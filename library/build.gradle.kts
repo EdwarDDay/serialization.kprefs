@@ -81,7 +81,7 @@ tasks.withType<LintTask> {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.2.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.2.1")
 
     testImplementation(kotlin("test-junit"))
 }
