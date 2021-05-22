@@ -18,11 +18,10 @@ class ReadmeExample {
 
 val preferences = Preferences(sharedPreferences)
 
-var someFlag: Boolean by preferences.asProperty()
+var someFlag: Boolean by preferences.asProperty(default = false)
 
 @Test
 fun test() {
-    someFlag = false // stores false in SharedPreferences at key "someFlag"
     someComputation() // some computation where someFlag is set to true
     if (!someFlag) { // reads value from SharedPreferences at key "someFlag"
         fail()

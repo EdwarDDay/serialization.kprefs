@@ -38,6 +38,8 @@ class DelegatesTest {
         wrapper.test = true
         assertTrue(wrapper.test)
         assertTrue(sharedPreferences.getBoolean("boolean", false))
+        sharedPreferences.edit().putBoolean("test", true).apply()
+        assertTrue(wrapper.test)
     }
 
     @Test
@@ -52,6 +54,8 @@ class DelegatesTest {
         wrapper.test = 10
         assertEquals(10, wrapper.test)
         assertEquals(10, sharedPreferences.getInt("byte", 0))
+        sharedPreferences.edit().putInt("byte", 3).apply()
+        assertEquals(3, wrapper.test)
     }
 
     @Test
@@ -66,6 +70,8 @@ class DelegatesTest {
         wrapper.test = -200
         assertEquals(-200, wrapper.test)
         assertEquals(-200, sharedPreferences.getInt("short", 0))
+        sharedPreferences.edit().putInt("short", 3).apply()
+        assertEquals(3, wrapper.test)
     }
 
     @Test
@@ -80,6 +86,8 @@ class DelegatesTest {
         wrapper.test = -123456
         assertEquals(-123456, wrapper.test)
         assertEquals(-123456, sharedPreferences.getInt("int", 0))
+        sharedPreferences.edit().putInt("int", 3).apply()
+        assertEquals(3, wrapper.test)
     }
 
     @Test
@@ -94,6 +102,8 @@ class DelegatesTest {
         wrapper.test = -12345678910
         assertEquals(-12345678910, wrapper.test)
         assertEquals(-12345678910, sharedPreferences.getLong("long", 0))
+        sharedPreferences.edit().putLong("long", 3).apply()
+        assertEquals(3, wrapper.test)
     }
 
     @Test
@@ -108,6 +118,8 @@ class DelegatesTest {
         wrapper.test = -2e10f
         assertEquals(-2e10f, wrapper.test)
         assertEquals(-2e10f, sharedPreferences.getFloat("float", 0F))
+        sharedPreferences.edit().putFloat("float", 3F).apply()
+        assertEquals(3F, wrapper.test)
     }
 
     @Test
@@ -122,6 +134,8 @@ class DelegatesTest {
         wrapper.test = -2e10
         assertEquals(-2e10, wrapper.test)
         assertEquals((-2e10).toBits(), sharedPreferences.getLong("double", 0))
+        sharedPreferences.edit().putLong("double", 3.0.toBits()).apply()
+        assertEquals(3.0, wrapper.test)
     }
 
     @Test
@@ -136,6 +150,8 @@ class DelegatesTest {
         wrapper.test = '?'
         assertEquals('?', wrapper.test)
         assertEquals('?', sharedPreferences.getString("char", null)!!.first())
+        sharedPreferences.edit().putString("char", "3").apply()
+        assertEquals('3', wrapper.test)
     }
 
     @Test
@@ -150,6 +166,8 @@ class DelegatesTest {
         wrapper.test = "foobar"
         assertEquals("foobar", wrapper.test)
         assertEquals("foobar", sharedPreferences.getString("string", null))
+        sharedPreferences.edit().putString("string", "some string").apply()
+        assertEquals("some string", wrapper.test)
     }
 
     @Test
@@ -190,6 +208,19 @@ class DelegatesTest {
     }
 
     @Test
+    fun classDelegateWithDefault() {
+        val default = Complex(SimpleContainer(2), DateWithOptional("default"))
+        val wrapper = object {
+            var test: Complex by preferences.asProperty(
+                default = default
+            )
+        }
+
+        assertEquals(expected = default, actual = wrapper.test)
+        assertTrue(sharedPreferences.all.isEmpty())
+    }
+
+    @Test
     fun nullableIntDelegate() {
         val wrapper = object {
             var test: Int? by preferences.asProperty()
@@ -201,5 +232,21 @@ class DelegatesTest {
         assertTrue(sharedPreferences.all.isEmpty())
         wrapper.test = 5
         assertEquals(5, sharedPreferences.getInt("test", 0))
+    }
+
+    @Test
+    fun intDelegateWithDefault() {
+        val wrapper = object {
+            var test: Int by preferences.asProperty(default = 5)
+        }
+
+        assertEquals(5, wrapper.test)
+        assertTrue(sharedPreferences.all.isEmpty())
+        wrapper.test = 4
+        assertEquals(4, sharedPreferences.getInt("test", 0))
+        sharedPreferences.edit().putInt("test", 3).apply()
+        assertEquals(3, wrapper.test)
+        sharedPreferences.edit().clear().apply()
+        assertEquals(5, wrapper.test)
     }
 }

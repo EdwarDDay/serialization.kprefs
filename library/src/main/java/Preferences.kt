@@ -123,7 +123,7 @@ public inline fun <reified T> Preferences.decode(tag: String): T = decode(serial
 @Suppress("FunctionName")
 public fun Preferences(
     sharedPreferences: SharedPreferences,
-    builderAction: PreferencesBuilder.() -> Unit = {}
+    builderAction: PreferencesBuilder.() -> Unit = {},
 ): Preferences = generatePreferences(PreferenceConf(sharedPreferences), builderAction)
 
 /**
@@ -136,12 +136,12 @@ public fun Preferences(
 @Suppress("FunctionName")
 public fun Preferences(
     preferences: Preferences,
-    builderAction: PreferencesBuilder.() -> Unit = {}
+    builderAction: PreferencesBuilder.() -> Unit = {},
 ): Preferences = generatePreferences(preferences.conf, builderAction)
 
 private inline fun generatePreferences(
     preferenceConf: PreferenceConf,
-    builderAction: PreferencesBuilder.() -> Unit
+    builderAction: PreferencesBuilder.() -> Unit,
 ): Preferences {
     val builder = PreferencesBuilder(preferenceConf)
     builder.builderAction()
@@ -218,7 +218,7 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
             doubleRepresentation = doubleRepresentation,
             encodeObjectStarts = encodeObjectStarts,
             encodeStringSetNatively = encodeStringSetNatively,
-            stringSetDescriptorNames = stringSetDescriptorNames
+            stringSetDescriptorNames = stringSetDescriptorNames,
         )
     }
 }
@@ -256,5 +256,5 @@ internal data class PreferenceConf(
     val encodeObjectStarts: Boolean = true,
     val encodeStringSetNatively: Boolean = true,
     val stringSetDescriptorNames: List<String> =
-        listOf("kotlin.collections.HashSet", "kotlin.collections.LinkedHashSet")
+        listOf("kotlin.collections.HashSet", "kotlin.collections.LinkedHashSet"),
 )
