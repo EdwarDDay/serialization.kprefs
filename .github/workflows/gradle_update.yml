@@ -22,7 +22,7 @@ jobs:
         uses: EdwarDDay/upgrade-gradle-action@v1.2.1
 
       - name: create pull request
-        uses: peter-evans/create-pull-request@v3.9.2
+        uses: peter-evans/create-pull-request@v3.10.0
         with:
           # cannot trigger other workflow with default token, so use another token
           # https://github.com/peter-evans/create-pull-request/blob/master/docs/concepts-guidelines.md#triggering-further-workflow-runs
