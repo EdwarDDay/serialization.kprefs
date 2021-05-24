@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // This file was automatically generated from Delegates.kt by Knit tool. Do not edit.
-package net.edwardday.serialization.preferences.example.exampleProperty04
+package net.edwardday.serialization.preferences.example.examplePropertyWithoutDefault01
 
 import kotlin.test.*
 import kotlinx.serialization.builtins.*
@@ -13,7 +13,7 @@ class PropertyTest {
 
     val preferences = Preferences(TestablePreferences())
 
-var setting: Boolean by preferences.asProperty(tag = "aSetting", default = false)
+var setting by preferences.asProperty(Boolean.serializer())
     @Test
     fun test() {
         setting = false

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // This file was automatically generated from Delegates.kt by Knit tool. Do not edit.
-package net.edwardday.serialization.preferences.example.exampleProperty03
+package net.edwardday.serialization.preferences.example.examplePropertyWithoutDefault02
 
 import kotlin.test.*
 import kotlinx.serialization.builtins.*

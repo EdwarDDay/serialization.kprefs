@@ -21,10 +21,18 @@ class PropertyTest {
 
     val preferences = Preferences(TestablePreferences())
 
------ SUFFIX .*-property-.*
+----- SUFFIX .*-property-without-default-.*
     @Test
     fun test() {
         setting = false
+        assertFalse(setting)
+        setting = true
+        assertTrue(setting)
+    }
+}
+----- SUFFIX .*-property-with-default-.*
+    @Test
+    fun test() {
         assertFalse(setting)
         setting = true
         assertTrue(setting)
@@ -41,7 +49,7 @@ class PropertyTest {
  * @param serializer which encodes and decodes the value
  * @param tag optional tag which is used as SharedPreferences key - default to property name
  */
-// <!--- KNIT example-property-01.kt -->
+// <!--- KNIT example-property-without-default-01.kt -->
 public fun <T> Preferences.asProperty(
     serializer: KSerializer<T>,
     tag: String? = null,
@@ -57,7 +65,7 @@ public fun <T> Preferences.asProperty(
  * @param tag optional tag which is used as SharedPreferences key - default to property name
  * @param default optional default value for not initialized preferences
  */
-// <!--- KNIT example-property-02.kt -->
+// <!--- KNIT example-property-with-default-01.kt -->
 public fun <T : Any> Preferences.asProperty(
     serializer: KSerializer<T>,
     tag: String? = null,
@@ -76,7 +84,7 @@ public fun <T : Any> Preferences.asProperty(
  *
  * @param tag optional tag which is used as SharedPreferences key - default to property name
  */
-// <!--- KNIT example-property-03.kt -->
+// <!--- KNIT example-property-without-default-02.kt -->
 public inline fun <reified T> Preferences.asProperty(tag: String? = null): ReadWriteProperty<Any?, T> =
     asProperty<T>(serializersModule.serializer(), tag)
 
@@ -89,7 +97,7 @@ public inline fun <reified T> Preferences.asProperty(tag: String? = null): ReadW
  * @param tag optional tag which is used as SharedPreferences key - default to property name
  * @param default optional default value for not initialized preferences
  */
-// <!--- KNIT example-property-04.kt -->
+// <!--- KNIT example-property-with-default-02.kt -->
 public inline fun <reified T : Any> Preferences.asProperty(
     tag: String? = null,
     default: T? = null,
