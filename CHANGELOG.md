@@ -7,6 +7,11 @@ SPDX-License-Identifier: Apache-2.0
 Change Log
 ==========
 
+Version 0.10.0 *(2021-05-24)*
+----------------------------
+
+Support default values in properties
+
 Version 0.9.0 *(2021-05-07)*
 ----------------------------
 
