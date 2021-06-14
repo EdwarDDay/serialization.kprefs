@@ -7,7 +7,7 @@ plugins {
     kotlin("android") version "1.5.10" apply false
     kotlin("plugin.serialization") version "1.5.10" apply false
 
-    id("org.jmailen.kotlinter") version "3.4.4"
+    id("org.jmailen.kotlinter") version "3.4.5"
     id("io.gitlab.arturbosch.detekt") version "1.17.1" apply false
 
     id("org.jetbrains.dokka") version "1.4.32" apply false
