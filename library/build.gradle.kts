@@ -16,6 +16,7 @@ plugins {
     id("org.jmailen.kotlinter")
     id("io.gitlab.arturbosch.detekt")
 
+    id("app.cash.licensee")
     id("org.jetbrains.dokka")
 
     id("publishing.maven-convention")
@@ -103,4 +104,8 @@ tasks.register<Jar>("dokkaJavadocJar") {
     dependsOn(tasks.dokkaJavadoc)
     from(tasks.dokkaJavadoc.flatMap(DokkaTask::outputDirectory))
     archiveClassifier.set("javadoc")
+}
+
+licensee {
+    allow("Apache-2.0")
 }
