@@ -11,6 +11,8 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.17.1" apply false
 
     id("org.jetbrains.dokka") version "1.4.32" apply false
+
+    id("app.cash.licensee") version "1.0.2" apply false
 }
 
 apply {
