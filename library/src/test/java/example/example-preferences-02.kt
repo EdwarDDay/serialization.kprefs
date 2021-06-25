@@ -12,12 +12,17 @@ import net.edwardday.serialization.preferences.*
 class PreferencesTest {
 
     val sharedPreferences = TestablePreferences()
+    @Serializable
+    data class Person(val name: String, val age: Int)
+
+    @Serializable
+    data class PrefTest(val u: Unit)
 
     @Test
     fun test() {
 
-@Serializable
-data class PrefTest(val u: Unit)
+// given the following class
+// data class PrefTest(val u: Unit)
 
 val pref = Preferences(sharedPreferences) { encodeObjectStarts = true }
 pref.encode(PrefTest.serializer(), "test", PrefTest(Unit))

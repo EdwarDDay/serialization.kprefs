@@ -27,6 +27,11 @@ import net.edwardday.serialization.preferences.*
 class PreferencesTest {
 
     val sharedPreferences = TestablePreferences()
+    @Serializable
+    data class Person(val name: String, val age: Int)
+
+    @Serializable
+    data class PrefTest(val u: Unit)
 
     @Test
     fun test() {
@@ -41,8 +46,8 @@ class PreferencesTest {
  * values.
  *
  * ```kotlin
- * @Serializable
- * data class Person(val name: String, val age: Int)
+ * // given the following class
+ * // data class Person(val name: String, val age: Int)
  * val preferences = Preferences(sharedPreferences)
  * val abby = Person("Abby", 20)
  *
@@ -171,8 +176,8 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
      * encoding a marker at the position.
      *
      * ```kotlin
-     * @Serializable
-     * data class PrefTest(val u: Unit)
+     * // given the following class
+     * // data class PrefTest(val u: Unit)
      *
      * val pref = Preferences(sharedPreferences) { encodeObjectStarts = true }
      * pref.encode(PrefTest.serializer(), "test", PrefTest(Unit))
