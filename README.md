@@ -27,9 +27,7 @@ The documentation can be found on the projects
 * [What doesn't work](#what-doesn't-work)
 * [Building](#building)
 
-<!--- END -->
-
-<!--- INCLUDE .*-simple-.*
+<!--- INCLUDE .*-readme-.*
 import kotlin.test.*
 import kotlinx.serialization.*
 import net.edwardday.serialization.preferences.*
@@ -38,22 +36,7 @@ class ReadmeExample {
 
     val sharedPreferences = TestablePreferences()
 
-    @Test
-    fun readmeTest() {
------ SUFFIX .*-simple-.*
-    }
-}
--->
-
-<!--- INCLUDE .*-basic-.*
-import kotlin.test.*
-import net.edwardday.serialization.preferences.*
-
-class ReadmeExample {
-
-    val sharedPreferences = TestablePreferences()
-
------ SUFFIX .*-basic-.*
+----- SUFFIX .*-readme-.*
 }
 -->
 
@@ -62,7 +45,12 @@ class ReadmeExample {
 ```kotlin
 @Serializable
 data class Person(val name: String, val age: Int, val children: List<Person> = emptyList())
-
+```
+<!--- INCLUDE
+    @Test
+    fun readmeTest() {
+-->
+```kotlin
 val preferences = Preferences(sharedPreferences)
 
 val abby = Person("Abby", 12)
@@ -74,7 +62,10 @@ preferences.encode("person", charles)
 val person: Person = preferences.decode("person")
 assertEquals(charles, person)
 ```
-> You can get the full code [here](library/src/test/java/example/example-simple-01.kt).
+<!--- INCLUDE
+    }
+-->
+> You can get the full code [here](library/src/test/java/example/example-readme-01.kt).
 
 ## Delegated Properties Example
 
@@ -98,7 +89,7 @@ fun test() {
 }
 ```
 
-> You can get the full code [here](library/src/test/java/example/example-basic-01.kt).
+> You can get the full code [here](library/src/test/java/example/example-readme-02.kt).
 
 ## Setup
 You need to apply the kotlinx.serialization plugin and add this library as dependency.
@@ -138,17 +129,24 @@ Note: additional information to the serialization plugin can be found in the
 
 ```kotlin
 @Serializable
-data class Test(val foo: Int, val bar: Int? = 42)
-
+data class DataClass(val foo: Int, val bar: Int? = 42)
+```
+<!--- INCLUDE
+    @Test
+    fun readmeTest() {
+-->
+```kotlin
 sharedPreferences.edit().putInt("test.foo", 21).apply()
 val preferences = Preferences(sharedPreferences)
 
-val test: Test = preferences.decode("test")
+val test: DataClass = preferences.decode("test")
 
-assertEquals(Test(21, null), test)
+assertEquals(DataClass(21, null), test)
 ```
-
-> You can get the full code [here](library/src/test/java/example/example-simple-02.kt).
+<!--- INCLUDE
+    }
+-->
+> You can get the full code [here](library/src/test/java/example/example-readme-03.kt).
 
 ## Building
 To build the library just run `./gradlew library:build`. To publish it to you local maven repository use

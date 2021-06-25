@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // This file was automatically generated from README.md by Knit tool. Do not edit.
-package net.edwardday.serialization.preferences.example.exampleSimple01
+package net.edwardday.serialization.preferences.example.exampleReadme01
 
 import kotlin.test.*
 import kotlinx.serialization.*
@@ -13,11 +13,10 @@ class ReadmeExample {
 
     val sharedPreferences = TestablePreferences()
 
-    @Test
-    fun readmeTest() {
-
 @Serializable
 data class Person(val name: String, val age: Int, val children: List<Person> = emptyList())
+    @Test
+    fun readmeTest() {
 
 val preferences = Preferences(sharedPreferences)
 

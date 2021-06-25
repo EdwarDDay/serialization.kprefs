@@ -64,9 +64,6 @@ tasks.withType<KotlinCompile> {
         } else {
             listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xexplicit-api=strict")
         }
-
-        // https://github.com/Kotlin/kotlinx.serialization/issues/1457
-        useOldBackend = isTestTask
     }
 }
 
