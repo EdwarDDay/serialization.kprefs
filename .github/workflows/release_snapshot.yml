@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2020-2021 Eduard Wolf
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: ReleaseSnapshot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 11
+
+      - name: Upload to maven central snapshot
+        run: ./gradlew :library:publishSnapshotPublicationToMavenCentralSnapshotsRepository
+        env:
+          ORG_GRADLE_PROJECT_sonatypeNexusUsername: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPENEXUSUSERNAME }}
+          ORG_GRADLE_PROJECT_sonatypeNexusPassword: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPENEXUSPASSWORD }}
