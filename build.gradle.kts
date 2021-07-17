@@ -4,8 +4,9 @@
 
 plugins {
     base // needed for knit
-    kotlin("android") version "1.5.20" apply false
-    kotlin("plugin.serialization") version "1.5.20" apply false
+    val kotlinVersion = "1.5.20"
+    kotlin("android") version kotlinVersion apply false
+    kotlin("plugin.serialization") version kotlinVersion apply false
 
     id("org.jmailen.kotlinter") version "3.4.5"
     id("io.gitlab.arturbosch.detekt") version "1.17.1" apply false
