@@ -18,21 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: update gradle
-        id: gradleUpdate
-        uses: EdwarDDay/upgrade-gradle-action@v1.2.1
-
-      - name: create pull request
-        uses: peter-evans/create-pull-request@v3.10.0
+        uses: gradle-update/update-gradle-wrapper-action@v1.0.14
         with:
-          # cannot trigger other workflow with default token, so use another token
-          # https://github.com/peter-evans/create-pull-request/blob/master/docs/concepts-guidelines.md#triggering-further-workflow-runs
-          token: "${{ secrets.WORKFLOW_TOKEN }}"
-          commit-message: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
-          branch: "gradle_update/version_${{ steps.gradleUpdate.outputs.gradle-version }}"
-          delete-branch: true
-          title: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
-          body: |
-            ${{ steps.gradleUpdate.outputs.version-information }}
-
-            Automated changes by [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub action
+          repo-token: "${{ secrets.WORKFLOW_TOKEN }}"
           labels: "dependencies,gradle"
