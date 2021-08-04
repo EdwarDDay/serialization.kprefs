@@ -32,10 +32,10 @@ repositories {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        minSdkVersion(11)
+        minSdk = 11
     }
 
     kotlinOptions {
@@ -43,7 +43,7 @@ android {
         allWarningsAsErrors = true
     }
 
-    lintOptions {
+    lint {
         isWarningsAsErrors = true
     }
 
