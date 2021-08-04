@@ -15,12 +15,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
         applicationId = "net.edwardday.serialization.preferences.testapplication"
-        minSdkVersion(22)
-        targetSdkVersion(30)
+        minSdk = 22
+        targetSdk = 30
         versionCode = 1
         versionName = "0.0.1"
         multiDexEnabled = true
@@ -34,14 +34,14 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-    lintOptions {
+    lint {
         isAbortOnError = false
     }
 
     buildTypes {
 
         getByName("release") {
-            minifyEnabled(true)
+            isMinifyEnabled = true
             isShrinkResources = true
         }
     }
