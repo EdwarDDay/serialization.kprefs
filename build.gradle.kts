@@ -5,8 +5,10 @@
 plugins {
     base // needed for knit
     val kotlinVersion = "1.5.20"
-    kotlin("android") version kotlinVersion apply false
-    kotlin("plugin.serialization") version kotlinVersion apply false
+    @Suppress("RemoveSingleExpressionStringTemplate") // needed for dependabot
+    kotlin("android") version "$kotlinVersion" apply false
+    @Suppress("RemoveSingleExpressionStringTemplate") // needed for dependabot
+    kotlin("plugin.serialization") version "$kotlinVersion" apply false
 
     id("org.jmailen.kotlinter") version "3.4.5"
     id("io.gitlab.arturbosch.detekt") version "1.17.1" apply false
