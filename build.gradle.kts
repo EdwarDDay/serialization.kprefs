@@ -13,7 +13,7 @@ plugins {
 
     id("org.jetbrains.dokka") version "1.5.0" apply false
 
-    id("app.cash.licensee") version "1.1.0" apply false
+    id("app.cash.licensee") version "1.2.0" apply false
 }
 
 apply {
