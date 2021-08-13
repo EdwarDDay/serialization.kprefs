@@ -10,7 +10,7 @@ plugins {
     @Suppress("RemoveSingleExpressionStringTemplate") // needed for dependabot
     kotlin("plugin.serialization") version "$kotlinVersion" apply false
 
-    id("org.jmailen.kotlinter") version "3.4.5"
+    id("org.jmailen.kotlinter") version "3.5.0"
     id("io.gitlab.arturbosch.detekt") version "1.17.1" apply false
 
     id("org.jetbrains.dokka") version "1.5.0" apply false
