@@ -21,12 +21,12 @@ import net.edwardday.serialization.preferences.Preferences
 @Suppress("TooManyFunctions")
 internal class PreferenceDecoder(
     private val preferences: Preferences,
-    descriptor: SerialDescriptor
+    descriptor: SerialDescriptor,
 ) : NamedValueDecoder() {
 
-    override val serializersModule: SerializersModule = preferences.conf.serializersModule
+    override val serializersModule: SerializersModule = preferences.configuration.serializersModule
 
-    private val sharedPreferences: SharedPreferences get() = preferences.conf.sharedPreferences
+    private val sharedPreferences: SharedPreferences get() = preferences.configuration.sharedPreferences
 
     private var currentIndex = 0
     private val isCollection = descriptor.kind == StructureKind.LIST || descriptor.kind == StructureKind.MAP
@@ -37,7 +37,7 @@ internal class PreferenceDecoder(
     }
 
     override fun beginStructure(descriptor: SerialDescriptor): CompositeDecoder {
-        if (preferences.conf.shouldSerializeStringSet(descriptor)) {
+        if (preferences.configuration.shouldSerializeStringSet(descriptor)) {
             val stringSet: Set<String?> = sharedPreferences.getStringSet(currentTag, null)
                 ?: throw SerializationException("missing property $currentTag")
             return PreferencesStringSetDecoder(preferences, stringSet)
@@ -94,7 +94,7 @@ internal class PreferenceDecoder(
     }
 
     override fun decodeTaggedDouble(tag: String): Double =
-        when (preferences.conf.doubleRepresentation) {
+        when (preferences.configuration.doubleRepresentation) {
             DoubleRepresentation.FLOAT -> decodeTaggedFloat(tag).toDouble()
             DoubleRepresentation.LONG_BITS -> decodeTaggedLong(tag).let(Double.Companion::fromBits)
             DoubleRepresentation.STRING -> decodeTaggedString(tag).toDouble()
@@ -114,7 +114,7 @@ internal class PreferenceDecoder(
 @OptIn(ExperimentalSerializationApi::class)
 internal class PreferencesStringSetDecoder(
     private val preferences: Preferences,
-    set: Set<String?>
+    set: Set<String?>,
 ) : AbstractDecoder() {
 
     override val serializersModule: SerializersModule get() = preferences.serializersModule

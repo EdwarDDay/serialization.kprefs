@@ -11,10 +11,10 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.SerialKind
 import kotlinx.serialization.descriptors.StructureKind
 import kotlinx.serialization.encoding.CompositeDecoder
-import net.edwardday.serialization.preferences.PreferenceConf
+import net.edwardday.serialization.preferences.PreferenceConfiguration
 
 @OptIn(ExperimentalSerializationApi::class)
-internal fun PreferenceConf.shouldSerializeStringSet(descriptor: SerialDescriptor): Boolean {
+internal fun PreferenceConfiguration.shouldSerializeStringSet(descriptor: SerialDescriptor): Boolean {
     return if (
         encodeStringSetNatively &&
         descriptor.kind === StructureKind.LIST &&
