@@ -54,7 +54,7 @@ class PreferencesTest {
  * ```
  */
 // <!--- KNIT example-preferences-01.kt -->
-public sealed class Preferences(internal val conf: PreferenceConf) : SerialFormat {
+public sealed class Preferences(internal val configuration: PreferenceConfiguration) : SerialFormat {
 
     /**
      * Contains all serializers registered by format user for [Contextual] and [Polymorphic] serialization.
@@ -62,7 +62,7 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
      * @see SerialFormat.serializersModule
      */
     override val serializersModule: SerializersModule
-        get() = conf.serializersModule
+        get() = configuration.serializersModule
 
     /**
      * Serializes and encodes the given [value] into the [SharedPreferences] at the specified [tag] using the given
@@ -73,8 +73,8 @@ public sealed class Preferences(internal val conf: PreferenceConf) : SerialForma
      * @param value value to encode
      */
     public fun <T> encode(serializer: SerializationStrategy<T>, tag: String, value: T) {
-        val editor = conf.sharedPreferences.edit()
-        val encoder = PreferenceEncoder(this, editor, conf.sharedPreferences)
+        val editor = configuration.sharedPreferences.edit()
+        val encoder = PreferenceEncoder(this, editor, configuration.sharedPreferences)
         encoder.pushInitialTag(tag)
         encoder.encodeSerializableValue(serializer, value)
         editor.apply()
@@ -124,7 +124,7 @@ public inline fun <reified T> Preferences.decode(tag: String): T = decode(serial
 public fun Preferences(
     sharedPreferences: SharedPreferences,
     builderAction: PreferencesBuilder.() -> Unit = {},
-): Preferences = generatePreferences(PreferenceConf(sharedPreferences), builderAction)
+): Preferences = generatePreferences(PreferenceConfiguration(sharedPreferences), builderAction)
 
 /**
  * Creates an instance of [Preferences] using the configuration of the previous created
@@ -137,13 +137,13 @@ public fun Preferences(
 public fun Preferences(
     preferences: Preferences,
     builderAction: PreferencesBuilder.() -> Unit = {},
-): Preferences = generatePreferences(preferences.conf, builderAction)
+): Preferences = generatePreferences(preferences.configuration, builderAction)
 
 private inline fun generatePreferences(
-    preferenceConf: PreferenceConf,
+    preferenceConfiguration: PreferenceConfiguration,
     builderAction: PreferencesBuilder.() -> Unit,
 ): Preferences {
-    val builder = PreferencesBuilder(preferenceConf)
+    val builder = PreferencesBuilder(preferenceConfiguration)
     builder.builderAction()
     val conf = builder.build()
     return PreferencesImpl(conf)
@@ -152,19 +152,19 @@ private inline fun generatePreferences(
 /**
  * Builder of the [Preferences] instance provided by `Preferences(sharedPreferences) { ... }` factory function.
  */
-public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
-    private val previousStringSetDescriptorNames = conf.stringSetDescriptorNames
+public class PreferencesBuilder internal constructor(configuration: PreferenceConfiguration) {
+    private val previousStringSetDescriptorNames = configuration.stringSetDescriptorNames
 
     /**
      * Specifies the [SharedPreferences] where everything will be encoded to and decoded from.
      */
-    public var sharedPreferences: SharedPreferences = conf.sharedPreferences
+    public var sharedPreferences: SharedPreferences = configuration.sharedPreferences
 
     /**
      * Specifies how [Double] fields will be encoded.
      * [DoubleRepresentation.LONG_BITS] by default
      */
-    public var doubleRepresentation: DoubleRepresentation = conf.doubleRepresentation
+    public var doubleRepresentation: DoubleRepresentation = configuration.doubleRepresentation
 
     /**
      * Specifies whether objects, empty classes and empty collections will be serialized by
@@ -183,7 +183,7 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
      * `true` by default
      */
     // <!--- KNIT example-preferences-02.kt -->
-    public var encodeObjectStarts: Boolean = conf.encodeObjectStarts
+    public var encodeObjectStarts: Boolean = configuration.encodeObjectStarts
 
     /**
      * Specifies whether [Set]s of [String], [Char] and [Enum] will be encoded with
@@ -191,27 +191,27 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
      *
      * `true` by default
      */
-    public var encodeStringSetNatively: Boolean = conf.encodeStringSetNatively
+    public var encodeStringSetNatively: Boolean = configuration.encodeStringSetNatively
 
     /**
      * Specifies the names of the [SerialDescriptor] which are used to detect Set<String> to encode these natively.
      *
      * `true` by default
      */
-    public val stringSetDescriptorNames: MutableList<String> = conf.stringSetDescriptorNames.toMutableList()
+    public val stringSetDescriptorNames: MutableList<String> = configuration.stringSetDescriptorNames.toMutableList()
 
     /**
      * Module with contextual and polymorphic serializers to be used in the resulting [Preferences] instance.
      */
-    public var serializersModule: SerializersModule = conf.serializersModule
+    public var serializersModule: SerializersModule = configuration.serializersModule
 
-    internal fun build(): PreferenceConf {
+    internal fun build(): PreferenceConfiguration {
         if (stringSetDescriptorNames != previousStringSetDescriptorNames) {
             require(encodeStringSetNatively) {
                 "stringSetDescriptorNames is only used when encodeStringSetNatively is enabled"
             }
         }
-        return PreferenceConf(
+        return PreferenceConfiguration(
             sharedPreferences = sharedPreferences,
             serializersModule = serializersModule,
             doubleRepresentation = doubleRepresentation,
@@ -245,10 +245,10 @@ public enum class DoubleRepresentation {
     STRING;
 }
 
-private class PreferencesImpl(conf: PreferenceConf) : Preferences(conf)
+private class PreferencesImpl(configuration: PreferenceConfiguration) : Preferences(configuration)
 
 @OptIn(ExperimentalSerializationApi::class)
-internal data class PreferenceConf(
+internal data class PreferenceConfiguration(
     val sharedPreferences: SharedPreferences,
     val serializersModule: SerializersModule = EmptySerializersModule,
     val doubleRepresentation: DoubleRepresentation = DoubleRepresentation.LONG_BITS,

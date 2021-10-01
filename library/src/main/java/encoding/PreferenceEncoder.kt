@@ -22,7 +22,7 @@ import net.edwardday.serialization.preferences.Preferences
 internal class PreferenceEncoder(
     private val preferences: Preferences,
     private val editor: SharedPreferences.Editor,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
 ) : NamedValueEncoder() {
 
     override val serializersModule: SerializersModule = preferences.serializersModule
@@ -69,7 +69,7 @@ internal class PreferenceEncoder(
     }
 
     override fun encodeTaggedDouble(tag: String, value: Double) {
-        when (preferences.conf.doubleRepresentation) {
+        when (preferences.configuration.doubleRepresentation) {
             DoubleRepresentation.FLOAT -> encodeTaggedFloat(tag, value.toFloat())
             DoubleRepresentation.LONG_BITS -> encodeTaggedLong(tag, value.toBits())
             DoubleRepresentation.STRING -> encodeTaggedString(tag, value.toString())
@@ -86,9 +86,9 @@ internal class PreferenceEncoder(
 
     override fun beginCollection(
         descriptor: SerialDescriptor,
-        collectionSize: Int
+        collectionSize: Int,
     ): CompositeEncoder {
-        if (preferences.conf.shouldSerializeStringSet(descriptor)) {
+        if (preferences.configuration.shouldSerializeStringSet(descriptor)) {
             return PreferencesStringSetEncoder(preferences, editor, popTag())
         }
         if (collectionSize == 0) {
@@ -105,7 +105,7 @@ internal class PreferenceEncoder(
     }
 
     private fun encodeEmptyStructureStart(descriptor: SerialDescriptor) {
-        if (preferences.conf.encodeObjectStarts) {
+        if (preferences.configuration.encodeObjectStarts) {
             editor.putBoolean(currentTag, true)
         } else {
             throw SerializationException(
@@ -120,7 +120,7 @@ internal class PreferenceEncoder(
 internal class PreferencesStringSetEncoder(
     private val preferences: Preferences,
     private val editor: SharedPreferences.Editor,
-    private val currentTag: String
+    private val currentTag: String,
 ) : AbstractEncoder() {
 
     override val serializersModule: SerializersModule get() = preferences.serializersModule
