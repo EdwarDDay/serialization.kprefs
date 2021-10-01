@@ -36,7 +36,11 @@ class ReadmeExample {
 
     val sharedPreferences = TestablePreferences()
 
+    @Test
+    fun readmeTest() {
+
 ----- SUFFIX .*-readme-.*
+    }
 }
 -->
 
@@ -45,12 +49,7 @@ class ReadmeExample {
 ```kotlin
 @Serializable
 data class Person(val name: String, val age: Int, val children: List<Person> = emptyList())
-```
-<!--- INCLUDE
-    @Test
-    fun readmeTest() {
--->
-```kotlin
+
 val preferences = Preferences(sharedPreferences)
 
 val abby = Person("Abby", 12)
@@ -62,30 +61,22 @@ preferences.encode("person", charles)
 val person: Person = preferences.decode("person")
 assertEquals(charles, person)
 ```
-<!--- INCLUDE
-    }
--->
 > You can get the full code [here](library/src/test/java/example/example-readme-01.kt).
 
 ## Delegated Properties Example
-
-<!--- INCLUDE
-    fun someComputation() {
-        someFlag = true
-    }
--->
 
 ```kotlin
 val preferences = Preferences(sharedPreferences)
 
 var someFlag: Boolean by preferences.asProperty(default = false)
 
-@Test
-fun test() {
-    someComputation() // some computation where someFlag is set to true
-    if (!someFlag) { // reads value from SharedPreferences at key "someFlag"
-        fail()
-    }
+fun someComputation() {
+    someFlag = true
+}
+
+someComputation()
+if (!someFlag) { // reads value from SharedPreferences at key "someFlag"
+    fail()
 }
 ```
 
@@ -130,12 +121,7 @@ Note: additional information to the serialization plugin can be found in the
 ```kotlin
 @Serializable
 data class DataClass(val foo: Int, val bar: Int? = 42)
-```
-<!--- INCLUDE
-    @Test
-    fun readmeTest() {
--->
-```kotlin
+
 sharedPreferences.edit().putInt("test.foo", 21).apply()
 val preferences = Preferences(sharedPreferences)
 
@@ -143,9 +129,6 @@ val test: DataClass = preferences.decode("test")
 
 assertEquals(DataClass(21, null), test)
 ```
-<!--- INCLUDE
-    }
--->
 > You can get the full code [here](library/src/test/java/example/example-readme-03.kt).
 
 ## Building

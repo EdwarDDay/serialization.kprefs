@@ -27,11 +27,6 @@ import net.edwardday.serialization.preferences.*
 class PreferencesTest {
 
     val sharedPreferences = TestablePreferences()
-    @Serializable
-    data class Person(val name: String, val age: Int)
-
-    @Serializable
-    data class PrefTest(val u: Unit)
 
     @Test
     fun test() {
@@ -46,8 +41,9 @@ class PreferencesTest {
  * values.
  *
  * ```kotlin
- * // given the following class
- * // data class Person(val name: String, val age: Int)
+ * @Serializable
+ * data class Person(val name: String, val age: Int)
+ *
  * val preferences = Preferences(sharedPreferences)
  * val abby = Person("Abby", 20)
  *
@@ -58,7 +54,6 @@ class PreferencesTest {
  * ```
  */
 // <!--- KNIT example-preferences-01.kt -->
-@OptIn(ExperimentalSerializationApi::class)
 public sealed class Preferences(internal val conf: PreferenceConf) : SerialFormat {
 
     /**
@@ -176,8 +171,8 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
      * encoding a marker at the position.
      *
      * ```kotlin
-     * // given the following class
-     * // data class PrefTest(val u: Unit)
+     * @Serializable
+     * data class PrefTest(val u: Unit)
      *
      * val pref = Preferences(sharedPreferences) { encodeObjectStarts = true }
      * pref.encode(PrefTest.serializer(), "test", PrefTest(Unit))
@@ -210,7 +205,6 @@ public class PreferencesBuilder internal constructor(conf: PreferenceConf) {
      */
     public var serializersModule: SerializersModule = conf.serializersModule
 
-    @OptIn(ExperimentalSerializationApi::class)
     internal fun build(): PreferenceConf {
         if (stringSetDescriptorNames != previousStringSetDescriptorNames) {
             require(encodeStringSetNatively) {

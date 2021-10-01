@@ -13,19 +13,20 @@ class ReadmeExample {
 
     val sharedPreferences = TestablePreferences()
 
-    fun someComputation() {
-        someFlag = true
-    }
+    @Test
+    fun readmeTest() {
 
 val preferences = Preferences(sharedPreferences)
 
 var someFlag: Boolean by preferences.asProperty(default = false)
 
-@Test
-fun test() {
-    someComputation() // some computation where someFlag is set to true
-    if (!someFlag) { // reads value from SharedPreferences at key "someFlag"
-        fail()
-    }
+fun someComputation() {
+    someFlag = true
 }
+
+someComputation()
+if (!someFlag) { // reads value from SharedPreferences at key "someFlag"
+    fail()
+}
+    }
 }
