@@ -13,10 +13,11 @@ class ReadmeExample {
 
     val sharedPreferences = TestablePreferences()
 
-@Serializable
-data class DataClass(val foo: Int, val bar: Int? = 42)
     @Test
     fun readmeTest() {
+
+@Serializable
+data class DataClass(val foo: Int, val bar: Int? = 42)
 
 sharedPreferences.edit().putInt("test.foo", 21).apply()
 val preferences = Preferences(sharedPreferences)

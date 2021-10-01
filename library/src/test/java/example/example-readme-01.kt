@@ -13,10 +13,11 @@ class ReadmeExample {
 
     val sharedPreferences = TestablePreferences()
 
-@Serializable
-data class Person(val name: String, val age: Int, val children: List<Person> = emptyList())
     @Test
     fun readmeTest() {
+
+@Serializable
+data class Person(val name: String, val age: Int, val children: List<Person> = emptyList())
 
 val preferences = Preferences(sharedPreferences)
 
