@@ -78,7 +78,7 @@ tasks.withType<Detekt> {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.2.2")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.0")
 
     testImplementation(kotlin("test-junit"))
 }
