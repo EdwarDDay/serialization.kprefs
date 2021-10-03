@@ -4,3 +4,4 @@
 
 include(":library")
 include(":sample")
+include(":library-test")

@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         val person = Person(
             name = binding.nameInput.text.toString(),
             lastName = binding.lastNameInput.text.toString(),
-            pet = pet
+            pet = pet,
         )
         preferences.encode(Person.serializer(), "person", person)
     }
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 private data class Person(
     val name: String,
     val lastName: String,
-    val pet: Pet
+    val pet: Pet,
 )
 
 @Serializable

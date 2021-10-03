@@ -4,8 +4,14 @@
 
 package net.edwardday.serialization.preferences
 
+import android.content.Context
 import android.content.SharedPreferences
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
 import kotlinx.serialization.SerializationException
+import org.junit.runner.RunWith
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,6 +21,8 @@ import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
+@RunWith(AndroidJUnit4::class)
+@SmallTest
 class DecodePrimitivesTest {
 
     lateinit var sharedPreferences: SharedPreferences
@@ -22,8 +30,14 @@ class DecodePrimitivesTest {
 
     @BeforeTest
     fun setup() {
-        sharedPreferences = TestablePreferences()
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        sharedPreferences = context.getSharedPreferences("test_preferences", Context.MODE_PRIVATE)
         preferences = Preferences(sharedPreferences)
+    }
+
+    @AfterTest
+    fun tearDown() {
+        sharedPreferences.edit().clear().apply()
     }
 
     @Test

@@ -28,13 +28,25 @@ The documentation can be found on the projects
 * [Building](#building)
 
 <!--- INCLUDE .*-readme-.*
+import android.content.*
+import androidx.test.filters.SmallTest
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.test.*
 import kotlinx.serialization.*
 import net.edwardday.serialization.preferences.*
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
+@SmallTest
 class ReadmeExample {
 
-    val sharedPreferences = TestablePreferences()
+    val sharedPreferences = ApplicationProvider.getApplicationContext<Context>().getSharedPreferences("test_preferences", Context.MODE_PRIVATE)
+
+    @AfterTest
+    fun tearDown() {
+        sharedPreferences.edit().clear().apply()
+    }
 
     @Test
     fun readmeTest() {
@@ -61,7 +73,7 @@ preferences.encode("person", charles)
 val person: Person = preferences.decode("person")
 assertEquals(charles, person)
 ```
-> You can get the full code [here](library/src/test/java/example/example-readme-01.kt).
+> You can get the full code [here](library-test/src/androidTest/java/example/example-readme-01.kt).
 
 ## Delegated Properties Example
 
@@ -80,7 +92,7 @@ if (!someFlag) { // reads value from SharedPreferences at key "someFlag"
 }
 ```
 
-> You can get the full code [here](library/src/test/java/example/example-readme-02.kt).
+> You can get the full code [here](library-test/src/androidTest/java/example/example-readme-02.kt).
 
 ## Setup
 You need to apply the kotlinx.serialization plugin and add this library as dependency.
@@ -129,7 +141,7 @@ val test: DataClass = preferences.decode("test")
 
 assertEquals(DataClass(21, null), test)
 ```
-> You can get the full code [here](library/src/test/java/example/example-readme-03.kt).
+> You can get the full code [here](library-test/src/androidTest/java/example/example-readme-03.kt).
 
 ## Building
 To build the library just run `./gradlew library:build`. To publish it to you local maven repository use

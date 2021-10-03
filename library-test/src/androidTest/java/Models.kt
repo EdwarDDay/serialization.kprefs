@@ -23,7 +23,7 @@ data class SimplePrimitivesContainer(
     val f: Float,
     val g: Double,
     val h: Char,
-    val i: String
+    val i: String,
 )
 
 @Serializable
@@ -35,7 +35,7 @@ data class SimpleContainer(val bar: Int)
 @Serializable
 data class Complex(
     val simple: SimpleContainer,
-    val optional: DateWithOptional
+    val optional: DateWithOptional,
 )
 
 @Serializable
@@ -82,7 +82,7 @@ enum class Weekday {
 }
 
 @Serializable
-public data class StringSetWrapper(
+data class StringSetWrapper(
     val kotlinSet: Set<String>,
-    val customSet: List<String>
+    val customSet: List<String>,
 )

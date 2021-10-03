@@ -4,8 +4,14 @@
 
 package net.edwardday.serialization.preferences
 
+import android.content.Context
 import android.content.SharedPreferences
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
 import kotlinx.serialization.SerializationException
+import org.junit.runner.RunWith
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,7 +20,8 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-@Suppress("VarCouldBeVal")
+@RunWith(AndroidJUnit4::class)
+@SmallTest
 class DelegatesTest {
 
     lateinit var sharedPreferences: SharedPreferences
@@ -22,8 +29,14 @@ class DelegatesTest {
 
     @BeforeTest
     fun setup() {
-        sharedPreferences = TestablePreferences()
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        sharedPreferences = context.getSharedPreferences("test_preferences", Context.MODE_PRIVATE)
         preferences = Preferences(sharedPreferences)
+    }
+
+    @AfterTest
+    fun tearDown() {
+        sharedPreferences.edit().clear().apply()
     }
 
     @Test
@@ -199,7 +212,7 @@ class DelegatesTest {
 
         val data = Complex(
             simple = SimpleContainer(5),
-            optional = DateWithOptional("bar")
+            optional = DateWithOptional("bar"),
         )
         wrapper.test = data
         assertEquals(expected = data, actual = wrapper.test)
@@ -212,7 +225,7 @@ class DelegatesTest {
         val default = Complex(SimpleContainer(2), DateWithOptional("default"))
         val wrapper = object {
             var test: Complex by preferences.asProperty(
-                default = default
+                default = default,
             )
         }
 
