@@ -17,6 +17,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
@@ -48,6 +49,7 @@ class PreferenceConfigurationTest {
             assertSame(DoubleRepresentation.LONG_BITS, this.doubleRepresentation)
             assertTrue(this.encodeObjectStarts)
             assertTrue(this.encodeStringSetNatively)
+            assertFalse(this.synchronizeEncoding)
             assertEquals(
                 expected = listOf("kotlin.collections.HashSet", "kotlin.collections.LinkedHashSet"),
                 actual = this.stringSetDescriptorNames,

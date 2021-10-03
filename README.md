@@ -125,6 +125,7 @@ Note: additional information to the serialization plugin can be found in the
 * support for sealed classes
 * support for objects by encoding an object start with a Boolean
 * support for property delegated properties
+* support for synchronization (synchronize on every object read / write)
 
 ## What doesn't work
 `SharedPreferences` don't support nullability. So I decided to decode nonexistent values as `null`. That's why nullable
