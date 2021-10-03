@@ -2,11 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jmailen.gradle.kotlinter.tasks.LintTask
 
 plugins {
     id("com.android.library")
@@ -65,16 +63,6 @@ tasks.withType<KotlinCompile> {
             listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xexplicit-api=strict")
         }
     }
-}
-
-tasks.withType<LintTask> {
-    // ktlint should ignore knit generated files
-    exclude("**/example/**")
-}
-
-tasks.withType<Detekt> {
-    // detekt should ignore knit generated files
-    exclude("**/example/**")
 }
 
 dependencies {
