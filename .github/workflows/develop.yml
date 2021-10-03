@@ -46,6 +46,12 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
+      - name: set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 11
+
       - name: Gradle cache
         uses: actions/cache@v2.1.6
         with:
