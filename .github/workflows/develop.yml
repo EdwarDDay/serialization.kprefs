@@ -40,7 +40,7 @@ jobs:
     runs-on: macos-10.15
     strategy:
       matrix:
-        api-level: [ 14, 23, 30 ]
+        api-level: [ 15, 23, 30 ]
 
     steps:
       - name: checkout
