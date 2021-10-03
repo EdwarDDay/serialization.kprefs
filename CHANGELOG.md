@@ -7,6 +7,14 @@ SPDX-License-Identifier: Apache-2.0
 Change Log
 ==========
 
+Version 0.11.0 *(2021-10-03)*
+----------------------------
+
+Support for synchronization on read and write
+
+Upgrade kotlin to 1.5.31
+Upgrade kotlinx.serialization to 1.3.0
+
 Version 0.10.0 *(2021-05-24)*
 ----------------------------
 
