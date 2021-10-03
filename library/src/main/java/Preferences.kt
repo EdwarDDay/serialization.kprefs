@@ -17,6 +17,9 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
 import net.edwardday.serialization.preferences.encoding.PreferenceDecoder
 import net.edwardday.serialization.preferences.encoding.PreferenceEncoder
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 /* Knit setup
 <!--- INCLUDE .*-preferences-.*
@@ -133,11 +136,17 @@ public inline fun <reified T> Preferences.decode(tag: String): T = decode(serial
  * @param sharedPreferences the storage to encode data into and decode data from
  * @param builderAction builder to change the behavior of the [Preferences] format
  */
+@OptIn(ExperimentalContracts::class)
 @Suppress("FunctionName")
 public fun Preferences(
     sharedPreferences: SharedPreferences,
     builderAction: PreferencesBuilder.() -> Unit = {},
-): Preferences = generatePreferences(PreferenceConfiguration(sharedPreferences), builderAction)
+): Preferences {
+    contract {
+        callsInPlace(builderAction, InvocationKind.EXACTLY_ONCE)
+    }
+    return generatePreferences(PreferenceConfiguration(sharedPreferences), builderAction)
+}
 
 /**
  * Creates an instance of [Preferences] using the configuration of the previous created
@@ -146,11 +155,17 @@ public fun Preferences(
  * @param preferences format to copy the configuration from
  * @param builderAction builder to change the behavior of the [Preferences] format
  */
+@OptIn(ExperimentalContracts::class)
 @Suppress("FunctionName")
 public fun Preferences(
     preferences: Preferences,
     builderAction: PreferencesBuilder.() -> Unit = {},
-): Preferences = generatePreferences(preferences.configuration, builderAction)
+): Preferences {
+    contract {
+        callsInPlace(builderAction, InvocationKind.EXACTLY_ONCE)
+    }
+    return generatePreferences(preferences.configuration, builderAction)
+}
 
 private inline fun generatePreferences(
     preferenceConfiguration: PreferenceConfiguration,
