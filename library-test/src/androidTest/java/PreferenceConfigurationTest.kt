@@ -43,7 +43,7 @@ class PreferenceConfigurationTest {
 
     @Test
     fun checkInitialValues() {
-        var checked = false
+        val calledInPlace: Boolean
         Preferences(preferences) {
             assertSame(sharedPreferences, this.sharedPreferences)
             assertSame(DoubleRepresentation.LONG_BITS, this.doubleRepresentation)
@@ -55,9 +55,9 @@ class PreferenceConfigurationTest {
                 actual = this.stringSetDescriptorNames,
             )
             assertSame(EmptySerializersModule, this.serializersModule)
-            checked = true
+            calledInPlace = true
         }
-        assertTrue(checked)
+        assertTrue(calledInPlace)
     }
 
     @Test
