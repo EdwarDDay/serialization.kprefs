@@ -86,11 +86,13 @@ public sealed class Preferences(internal val configuration: PreferenceConfigurat
      * @param value value to encode
      */
     public fun <T> encode(serializer: SerializationStrategy<T>, tag: String, value: T) {
-        val editor = configuration.sharedPreferences.edit()
-        val encoder = PreferenceEncoder(this, editor, configuration.sharedPreferences)
-        encoder.pushInitialTag(tag)
-        encoder.encodeSerializableValue(serializer, value)
-        editor.apply()
+        maybeExecuteSynchronized {
+            val editor = configuration.sharedPreferences.edit()
+            val encoder = PreferenceEncoder(this, editor, configuration.sharedPreferences)
+            encoder.pushInitialTag(tag)
+            encoder.encodeSerializableValue(serializer, value)
+            editor.apply()
+        }
     }
 
     /**
@@ -100,10 +102,20 @@ public sealed class Preferences(internal val configuration: PreferenceConfigurat
      * @param deserializer strategy used to decode the data
      * @param tag key to decode data from
      */
-    public fun <T> decode(deserializer: DeserializationStrategy<T>, tag: String): T {
+    public fun <T> decode(deserializer: DeserializationStrategy<T>, tag: String): T = maybeExecuteSynchronized {
         val decoder = PreferenceDecoder(this, deserializer.descriptor)
         decoder.pushInitialTag(tag)
         return decoder.decodeSerializableValue(deserializer)
+    }
+
+    private inline fun <T> maybeExecuteSynchronized(block: () -> T): T {
+        return if (configuration.synchronizeEncoding) {
+            synchronized(configuration.sharedPreferences) {
+                block()
+            }
+        } else {
+            block()
+        }
     }
 }
 
@@ -207,6 +219,13 @@ public class PreferencesBuilder internal constructor(configuration: PreferenceCo
     public var encodeStringSetNatively: Boolean = configuration.encodeStringSetNatively
 
     /**
+     * Specifies the usage of synchronize blocks over [PreferencesBuilder.sharedPreferences] while serialization.
+     *
+     * `false` by default
+     */
+    public var synchronizeEncoding: Boolean = configuration.synchronizeEncoding
+
+    /**
      * Specifies the names of the [SerialDescriptor] which are used to detect Set<String> to encode these natively.
      *
      * `true` by default
@@ -230,6 +249,7 @@ public class PreferencesBuilder internal constructor(configuration: PreferenceCo
             doubleRepresentation = doubleRepresentation,
             encodeObjectStarts = encodeObjectStarts,
             encodeStringSetNatively = encodeStringSetNatively,
+            synchronizeEncoding = synchronizeEncoding,
             stringSetDescriptorNames = stringSetDescriptorNames,
         )
     }
@@ -267,6 +287,7 @@ internal data class PreferenceConfiguration(
     val doubleRepresentation: DoubleRepresentation = DoubleRepresentation.LONG_BITS,
     val encodeObjectStarts: Boolean = true,
     val encodeStringSetNatively: Boolean = true,
+    val synchronizeEncoding: Boolean = false,
     val stringSetDescriptorNames: List<String> =
         listOf("kotlin.collections.HashSet", "kotlin.collections.LinkedHashSet"),
 )
