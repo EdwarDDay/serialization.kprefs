@@ -13,7 +13,8 @@ SPDX-License-Identifier: Apache-2.0
             android:supportsRtl="true"
             android:icon="@android:drawable/ic_menu_preferences"
             android:theme="@style/Theme.AppCompat">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

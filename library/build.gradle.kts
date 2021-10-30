@@ -30,7 +30,7 @@ repositories {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = 11

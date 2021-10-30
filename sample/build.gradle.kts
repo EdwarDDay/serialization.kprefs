@@ -15,12 +15,12 @@ repositories {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "net.edwardday.serialization.preferences.testapplication"
         minSdk = 22
-        targetSdk = 30
+        targetSdk = libs.versions.compileSdk.get().toInt()
         versionCode = 1
         versionName = "0.0.1"
         multiDexEnabled = true
