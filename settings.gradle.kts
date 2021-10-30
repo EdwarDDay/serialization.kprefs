@@ -5,3 +5,5 @@
 include(":library")
 include(":sample")
 include(":library-test")
+
+enableFeaturePreview("VERSION_CATALOGS")
