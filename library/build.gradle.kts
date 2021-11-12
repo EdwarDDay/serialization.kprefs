@@ -66,7 +66,7 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.1")
 }
 
 tasks.withType<DokkaTask> {
