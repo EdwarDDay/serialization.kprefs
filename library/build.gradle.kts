@@ -42,7 +42,7 @@ android {
     }
 
     lint {
-        isWarningsAsErrors = true
+        warningsAsErrors = true
     }
 
     buildFeatures {
