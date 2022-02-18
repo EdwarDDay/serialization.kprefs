@@ -14,6 +14,8 @@ repositories {
     google()
 }
 
+val composeVersion = "1.1.0"
+
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
 
@@ -27,7 +29,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        compose = true
     }
 
     kotlinOptions {
@@ -45,10 +47,19 @@ android {
             isShrinkResources = true
         }
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = composeVersion
+    }
 }
 
 dependencies {
     implementation(project(":library"))
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
+
+    // Integration with activities
+    implementation("androidx.activity:activity-compose:1.4.0")
+    // Compose Material Design
+    implementation("androidx.compose.material:material:$composeVersion")
+    // Tooling support (Previews, etc.)
+    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
 }
