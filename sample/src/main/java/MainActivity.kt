@@ -6,15 +6,25 @@ package net.edwardday.serialization.preferences.testapplication
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.spacedBy
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.nullable
 import net.edwardday.serialization.preferences.Preferences
-import net.edwardday.serialization.preferences.testapplication.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     private val preferences: Preferences by lazy {
         Preferences(getSharedPreferences("application data", Context.MODE_PRIVATE))
@@ -23,83 +33,136 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        binding.lastNameInput.addTextChangedListener {
-            updateViewState(binding)
-        }
-
-        binding.nameInput.addTextChangedListener {
-            updateViewState(binding)
-        }
-
-        binding.petInputCat.setOnClickListener {
-            updateViewState(binding)
-        }
-
-        binding.petInputDog.setOnClickListener {
-            updateViewState(binding)
-        }
-
-        binding.petInputOther.setOnClickListener {
-            updateViewState(binding)
-        }
-
-        binding.petInputOtherContent.addTextChangedListener {
-            updateViewState(binding)
-        }
-
-        binding.save.setOnClickListener {
-            saveState(binding)
-        }
-
-        binding.load.setOnClickListener {
-            loadState(binding)
+        setContent {
+            MaterialTheme {
+                var person by remember { mutableStateOf(Person("", "", Pet.Cat)) }
+                MainScreen(
+                    person = person,
+                    onValueChange = { person = it },
+                    onLoad = {
+                        preferences.decode(Person.serializer().nullable, "person")
+                            ?.also { person = it }
+                    },
+                    onSave = { preferences.encode(Person.serializer(), "person", person) },
+                )
+            }
         }
     }
+}
 
-    private fun updateViewState(binding: ActivityMainBinding) {
-        val saveButtonEnabled = binding.lastNameInput.text.isNotBlank() &&
-            binding.nameInput.text.isNotBlank() &&
-            (binding.petInputCat.isChecked ||
-                binding.petInputDog.isChecked ||
-                binding.petInputOtherContent.text.isNotBlank())
-        binding.save.isEnabled = saveButtonEnabled
-
-        val petInputOtherContentVisible = binding.petInputOther.isChecked
-        binding.petInputOtherContent.visibility =
-            if (petInputOtherContentVisible) View.VISIBLE else View.GONE
-    }
-
-    private fun saveState(binding: ActivityMainBinding) {
-        val pet = when {
-            binding.petInputCat.isChecked -> Pet.Cat
-            binding.petInputDog.isChecked -> Pet.Dog
-            else -> Pet.Other(binding.petInputOtherContent.text.toString())
-        }
-        val person = Person(
-            name = binding.nameInput.text.toString(),
-            lastName = binding.lastNameInput.text.toString(),
-            pet = pet,
+@Preview
+@Composable
+fun MeinScreenPreview() {
+    MaterialTheme {
+        MainScreen(
+            person = Person("John", "Doe", Pet.Dog),
+            onValueChange = { },
+            onLoad = { },
+            onSave = { },
         )
-        preferences.encode(Person.serializer(), "person", person)
     }
+}
 
-    private fun loadState(binding: ActivityMainBinding) {
-        val person = preferences.decode(Person.serializer().nullable, "person") ?: return
-        binding.nameInput.setText(person.name)
-        binding.lastNameInput.setText(person.lastName)
-        when (person.pet) {
-            Pet.Cat -> binding.petInputCat.isChecked = true
-            Pet.Dog -> binding.petInputDog.isChecked = true
-            is Pet.Other -> {
-                binding.petInputOther.isChecked = true
-                binding.petInputOtherContent.setText(person.pet.kind)
+@Composable
+private fun MainScreen(
+    person: Person,
+    onValueChange: (Person) -> Unit,
+    onLoad: () -> Unit,
+    onSave: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .background(color = MaterialTheme.colors.background)
+            .padding(8.dp),
+        verticalArrangement = spacedBy(16.dp),
+    ) {
+        TextField(
+            value = person.lastName,
+            onValueChange = { onValueChange(person.copy(lastName = it)) },
+            label = { Text(text = "last name") },
+            modifier = Modifier.defaultMinSize(minWidth = 100.dp),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            singleLine = true,
+        )
+        TextField(
+            value = person.name,
+            onValueChange = { onValueChange(person.copy(name = it)) },
+            label = { Text(text = "name") },
+            modifier = Modifier.defaultMinSize(minWidth = 100.dp),
+            keyboardOptions = KeyboardOptions(imeAction = if (person.pet is Pet.Other) ImeAction.Next else ImeAction.Done),
+            singleLine = true,
+        )
+        Text(text = "pet", color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium))
+        Column(
+            modifier = Modifier
+                .border(width = 2.dp, color = MaterialTheme.colors.primary.copy(alpha = 0.2f))
+                .padding(end = 8.dp),
+        ) {
+            val onCatClick: () -> Unit = { onValueChange(person.copy(pet = Pet.Cat)) }
+            Row(
+                modifier = Modifier.clickable(onClick = onCatClick),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(
+                    selected = person.pet == Pet.Cat,
+                    onClick = onCatClick,
+                )
+                Text(text = "Cat")
+            }
+            val onDogClick: () -> Unit = { onValueChange(person.copy(pet = Pet.Dog)) }
+            Row(
+                modifier = Modifier.clickable(onClick = onDogClick),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(
+                    selected = person.pet == Pet.Dog,
+                    onClick = onDogClick,
+                )
+                Text(text = "Dog")
+            }
+
+            val onOtherClick: () -> Unit =
+                { if (person.pet !is Pet.Other) onValueChange(person.copy(pet = Pet.Other(""))) }
+            Row(
+                modifier = Modifier.clickable(onClick = onOtherClick),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(
+                    selected = person.pet is Pet.Other,
+                    onClick = onOtherClick,
+                )
+                Text(text = "Other")
+            }
+            AnimatedVisibility(visible = person.pet is Pet.Other) {
+                TextField(
+                    value = (person.pet as? Pet.Other)?.kind ?: "",
+                    onValueChange = { onValueChange(person.copy(pet = Pet.Other(it))) },
+                    label = { Text(text = "pet") },
+                    modifier = Modifier.defaultMinSize(minWidth = 100.dp),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    singleLine = true,
+                )
             }
         }
 
-        updateViewState(binding)
+        val personIsValid = person.name.isNotBlank() &&
+                person.lastName.isNotBlank() &&
+                (person.pet !is Pet.Other || person.pet.kind.isNotBlank())
+
+        Button(
+            onClick = onSave,
+            enabled = personIsValid,
+        ) {
+            Text(text = "save")
+        }
+
+        Button(
+            onClick = onLoad,
+        ) {
+            Text(text = "load")
+        }
     }
 }
 
