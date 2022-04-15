@@ -11,7 +11,7 @@ plugins {
     kotlin("plugin.serialization") version "$kotlinVersion" apply false
 
     id("org.jmailen.kotlinter") version "3.9.0"
-    id("io.gitlab.arturbosch.detekt") version "1.19.0" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.20.0" apply false
 
     id("org.jetbrains.dokka") version "1.6.10" apply false
 
