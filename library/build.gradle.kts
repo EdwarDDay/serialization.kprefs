@@ -75,9 +75,7 @@ tasks.withType<DokkaTask> {
         configureEach {
             reportUndocumented.set(true)
             noAndroidSdkLink.set(false)
-            externalDocumentationLink(
-                "https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-core/kotlinx-serialization-core/"
-            )
+            externalDocumentationLink("https://kotlin.github.io/kotlinx.serialization/")
         }
     }
 }
