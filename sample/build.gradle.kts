@@ -14,7 +14,7 @@ repositories {
     google()
 }
 
-val composeVersion = "1.1.1"
+val composeVersion = "1.2.0-alpha08"
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -34,6 +34,10 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+        )
     }
 
     lint {

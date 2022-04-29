@@ -4,7 +4,7 @@
 
 plugins {
     base // needed for knit
-    val kotlinVersion = "1.6.10"
+    val kotlinVersion = "1.6.21"
     @Suppress("RemoveSingleExpressionStringTemplate") // needed for dependabot
     kotlin("android") version "$kotlinVersion" apply false
     @Suppress("RemoveSingleExpressionStringTemplate") // needed for dependabot

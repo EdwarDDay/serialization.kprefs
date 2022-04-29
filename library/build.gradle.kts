@@ -52,16 +52,19 @@ android {
     }
 }
 
+kotlin {
+    sourceSets.all {
+        languageSettings {
+            optIn("kotlin.RequiresOptIn")
+        }
+    }
+}
+
 tasks.withType<KotlinCompile> {
-    val isTestTask = name.contains("test", ignoreCase = true)
     kotlinOptions {
         // workaround, because explicit api mode is not yet supported for android projects
         // https://youtrack.jetbrains.com/issue/KT-37652
-        freeCompilerArgs = if (isTestTask) {
-            listOf("-Xopt-in=kotlin.RequiresOptIn")
-        } else {
-            listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xexplicit-api=strict")
-        }
+        freeCompilerArgs = listOf("-Xexplicit-api=strict")
     }
 }
 

@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import io.gitlab.arturbosch.detekt.Detekt
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
 plugins {
@@ -45,9 +44,11 @@ android {
     }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
+kotlin {
+    sourceSets.all {
+        languageSettings {
+            optIn("kotlin.RequiresOptIn")
+        }
     }
 }
 
