@@ -68,5 +68,5 @@ dependencies {
     androidTestImplementation(kotlin("test-junit"))
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
 }
