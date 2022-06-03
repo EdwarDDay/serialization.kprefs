@@ -14,7 +14,7 @@ repositories {
     google()
 }
 
-val composeVersion = "1.2.0-beta02"
+val composeVersion = "1.2.0-beta03"
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
