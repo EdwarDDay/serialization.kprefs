@@ -61,7 +61,7 @@ dependencies {
     implementation(project(":library"))
 
     // Integration with activities
-    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.activity:activity-compose:1.5.0")
     // Compose Material Design
     implementation("androidx.compose.material:material:$composeVersion")
     // Tooling support (Previews, etc.)
