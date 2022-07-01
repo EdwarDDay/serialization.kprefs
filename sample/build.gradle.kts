@@ -14,7 +14,7 @@ repositories {
     google()
 }
 
-val composeVersion = "1.2.0-rc02"
+val composeVersion = "1.2.0"
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -62,8 +62,9 @@ dependencies {
 
     // Integration with activities
     implementation("androidx.activity:activity-compose:1.5.0")
+    val composeLibrariesVersion = "1.2.0-rc03"
     // Compose Material Design
-    implementation("androidx.compose.material:material:$composeVersion")
+    implementation("androidx.compose.material:material:$composeLibrariesVersion")
     // Tooling support (Previews, etc.)
-    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation("androidx.compose.ui:ui-tooling:$composeLibrariesVersion")
 }
