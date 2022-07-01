@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview
 @Composable
-fun MeinScreenPreview() {
+fun MainScreenPreview() {
     MaterialTheme {
         MainScreen(
             person = Person("John", "Doe", Pet.Dog),
@@ -91,7 +91,9 @@ private fun MainScreen(
             onValueChange = { onValueChange(person.copy(name = it)) },
             label = { Text(text = "name") },
             modifier = Modifier.defaultMinSize(minWidth = 100.dp),
-            keyboardOptions = KeyboardOptions(imeAction = if (person.pet is Pet.Other) ImeAction.Next else ImeAction.Done),
+            keyboardOptions = KeyboardOptions(
+                imeAction = if (person.pet is Pet.Other) ImeAction.Next else ImeAction.Done
+            ),
             singleLine = true,
         )
         Text(text = "pet", color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium))
