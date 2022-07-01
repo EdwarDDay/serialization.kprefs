@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020-2021 Eduard Wolf
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # https://editorconfig.org
 root = true
 
@@ -15,9 +19,6 @@ indent_size = 4
 ij_kotlin_name_count_to_use_star_import = 9999
 ij_kotlin_allow_trailing_comma = true
 ij_kotlin_allow_trailing_comma_on_call_site = true
-
-[library-test/src/androidTest/java/example/*.kt]
-ij_formatter_enabled = false
 
 [*.properties]
 ij_properties_keep_blank_lines = true
