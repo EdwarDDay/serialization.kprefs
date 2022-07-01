@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// This file was automatically generated from Delegates.kt by Knit tool. Do not edit.
+// This file was automatically generated from AsProperty.kt by Knit tool. Do not edit.
 package net.edwardday.serialization.preferences.example.examplePropertyWithDefault01
 
 import android.content.*

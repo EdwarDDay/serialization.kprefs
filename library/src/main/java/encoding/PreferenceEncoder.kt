@@ -110,7 +110,7 @@ internal class PreferenceEncoder(
         } else {
             throw SerializationException(
                 "cannot encode empty structure ${descriptor.serialName} at $currentTag " +
-                    "(use encodeObjectStarts=true on Preferences creation to change this behavior)"
+                    "(use encodeObjectStarts=true on Preferences creation to change this behavior)",
             )
         }
     }
