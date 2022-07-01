@@ -13,7 +13,7 @@ plugins {
     id("org.jmailen.kotlinter") version "3.10.0"
     id("io.gitlab.arturbosch.detekt") version "1.20.0" apply false
 
-    id("org.jetbrains.dokka") version "1.6.21" apply false
+    id("org.jetbrains.dokka") version "1.7.0" apply false
 
     id("app.cash.licensee") version "1.4.1" apply false
 }
