@@ -9,12 +9,29 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.spacedBy
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.RadioButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
@@ -92,7 +109,7 @@ private fun MainScreen(
             label = { Text(text = "name") },
             modifier = Modifier.defaultMinSize(minWidth = 100.dp),
             keyboardOptions = KeyboardOptions(
-                imeAction = if (person.pet is Pet.Other) ImeAction.Next else ImeAction.Done
+                imeAction = if (person.pet is Pet.Other) ImeAction.Next else ImeAction.Done,
             ),
             singleLine = true,
         )
@@ -150,8 +167,8 @@ private fun MainScreen(
         }
 
         val personIsValid = person.name.isNotBlank() &&
-                person.lastName.isNotBlank() &&
-                (person.pet !is Pet.Other || person.pet.kind.isNotBlank())
+            person.lastName.isNotBlank() &&
+            (person.pet !is Pet.Other || person.pet.kind.isNotBlank())
 
         Button(
             onClick = onSave,

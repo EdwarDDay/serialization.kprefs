@@ -13,6 +13,7 @@ Version 0.11.0 *(2021-10-03)*
 Support for synchronization on read and write
 
 Upgrade kotlin to 1.5.31
+
 Upgrade kotlinx.serialization to 1.3.0
 
 Version 0.10.0 *(2021-05-24)*
@@ -24,12 +25,14 @@ Version 0.9.0 *(2021-05-07)*
 ----------------------------
 
 Upgrade kotlin to 1.5.0
+
 Upgrade kotlinx.serialization to 1.2.0
 
 Version 0.8.0 *(2021-04-03)*
 ----------------------------
 
 Upgrade kotlin to 1.4.32
+
 Upgrade kotlinx.serialization to 1.1.0
 
 Version 0.7.1 *(2021-02-15)*
@@ -41,6 +44,7 @@ Version 0.7.0 *(2020-11-23)*
 ----------------------------
 
 Upgrade kotlin and kotlinx.serialization
+
 Fix some docs
 
 Version 0.6.0 *(2020-11-14)*
@@ -62,6 +66,7 @@ Version 0.4.0 *(2020-11-07)*
 ----------------------------
 
 Enum handling only via `name` serialization - removed Int decoding
+
 Support native Set<String> serialization
 
 BREAKING:
@@ -71,6 +76,7 @@ Version 0.3.0 *(2020-11-03)*
 ----------------------------
 
 Support delegated properties
+
 Do not use SharedPreferences default value for primitives
 
 Version 0.2.0 *(2020-10-26)*
