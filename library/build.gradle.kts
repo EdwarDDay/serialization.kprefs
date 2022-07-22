@@ -68,6 +68,10 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+detekt {
+    config = files("detekt-config.yml")
+}
+
 dependencies {
     api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.3")
 }
