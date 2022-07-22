@@ -14,8 +14,6 @@ repositories {
     google()
 }
 
-val composeVersion = "1.2.0"
-
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
 
@@ -49,7 +47,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = composeVersion
+        kotlinCompilerExtensionVersion = "1.3.0-beta01"
     }
 }
 
