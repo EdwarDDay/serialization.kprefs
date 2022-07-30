@@ -47,7 +47,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.0-beta01"
+        kotlinCompilerExtensionVersion = "1.3.0-rc01"
     }
 }
 
@@ -56,7 +56,7 @@ dependencies {
 
     // Integration with activities
     implementation("androidx.activity:activity-compose:1.5.1")
-    val composeLibrariesVersion = "1.2.0-rc03"
+    val composeLibrariesVersion = "1.2.0"
     // Compose Material Design
     implementation("androidx.compose.material:material:$composeLibrariesVersion")
     // Tooling support (Previews, etc.)
