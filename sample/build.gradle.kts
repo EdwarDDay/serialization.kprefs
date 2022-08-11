@@ -56,7 +56,7 @@ dependencies {
 
     // Integration with activities
     implementation("androidx.activity:activity-compose:1.5.1")
-    val composeLibrariesVersion = "1.2.0"
+    val composeLibrariesVersion = "1.2.1"
     // Compose Material Design
     implementation("androidx.compose.material:material:$composeLibrariesVersion")
     // Tooling support (Previews, etc.)
