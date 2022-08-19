@@ -73,7 +73,7 @@ detekt {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.3")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.4.0")
 }
 
 tasks.withType<DokkaTask> {
