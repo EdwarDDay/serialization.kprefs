@@ -9,7 +9,6 @@ import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.modules.EmptySerializersModule
 import org.junit.runner.RunWith
 import kotlin.test.AfterTest
