@@ -21,7 +21,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
-@OptIn(ExperimentalSerializationApi::class)
 @RunWith(AndroidJUnit4::class)
 @SmallTest
 class PreferenceConfigurationTest {
@@ -54,14 +53,14 @@ class PreferenceConfigurationTest {
                 expected = listOf("kotlin.collections.HashSet", "kotlin.collections.LinkedHashSet"),
                 actual = this.stringSetDescriptorNames,
             )
-            assertSame(EmptySerializersModule, this.serializersModule)
+            assertSame(EmptySerializersModule(), this.serializersModule)
             calledInPlace = true
         }
         assertTrue(calledInPlace)
     }
 
     @Test
-    fun throwOnChangingStringSetDesciptorNamesWithoutNativeSetEncoding() {
+    fun throwOnChangingStringSetDescriptorNamesWithoutNativeSetEncoding() {
         assertFailsWith<IllegalArgumentException> {
             Preferences(preferences) {
                 encodeStringSetNatively = false
