@@ -7,7 +7,6 @@ package net.edwardday.serialization.preferences
 import android.content.SharedPreferences
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.DeserializationStrategy
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialFormat
 import kotlinx.serialization.SerializationStrategy
@@ -295,10 +294,9 @@ public enum class DoubleRepresentation {
 
 private class PreferencesImpl(configuration: PreferenceConfiguration) : Preferences(configuration)
 
-@OptIn(ExperimentalSerializationApi::class)
 internal data class PreferenceConfiguration(
     val sharedPreferences: SharedPreferences,
-    val serializersModule: SerializersModule = EmptySerializersModule,
+    val serializersModule: SerializersModule = EmptySerializersModule(),
     val doubleRepresentation: DoubleRepresentation = DoubleRepresentation.LONG_BITS,
     val encodeObjectStarts: Boolean = true,
     val encodeStringSetNatively: Boolean = true,
