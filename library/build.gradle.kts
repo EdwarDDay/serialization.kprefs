@@ -57,6 +57,9 @@ kotlin {
     sourceSets.all {
         languageSettings {
             optIn("kotlin.RequiresOptIn")
+            if (name.contains("test", ignoreCase = true)) {
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
         }
     }
 }
@@ -65,7 +68,7 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         // workaround, because explicit api mode is not yet supported for android projects
         // https://youtrack.jetbrains.com/issue/KT-37652
-        if (!this@withType.name.contains("test", ignoreCase = true)) {
+        if (!name.contains("test", ignoreCase = true)) {
             freeCompilerArgs = listOf("-Xexplicit-api=strict")
         }
     }
@@ -85,7 +88,8 @@ dependencies {
 
     testImplementation(kotlin("test-junit"))
     testImplementation("org.robolectric:robolectric:4.8.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("io.kotest:kotest-property:5.4.2")
 }
 
 tasks.withType<DokkaTask> {

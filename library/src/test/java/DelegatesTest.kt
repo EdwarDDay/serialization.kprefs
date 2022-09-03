@@ -6,6 +6,20 @@ package net.edwardday.serialization.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import io.kotest.property.Arb
+import io.kotest.property.Exhaustive
+import io.kotest.property.arbitrary.char
+import io.kotest.property.arbitrary.double
+import io.kotest.property.arbitrary.float
+import io.kotest.property.arbitrary.forClass
+import io.kotest.property.arbitrary.int
+import io.kotest.property.arbitrary.long
+import io.kotest.property.arbitrary.short
+import io.kotest.property.arbitrary.string
+import io.kotest.property.checkAll
+import io.kotest.property.exhaustive.boolean
+import io.kotest.property.exhaustive.bytes
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -14,7 +28,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -36,147 +49,120 @@ class DelegatesTest {
     }
 
     @Test
-    fun booleanDelegate() {
-        val wrapper = object {
-            var test: Boolean by preferences.asProperty("boolean")
-        }
+    fun booleanDelegate() = runTest {
+        checkAll(Exhaustive.boolean()) { expected ->
+            val wrapper = object {
+                var test: Boolean by preferences.asProperty("boolean")
+            }
 
-        wrapper.test = false
-        assertFalse(wrapper.test)
-        assertFalse(sharedPreferences.getBoolean("boolean", true))
-        wrapper.test = true
-        assertTrue(wrapper.test)
-        assertTrue(sharedPreferences.getBoolean("boolean", false))
-        sharedPreferences.edit().putBoolean("test", true).apply()
-        assertTrue(wrapper.test)
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected, sharedPreferences.getBoolean("boolean", true))
+        }
     }
 
     @Test
-    fun byteDelegate() {
-        val wrapper = object {
-            var test: Byte by preferences.asProperty("byte")
-        }
+    fun byteDelegate() = runTest {
+        checkAll(Exhaustive.bytes()) { expected ->
+            val wrapper = object {
+                var test: Byte by preferences.asProperty("byte")
+            }
 
-        wrapper.test = 4
-        assertEquals(4, wrapper.test)
-        assertEquals(4, sharedPreferences.getInt("byte", 0))
-        wrapper.test = 10
-        assertEquals(10, wrapper.test)
-        assertEquals(10, sharedPreferences.getInt("byte", 0))
-        sharedPreferences.edit().putInt("byte", 3).apply()
-        assertEquals(3, wrapper.test)
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected.toInt(), sharedPreferences.getInt("byte", 0))
+        }
     }
 
     @Test
-    fun shortDelegate() {
-        val wrapper = object {
-            var test: Short by preferences.asProperty("short")
-        }
+    fun shortDelegate() = runTest {
+        checkAll(Arb.short()) { expected ->
+            val wrapper = object {
+                var test: Short by preferences.asProperty("short")
+            }
 
-        wrapper.test = 129
-        assertEquals(129, wrapper.test)
-        assertEquals(129, sharedPreferences.getInt("short", 0))
-        wrapper.test = -200
-        assertEquals(-200, wrapper.test)
-        assertEquals(-200, sharedPreferences.getInt("short", 0))
-        sharedPreferences.edit().putInt("short", 3).apply()
-        assertEquals(3, wrapper.test)
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected.toInt(), sharedPreferences.getInt("short", 0))
+        }
     }
 
     @Test
-    fun intDelegate() {
-        val wrapper = object {
-            var test: Int by preferences.asProperty("int")
-        }
+    fun intDelegate() = runTest {
+        checkAll(Arb.int()) { expected ->
+            val wrapper = object {
+                var test: Int by preferences.asProperty("int")
+            }
 
-        wrapper.test = 10000
-        assertEquals(10000, wrapper.test)
-        assertEquals(10000, sharedPreferences.getInt("int", 0))
-        wrapper.test = -123456
-        assertEquals(-123456, wrapper.test)
-        assertEquals(-123456, sharedPreferences.getInt("int", 0))
-        sharedPreferences.edit().putInt("int", 3).apply()
-        assertEquals(3, wrapper.test)
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected, sharedPreferences.getInt("int", 0))
+        }
     }
 
     @Test
-    fun longDelegate() {
-        val wrapper = object {
-            var test: Long by preferences.asProperty("long")
-        }
+    fun longDelegate() = runTest {
+        checkAll(Arb.long()) { expected ->
+            val wrapper = object {
+                var test: Long by preferences.asProperty("long")
+            }
 
-        wrapper.test = 10000000001
-        assertEquals(10000000001, wrapper.test)
-        assertEquals(10000000001, sharedPreferences.getLong("long", 0))
-        wrapper.test = -12345678910
-        assertEquals(-12345678910, wrapper.test)
-        assertEquals(-12345678910, sharedPreferences.getLong("long", 0))
-        sharedPreferences.edit().putLong("long", 3).apply()
-        assertEquals(3, wrapper.test)
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected, sharedPreferences.getLong("long", 0))
+        }
     }
 
     @Test
-    fun floatDelegate() {
-        val wrapper = object {
-            var test: Float by preferences.asProperty("float")
-        }
+    fun floatDelegate() = runTest {
+        checkAll(Arb.float()) { expected ->
+            val wrapper = object {
+                var test: Float by preferences.asProperty("float")
+            }
 
-        wrapper.test = 1.234f
-        assertEquals(1.234f, wrapper.test)
-        assertEquals(1.234f, sharedPreferences.getFloat("float", 0F))
-        wrapper.test = -2e10f
-        assertEquals(-2e10f, wrapper.test)
-        assertEquals(-2e10f, sharedPreferences.getFloat("float", 0F))
-        sharedPreferences.edit().putFloat("float", 3F).apply()
-        assertEquals(3F, wrapper.test)
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected, sharedPreferences.getFloat("float", 0F))
+        }
     }
 
     @Test
-    fun doubleDelegate() {
-        val wrapper = object {
-            var test: Double by preferences.asProperty("double")
-        }
+    fun doubleDelegate() = runTest {
+        checkAll(Arb.double()) { expected ->
+            val wrapper = object {
+                var test: Double by preferences.asProperty("double")
+            }
 
-        wrapper.test = 1.234
-        assertEquals(1.234, wrapper.test)
-        assertEquals(1.234.toBits(), sharedPreferences.getLong("double", 0))
-        wrapper.test = -2e10
-        assertEquals(-2e10, wrapper.test)
-        assertEquals((-2e10).toBits(), sharedPreferences.getLong("double", 0))
-        sharedPreferences.edit().putLong("double", 3.0.toBits()).apply()
-        assertEquals(3.0, wrapper.test)
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected.toBits(), sharedPreferences.getLong("double", 0))
+        }
     }
 
     @Test
-    fun charDelegate() {
-        val wrapper = object {
-            var test: Char by preferences.asProperty("char")
-        }
+    fun charDelegate() = runTest {
+        checkAll(Arb.char()) { expected ->
+            val wrapper = object {
+                var test: Char by preferences.asProperty("char")
+            }
 
-        wrapper.test = 'x'
-        assertEquals('x', wrapper.test)
-        assertEquals('x', sharedPreferences.getString("char", null)!!.first())
-        wrapper.test = '?'
-        assertEquals('?', wrapper.test)
-        assertEquals('?', sharedPreferences.getString("char", null)!!.first())
-        sharedPreferences.edit().putString("char", "3").apply()
-        assertEquals('3', wrapper.test)
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected.toString(), sharedPreferences.getString("char", null))
+        }
     }
 
     @Test
-    fun stringDelegate() {
-        val wrapper = object {
-            var test: String by preferences.asProperty("string")
-        }
+    fun stringDelegate() = runTest {
+        checkAll(Arb.string()) { expected ->
+            val wrapper = object {
+                var test: String by preferences.asProperty("string")
+            }
 
-        wrapper.test = "test text"
-        assertEquals("test text", wrapper.test)
-        assertEquals("test text", sharedPreferences.getString("string", null))
-        wrapper.test = "foobar"
-        assertEquals("foobar", wrapper.test)
-        assertEquals("foobar", sharedPreferences.getString("string", null))
-        sharedPreferences.edit().putString("string", "some string").apply()
-        assertEquals("some string", wrapper.test)
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected, sharedPreferences.getString("string", null))
+        }
     }
 
     @Test
@@ -201,32 +187,29 @@ class DelegatesTest {
     }
 
     @Test
-    fun classDelegate() {
-        val wrapper = object {
-            var test: Complex by preferences.asProperty()
-        }
+    fun classDelegate() = runTest {
+        checkAll(Arb.forClass<Complex>(Complex::class)) { expected ->
+            val wrapper = object {
+                var test: Complex by preferences.asProperty()
+            }
 
-        val data = Complex(
-            simple = SimpleContainer(5),
-            optional = DateWithOptional("bar"),
-        )
-        wrapper.test = data
-        assertEquals(expected = data, actual = wrapper.test)
-        assertEquals(5, sharedPreferences.getInt("test.simple.bar", 0))
-        assertEquals("bar", sharedPreferences.getString("test.optional.foo", null))
+            wrapper.test = expected
+            assertEquals(expected, wrapper.test)
+            assertEquals(expected.simple.bar, sharedPreferences.getInt("test.simple.bar", 0))
+            assertEquals(expected.optional.foo, sharedPreferences.getString("test.optional.foo", null))
+        }
     }
 
     @Test
-    fun classDelegateWithDefault() {
-        val default = Complex(SimpleContainer(2), DateWithOptional("default"))
-        val wrapper = object {
-            var test: Complex by preferences.asProperty(
-                default = default,
-            )
-        }
+    fun classDelegateWithDefault() = runTest {
+        checkAll(Arb.forClass<Complex>(Complex::class)) { expected ->
+            val wrapper = object {
+                var test: Complex by preferences.asProperty(default = expected)
+            }
 
-        assertEquals(expected = default, actual = wrapper.test)
-        assertTrue(sharedPreferences.all.isEmpty())
+            assertEquals(expected = expected, actual = wrapper.test)
+            assertTrue(sharedPreferences.all.isEmpty())
+        }
     }
 
     @Test

@@ -6,6 +6,20 @@ package net.edwardday.serialization.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import io.kotest.property.Arb
+import io.kotest.property.Exhaustive
+import io.kotest.property.arbitrary.char
+import io.kotest.property.arbitrary.double
+import io.kotest.property.arbitrary.float
+import io.kotest.property.arbitrary.int
+import io.kotest.property.arbitrary.long
+import io.kotest.property.arbitrary.short
+import io.kotest.property.arbitrary.string
+import io.kotest.property.checkAll
+import io.kotest.property.exhaustive.boolean
+import io.kotest.property.exhaustive.bytes
+import io.kotest.property.exhaustive.enum
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -14,10 +28,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertSame
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
 class DecodePrimitivesTest {
@@ -37,12 +49,14 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getBoolean() {
-        sharedPreferences.edit().putBoolean("useFancyFeature", false).apply()
+    fun getBoolean() = runTest {
+        checkAll(Exhaustive.boolean()) { expected ->
+            sharedPreferences.edit().putBoolean("useFancyFeature", expected).apply()
 
-        val actual = preferences.decode<Boolean>("useFancyFeature")
+            val actual = preferences.decode<Boolean>("useFancyFeature")
 
-        assertFalse(actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
@@ -60,12 +74,14 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getByte() {
-        sharedPreferences.edit().putInt("windowFlags", 0x5B).apply()
+    fun getByte() = runTest {
+        checkAll(Exhaustive.bytes()) { expected ->
+            sharedPreferences.edit().putInt("windowFlags", expected.toInt()).apply()
 
-        val actual = preferences.decode<Byte>("windowFlags")
+            val actual = preferences.decode<Byte>("windowFlags")
 
-        assertEquals(0x5B, actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
@@ -76,12 +92,14 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getShort() {
-        sharedPreferences.edit().putInt("age", 255).apply()
+    fun getShort() = runTest {
+        checkAll(Arb.short()) { expected ->
+            sharedPreferences.edit().putInt("age", expected.toInt()).apply()
 
-        val actual = preferences.decode<Short>("age")
+            val actual = preferences.decode<Short>("age")
 
-        assertEquals(255, actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
@@ -92,12 +110,14 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getInt() {
-        sharedPreferences.edit().putInt("amount", 7654321).apply()
+    fun getInt() = runTest {
+        checkAll(Arb.int()) { expected ->
+            sharedPreferences.edit().putInt("amount", expected).apply()
 
-        val actual = preferences.decode<Int>("amount")
+            val actual = preferences.decode<Int>("amount")
 
-        assertEquals(7654321, actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
@@ -108,12 +128,14 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getLong() {
-        sharedPreferences.edit().putLong("count", 10987654321).apply()
+    fun getLong() = runTest {
+        checkAll(Arb.long()) { expected ->
+            sharedPreferences.edit().putLong("count", expected).apply()
 
-        val actual = preferences.decode<Long>("count")
+            val actual = preferences.decode<Long>("count")
 
-        assertEquals(10987654321, actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
@@ -124,12 +146,14 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getFloat() {
-        sharedPreferences.edit().putFloat("wallet", 123.45f).apply()
+    fun getFloat() = runTest {
+        checkAll(Arb.float()) { expected ->
+            sharedPreferences.edit().putFloat("wallet", expected).apply()
 
-        val actual = preferences.decode<Float>("wallet")
+            val actual = preferences.decode<Float>("wallet")
 
-        assertEquals(123.45f, actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
@@ -140,40 +164,45 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getDoubleAsFloat() {
-        preferences = Preferences(sharedPreferences) {
-            doubleRepresentation = DoubleRepresentation.FLOAT
+    fun getDoubleAsFloat() = runTest {
+        checkAll(Arb.double()) { expected ->
+            preferences = Preferences(sharedPreferences) {
+                doubleRepresentation = DoubleRepresentation.FLOAT
+            }
+            sharedPreferences.edit().putFloat("a_value", expected.toFloat()).apply()
+
+            val actual = preferences.decode<Double>("a_value")
+
+            assertEquals(expected.toFloat().toDouble(), actual)
         }
-        sharedPreferences.edit().putFloat("a_value", 123.45f).apply()
-
-        val actual = preferences.decode<Double>("a_value")
-
-        assertTrue(actual > 123.449)
-        assertTrue(actual < 123.451)
     }
 
     @Test
-    fun getDoubleAsLongBits() {
-        preferences = Preferences(sharedPreferences) {
-            doubleRepresentation = DoubleRepresentation.LONG_BITS
-        }
-        sharedPreferences.edit()
-            .putLong("a_value", 123.45.toBits()).apply()
-        val actual = preferences.decode<Double>("a_value")
+    fun getDoubleAsLongBits() = runTest {
+        checkAll(Arb.double()) { expected ->
+            preferences = Preferences(sharedPreferences) {
+                doubleRepresentation = DoubleRepresentation.LONG_BITS
+            }
+            sharedPreferences.edit()
+                .putLong("a_value", expected.toBits()).apply()
+            val actual = preferences.decode<Double>("a_value")
 
-        assertEquals(123.45, actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
-    fun getDoubleAsString() {
-        preferences = Preferences(sharedPreferences) {
-            doubleRepresentation = DoubleRepresentation.STRING
+    fun getDoubleAsString() = runTest {
+        checkAll(Arb.double()) { expected ->
+            preferences = Preferences(sharedPreferences) {
+                doubleRepresentation = DoubleRepresentation.STRING
+            }
+            sharedPreferences.edit().putString("a_value", expected.toString()).apply()
+
+            val actual = preferences.decode<Double>("a_value")
+
+            assertEquals(expected, actual)
         }
-        sharedPreferences.edit().putString("a_value", "123.45").apply()
-
-        val actual = preferences.decode<Double>("a_value")
-
-        assertEquals(123.45, actual)
     }
 
     @Test
@@ -184,12 +213,14 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getChar() {
-        sharedPreferences.edit().putString("letter", "$").apply()
+    fun getChar() = runTest {
+        checkAll(Arb.char()) { expected ->
+            sharedPreferences.edit().putString("letter", expected.toString()).apply()
 
-        val actual = preferences.decode<Char>("letter")
+            val actual = preferences.decode<Char>("letter")
 
-        assertEquals('$', actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
@@ -200,12 +231,14 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getString() {
-        sharedPreferences.edit().putString("theText", "loading a string").apply()
+    fun getString() = runTest {
+        checkAll(Arb.string()) { expected ->
+            sharedPreferences.edit().putString("theText", expected).apply()
 
-        val actual = preferences.decode<String>("theText")
+            val actual = preferences.decode<String>("theText")
 
-        assertEquals("loading a string", actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
@@ -216,21 +249,14 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun decodeEnumMonday() {
-        sharedPreferences.edit().putString("enum", "MONDAY").apply()
+    fun decodeEnum() = runTest {
+        checkAll(Exhaustive.enum<Weekday>()) { expected ->
+            sharedPreferences.edit().putString("enum", expected.name).apply()
 
-        val actual = preferences.decode<Weekday>("enum")
+            val actual = preferences.decode<Weekday>("enum")
 
-        assertSame(Weekday.MONDAY, actual)
-    }
-
-    @Test
-    fun decodeEnumSunday() {
-        sharedPreferences.edit().putString("enum", "SUNDAY").apply()
-
-        val actual = preferences.decode<Weekday>("enum")
-
-        assertSame(Weekday.SUNDAY, actual)
+            assertSame(expected, actual)
+        }
     }
 
     @Test

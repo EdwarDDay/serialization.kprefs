@@ -6,6 +6,22 @@ package net.edwardday.serialization.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.arbitrary
+import io.kotest.property.arbitrary.boolean
+import io.kotest.property.arbitrary.byte
+import io.kotest.property.arbitrary.char
+import io.kotest.property.arbitrary.enum
+import io.kotest.property.arbitrary.filter
+import io.kotest.property.arbitrary.forClass
+import io.kotest.property.arbitrary.int
+import io.kotest.property.arbitrary.list
+import io.kotest.property.arbitrary.map
+import io.kotest.property.arbitrary.orNull
+import io.kotest.property.arbitrary.set
+import io.kotest.property.arbitrary.string
+import io.kotest.property.checkAll
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -14,7 +30,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -36,101 +51,87 @@ class EncodingTest {
     }
 
     @Test
-    fun testPrimitivesContainer() {
-        val data = SimplePrimitivesContainer(
-            a = true, b = 4, c = 8, d = -12, e = -1234, f = 12.6f, g = 12e3, h = '?', i = "foobar",
-        )
-        preferences.encode("container", data)
-        val actual = preferences.decode<SimplePrimitivesContainer>("container")
+    fun testPrimitivesContainer() = runTest {
+        checkAll(Arb.forClass<SimplePrimitivesContainer>(SimplePrimitivesContainer::class)) { expected ->
+            preferences.encode("container", expected)
+            val actual = preferences.decode<SimplePrimitivesContainer>("container")
 
-        assertEquals(data, actual)
-        assertEquals(
-            expected = setOf(
-                "container.a",
-                "container.b",
-                "container.c",
-                "container.d",
-                "container.e",
-                "container.f",
-                "container.g",
-                "container.h",
-                "container.i",
-            ),
-            actual = sharedPreferences.all.keys,
-        )
-        assertTrue(sharedPreferences.getBoolean("container.a", false))
-        assertEquals(4, sharedPreferences.getInt("container.b", 0))
-        assertEquals(8, sharedPreferences.getInt("container.c", 0))
-        assertEquals(-12, sharedPreferences.getInt("container.d", 0))
-        assertEquals(-1234, sharedPreferences.getLong("container.e", 0))
-        assertEquals(12.6f, sharedPreferences.getFloat("container.f", 0f))
-        assertEquals(12e3, Double.fromBits(sharedPreferences.getLong("container.g", 0)))
-        assertEquals("?", sharedPreferences.getString("container.h", null))
-        assertEquals("foobar", sharedPreferences.getString("container.i", null))
+            assertEquals(expected, actual)
+            assertEquals(
+                expected = setOf(
+                    "container.a",
+                    "container.b",
+                    "container.c",
+                    "container.d",
+                    "container.e",
+                    "container.f",
+                    "container.g",
+                    "container.h",
+                    "container.i",
+                ),
+                actual = sharedPreferences.all.keys,
+            )
+            assertEquals(expected.a, sharedPreferences.getBoolean("container.a", !expected.a))
+            assertEquals(expected.b.toInt(), sharedPreferences.getInt("container.b", 0))
+            assertEquals(expected.c.toInt(), sharedPreferences.getInt("container.c", 0))
+            assertEquals(expected.d, sharedPreferences.getInt("container.d", 0))
+            assertEquals(expected.e, sharedPreferences.getLong("container.e", 0))
+            assertEquals(expected.f, sharedPreferences.getFloat("container.f", 0f))
+            assertEquals(expected.g, Double.fromBits(sharedPreferences.getLong("container.g", 0)))
+            assertEquals(expected.h.toString(), sharedPreferences.getString("container.h", null))
+            assertEquals(expected.i, sharedPreferences.getString("container.i", null))
+        }
     }
 
     @Test
-    fun testComplexData() {
-        val data = Complex(simple = SimpleContainer(bar = 9), optional = DateWithOptional(foo = "hello"))
-        preferences.encode("complex", data)
-        val actual = preferences.decode<Complex>("complex")
+    fun testComplexData() = runTest {
+        checkAll(Arb.forClass<Complex>(Complex::class)) { expected ->
+            preferences.encode("complex", expected)
+            val actual = preferences.decode<Complex>("complex")
 
-        assertEquals(data, actual)
-        assertEquals(
-            expected = setOf(
-                "complex.simple.bar",
-                "complex.optional.foo",
-            ),
-            actual = sharedPreferences.all.keys,
-        )
-        assertEquals(9, sharedPreferences.getInt("complex.simple.bar", 0))
-        assertEquals("hello", sharedPreferences.getString("complex.optional.foo", null))
+            assertEquals(expected, actual)
+            assertEquals(
+                expected = setOf(
+                    "complex.simple.bar",
+                    "complex.optional.foo",
+                ),
+                actual = sharedPreferences.all.keys,
+            )
+            assertEquals(expected.simple.bar, sharedPreferences.getInt("complex.simple.bar", 0))
+            assertEquals(expected.optional.foo, sharedPreferences.getString("complex.optional.foo", null))
+        }
     }
 
     @Test
-    fun testNonNullDecoding() {
-        val data = Complex(simple = SimpleContainer(bar = 42), optional = DateWithOptional(foo = "World"))
-        preferences.encode("complex", data)
-        val actual = preferences.decode<Complex?>("complex")
+    fun testNonNullDecoding() = runTest {
+        checkAll(Arb.forClass<Complex>(Complex::class).orNull(0.01)) { expected ->
+            preferences.encode("complex", expected)
+            val actual = preferences.decode<Complex?>("complex")
 
-        assertEquals(data, actual)
-        assertEquals(
-            expected = setOf(
-                "complex.simple.bar",
-                "complex.optional.foo",
-            ),
-            actual = sharedPreferences.all.keys,
-        )
-        assertEquals(42, sharedPreferences.getInt("complex.simple.bar", 0))
-        assertEquals("World", sharedPreferences.getString("complex.optional.foo", null))
+            assertEquals(expected, actual)
+            if (expected == null) {
+                assertTrue(sharedPreferences.all.isEmpty())
+            } else {
+                assertEquals(setOf("complex.simple.bar", "complex.optional.foo"), sharedPreferences.all.keys)
+                assertEquals(expected.simple.bar, sharedPreferences.getInt("complex.simple.bar", 0))
+                assertEquals(expected.optional.foo, sharedPreferences.getString("complex.optional.foo", null))
+            }
+        }
     }
 
     @Test
-    fun testNullDecoding() {
-        preferences.encode<Complex?>("complex", null)
-        val actual = preferences.decode<Complex?>("complex")
+    fun testList() = runTest {
+        checkAll(Arb.list(Arb.forClass<SimpleContainer>(SimpleContainer::class), range = 1..100)) { expected ->
+            preferences.encode("list", expected)
+            val actual = preferences.decode<List<SimpleContainer>>("list")
 
-        assertNull(actual)
-        assertTrue(sharedPreferences.all.isEmpty())
-    }
-
-    @Test
-    fun testList() {
-        val data = listOf(SimpleContainer(bar = 1), SimpleContainer(bar = 2))
-
-        preferences.encode("list", data)
-        val actual = preferences.decode<List<SimpleContainer>>("list")
-
-        assertEquals(data, actual)
-        assertEquals(
-            expected = setOf(
-                "list.0.bar",
-                "list.1.bar",
-            ),
-            actual = sharedPreferences.all.keys,
-        )
-        assertEquals(1, sharedPreferences.getInt("list.0.bar", 0))
-        assertEquals(2, sharedPreferences.getInt("list.1.bar", 0))
+            assertEquals(expected, actual)
+            val expectedKeys = expected.indices.mapTo(mutableSetOf()) { "list.$it.bar" }
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+            expected.forEachIndexed { index, value ->
+                assertEquals(value.bar, sharedPreferences.getInt("list.$index.bar", 0))
+            }
+        }
     }
 
     @Test
@@ -184,25 +185,25 @@ class EncodingTest {
     }
 
     @Test
-    fun testMap() {
-        val data = mapOf("a" to SimpleContainer(bar = 1), "b" to SimpleContainer(bar = 2))
-        preferences.encode("map", data)
-        val actual = preferences.decode<Map<String, SimpleContainer>>("map")
+    fun testMap() = runTest {
+        checkAll(Arb.map(Arb.string(), Arb.forClass<SimpleContainer>(SimpleContainer::class))) { expected ->
+            preferences.encode("map", expected)
+            val actual = preferences.decode<Map<String, SimpleContainer>>("map")
 
-        assertEquals(data, actual)
-        assertEquals(
-            expected = setOf(
-                "map.0",
-                "map.1.bar",
-                "map.2",
-                "map.3.bar",
-            ),
-            actual = sharedPreferences.all.keys,
-        )
-        assertEquals("a", sharedPreferences.getString("map.0", null))
-        assertEquals(1, sharedPreferences.getInt("map.1.bar", 0))
-        assertEquals("b", sharedPreferences.getString("map.2", null))
-        assertEquals(2, sharedPreferences.getInt("map.3.bar", 0))
+            assertEquals(expected, actual)
+            val expectedKeys = expected.entries.indices.flatMapTo(mutableSetOf()) { entryIndex ->
+                val keyIndex = entryIndex * 2
+                val valueIndex = keyIndex + 1
+                listOf("map.$keyIndex", "map.$valueIndex.bar")
+            }
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+            expected.entries.forEachIndexed { entryIndex, (key, value) ->
+                val keyIndex = entryIndex * 2
+                val valueIndex = keyIndex + 1
+                assertEquals(key, sharedPreferences.getString("map.$keyIndex", null))
+                assertEquals(value.bar, sharedPreferences.getInt("map.$valueIndex.bar", 0))
+            }
+        }
     }
 
     @Test
@@ -231,73 +232,89 @@ class EncodingTest {
     }
 
     @Test
-    fun testComplexMap() {
-        val data = mapOf(
-            SimpleContainer(bar = 1) to DateWithOptional(),
-            SimpleContainer(bar = 2) to DateWithOptional(foo = "bar"),
-        )
-        preferences.encode("map", data)
-        val actual = preferences.decode<Map<SimpleContainer, DateWithOptional>>("map")
-
-        assertEquals(data, actual)
-        assertEquals(
-            expected = setOf(
-                "map.0.bar",
-                "map.1.foo",
-                "map.2.bar",
-                "map.3.foo",
+    fun testComplexMap() = runTest {
+        checkAll(
+            Arb.map(
+                Arb.forClass<SimpleContainer>(SimpleContainer::class),
+                Arb.forClass<DateWithOptional>(DateWithOptional::class),
             ),
-            actual = sharedPreferences.all.keys,
-        )
-        assertEquals(1, sharedPreferences.getInt("map.0.bar", 0))
-        assertEquals("optional", sharedPreferences.getString("map.1.foo", null))
-        assertEquals(2, sharedPreferences.getInt("map.2.bar", 0))
-        assertEquals("bar", sharedPreferences.getString("map.3.foo", null))
+        ) { expected ->
+            preferences.encode("map", expected)
+            val actual = preferences.decode<Map<SimpleContainer, DateWithOptional>>("map")
+
+            assertEquals(expected, actual)
+            val expectedKeys = expected.entries.indices.flatMapTo(mutableSetOf()) { entryIndex ->
+                val keyIndex = entryIndex * 2
+                val valueIndex = keyIndex + 1
+                listOf("map.$keyIndex.bar", "map.$valueIndex.foo")
+            }
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+            expected.entries.forEachIndexed { entryIndex, (key, value) ->
+                val keyIndex = entryIndex * 2
+                val valueIndex = keyIndex + 1
+                assertEquals(key.bar, sharedPreferences.getInt("map.$keyIndex.bar", 0))
+                assertEquals(value.foo, sharedPreferences.getString("map.$valueIndex.foo", null))
+            }
+        }
     }
 
     @Test
-    fun testNestedMap() {
-        val data: Map<String, List<Map<String, Map<String, Int>>>> = mapOf(
-            "foo" to emptyList(),
-            "bar" to listOf(emptyMap()),
-            "foobar" to listOf(mapOf("foobarbar" to emptyMap())),
-            "foofoo" to listOf(
-                emptyMap(),
-                mapOf("foofoobar" to mapOf("1" to 1)),
-                mapOf("foofoobarbar" to mapOf("1" to 1, "2" to 2)),
+    fun testNestedMap() = runTest {
+        checkAll(
+            iterations = 100,
+            genA = Arb.map(
+                keyArb = Arb.string(),
+                valueArb = Arb.list(
+                    gen = Arb.map(
+                        keyArb = Arb.string(),
+                        valueArb = Arb.map(keyArb = Arb.string(), valueArb = Arb.int(), maxSize = 10),
+                        maxSize = 10,
+                    ),
+                    range = 1..10,
+                ),
+                maxSize = 10,
             ),
-        )
+        ) { expected ->
+            preferences.encode("nestedMap", expected)
+            val actual = preferences.decode<Map<String, List<Map<String, Map<String, Int>>>>>("nestedMap")
 
-        preferences.encode("nestedMap", data)
-        val actual = preferences.decode<Map<String, List<Map<String, Map<String, Int>>>>>("nestedMap")
+            assertEquals(expected, actual)
+        }
+    }
 
-        assertEquals(data, actual)
+    private fun Arb.Companion.sealedDate(): Arb<SealedDate> = arbitrary {
+        when (int(0..2).bind()) {
+            0 -> SealedDate.Sealed1(boolean().bind())
+            1 -> SealedDate.Sealed2(int().bind())
+            else -> SealedDate.Sealed3
+        }
     }
 
     @Test
-    fun testSealedClass() {
-        val data = listOf(SealedDate.Sealed1(false), SealedDate.Sealed2(2), SealedDate.Sealed3)
-        preferences.encode("sealed", data)
-        val actual = preferences.decode<List<SealedDate>>("sealed")
+    fun testSealedClass() = runTest {
+        checkAll(Arb.sealedDate()) { expected ->
+            preferences.encode("sealed", listOf(expected))
+            val actual = preferences.decode<List<SealedDate>>("sealed")
 
-        assertEquals(data, actual)
-        assertEquals(
-            expected = setOf(
-                "sealed.0.type",
-                "sealed.0.value.a",
-                "sealed.1.type",
-                "sealed.1.value.b",
-                "sealed.2.type",
-                "sealed.2.value",
-            ),
-            actual = sharedPreferences.all.keys,
-        )
-        assertEquals("sealed1", sharedPreferences.getString("sealed.0.type", null))
-        assertFalse(sharedPreferences.getBoolean("sealed.0.value.a", true))
-        assertEquals("sealed2", sharedPreferences.getString("sealed.1.type", null))
-        assertEquals(2, sharedPreferences.getInt("sealed.1.value.b", 0))
-        assertEquals("sealed3", sharedPreferences.getString("sealed.2.type", null))
-        assertTrue(sharedPreferences.getBoolean("sealed.2.value", false))
+            assertEquals(listOf(expected), actual)
+            when (expected) {
+                is SealedDate.Sealed1 -> {
+                    assertEquals(setOf("sealed.0.type", "sealed.0.value.a"), sharedPreferences.all.keys)
+                    assertEquals("sealed1", sharedPreferences.getString("sealed.0.type", null))
+                    assertEquals(expected.a, sharedPreferences.getBoolean("sealed.0.value.a", !expected.a))
+                }
+                is SealedDate.Sealed2 -> {
+                    assertEquals(setOf("sealed.0.type", "sealed.0.value.b"), sharedPreferences.all.keys)
+                    assertEquals("sealed2", sharedPreferences.getString("sealed.0.type", null))
+                    assertEquals(expected.b, sharedPreferences.getInt("sealed.0.value.b", 0))
+                }
+                SealedDate.Sealed3 -> {
+                    assertEquals(setOf("sealed.0.type", "sealed.0.value"), sharedPreferences.all.keys)
+                    assertEquals("sealed3", sharedPreferences.getString("sealed.0.type", null))
+                    assertTrue(sharedPreferences.getBoolean("sealed.0.value", false))
+                }
+            }
+        }
     }
 
     @Test
@@ -336,17 +353,25 @@ class EncodingTest {
         }
     }
 
+    private fun Arb.Companion.anInterface(): Arb<AnInterface> = arbitrary {
+        if (boolean().bind()) {
+            InterfaceClassOne(int().bind())
+        } else {
+            InterfaceClassTwo(byte().bind())
+        }
+    }
+
     @Test
-    fun testPolymorphicSerialization() {
+    fun testPolymorphicSerialization() = runTest {
         preferences = Preferences(sharedPreferences) {
             serializersModule = interfaceModule
         }
-        val data = listOf(InterfaceClassOne(a = 5), InterfaceClassTwo(b = 4))
+        checkAll(Arb.anInterface()) { expected ->
+            preferences.encode("interfaces", listOf(expected))
+            val actual = preferences.decode<List<AnInterface>>("interfaces")
 
-        preferences.encode("interfaces", data)
-        val actual = preferences.decode<List<AnInterface>>("interfaces")
-
-        assertEquals(data, actual)
+            assertEquals(listOf(expected), actual)
+        }
     }
 
     @Test
@@ -387,23 +412,25 @@ class EncodingTest {
     }
 
     @Test
-    fun testListOfEnums() {
-        val data = listOf(Weekday.TUESDAY, Weekday.SATURDAY, Weekday.THURSDAY, Weekday.FRIDAY)
-        preferences.encode("enums", data)
-        val actual = preferences.decode<List<Weekday>>("enums")
+    fun testListOfEnums() = runTest {
+        checkAll(Arb.list(Arb.enum<Weekday>(), range = 1..10)) { expected ->
+            preferences.encode("enums", expected)
+            val actual = preferences.decode<List<Weekday>>("enums")
 
-        assertEquals(data, actual)
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
-    fun testNativeStringSet() {
-        val data = setOf("foo", "bar")
-        preferences.encode("set", data)
-        val actual = preferences.decode<Set<String>>("set")
+    fun testNativeStringSet() = runTest {
+        checkAll(Arb.set(Arb.string().orNull(0.1), range = 1..10)) { expected ->
+            preferences.encode("set", expected)
+            val actual = preferences.decode<Set<String?>>("set")
 
-        assertEquals(data, actual)
-        assertEquals(setOf("set"), sharedPreferences.all.keys)
-        assertEquals(data, sharedPreferences.getStringSet("set", null))
+            assertEquals(expected, actual)
+            assertEquals(setOf("set"), sharedPreferences.all.keys)
+            assertEquals(expected, sharedPreferences.getStringSet("set", null))
+        }
     }
 
     @Test
@@ -414,114 +441,122 @@ class EncodingTest {
     }
 
     @Test
-    fun testNativeStringSetWithNull() {
-        val data = setOf("foo", null, "bar")
-        preferences.encode("set", data)
-        val actual = preferences.decode<Set<String?>>("set")
-
-        assertEquals(data, actual)
-        assertEquals(setOf("set"), sharedPreferences.all.keys)
-        assertEquals(data, sharedPreferences.getStringSet("set", null))
-    }
-
-    @Test
-    fun testNonNativeStringSet() {
+    fun testNonNativeStringSet() = runTest {
         val preferences = Preferences(preferences) {
             encodeStringSetNatively = false
         }
-        val data = setOf("foo", "bar")
-        preferences.encode("set", data)
-        val actual = preferences.decode<Set<String>>("set")
+        // can't handle null at the end of a collection
+        checkAll(Arb.set(Arb.string().orNull(0.1), range = 1..10).filter { it.last() != null }) { expected ->
+            preferences.encode("set", expected)
+            val actual = preferences.decode<Set<String?>>("set")
 
-        assertEquals(data, actual)
-        assertEquals(setOf("set.0", "set.1"), sharedPreferences.all.keys)
+            assertEquals(expected, actual)
+            val expectedKeys =
+                expected.mapIndexedNotNullTo(mutableSetOf()) { index, element -> element?.let { "set.$index" } }
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+        }
     }
 
     @Test
-    fun testNativeCharSet() {
-        val data = setOf('a', 'b', 'c')
-        preferences.encode("set", data)
-        val actual = preferences.decode<Set<Char>>("set")
+    fun testNativeCharSet() = runTest {
+        checkAll(Arb.set(Arb.char().orNull(0.1), range = 1..10)) { expected ->
+            preferences.encode("set", expected)
+            val actual = preferences.decode<Set<Char?>>("set")
 
-        assertEquals(data, actual)
-        assertEquals(setOf("set"), sharedPreferences.all.keys)
-        assertEquals(data.mapTo(mutableSetOf(), Char::toString), sharedPreferences.getStringSet("set", null))
+            assertEquals(expected, actual)
+            assertEquals(setOf("set"), sharedPreferences.all.keys)
+            assertEquals(expected.mapTo(mutableSetOf()) { it?.toString() }, sharedPreferences.getStringSet("set", null))
+        }
     }
 
     @Test
-    fun testNonNativeCharSet() {
+    fun testNonNativeCharSet() = runTest {
         val preferences = Preferences(preferences) {
             encodeStringSetNatively = false
         }
-        val data = setOf('a', 'b', 'c')
-        preferences.encode("set", data)
-        val actual = preferences.decode<Set<Char>>("set")
+        // can't handle null at the end of a collection
+        checkAll(Arb.set(Arb.char().orNull(0.1), range = 1..10).filter { it.last() != null }) { expected ->
+            preferences.encode("set", expected)
+            val actual = preferences.decode<Set<Char?>>("set")
 
-        assertEquals(data, actual)
-        assertEquals(setOf("set.0", "set.1", "set.2"), sharedPreferences.all.keys)
+            assertEquals(expected, actual)
+            val expectedKeys =
+                expected.mapIndexedNotNullTo(mutableSetOf()) { index, element -> element?.let { "set.$index" } }
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+        }
     }
 
     @Test
-    fun testNativeEnumSet() {
-        val data = setOf(Weekday.THURSDAY, Weekday.MONDAY)
-        preferences.encode("set", data)
-        val actual = preferences.decode<Set<Weekday>>("set")
+    fun testNativeEnumSet() = runTest {
+        checkAll(Arb.set(Arb.enum<Weekday>().orNull(0.1), range = 1..8)) { expected ->
+            preferences.encode("set", expected)
+            val actual = preferences.decode<Set<Weekday?>>("set")
 
-        assertEquals(data, actual)
-        assertEquals(setOf("set"), sharedPreferences.all.keys)
-        assertEquals(data.mapTo(mutableSetOf(), Weekday::name), sharedPreferences.getStringSet("set", null))
+            assertEquals(expected, actual)
+            assertEquals(setOf("set"), sharedPreferences.all.keys)
+            assertEquals(expected.mapTo(mutableSetOf()) { it?.name }, sharedPreferences.getStringSet("set", null))
+        }
     }
 
     @Test
-    fun testNonNativeIntSet() {
-        val data = setOf(1, 2, 3)
-        preferences.encode("set", data)
-        val actual = preferences.decode<Set<Int>>("set")
+    fun testNonNativeIntSet() = runTest {
+        // can't handle null at the end of a collection
+        checkAll(Arb.set(Arb.int().orNull(0.1), range = 1..10).filter { it.last() != null }) { expected ->
+            preferences.encode("set", expected)
+            val actual = preferences.decode<Set<Int?>>("set")
 
-        assertEquals(data, actual)
-        assertEquals(setOf("set.0", "set.1", "set.2"), sharedPreferences.all.keys)
+            assertEquals(expected, actual)
+            val expectedKeys =
+                expected.mapIndexedNotNullTo(mutableSetOf()) { index, element -> element?.let { "set.$index" } }
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+        }
     }
 
     @Test
-    fun testNonNativeEnumSet() {
+    fun testNonNativeEnumSet() = runTest {
         val preferences = Preferences(preferences) {
             encodeStringSetNatively = false
         }
-        val data = setOf(Weekday.THURSDAY, Weekday.MONDAY)
-        preferences.encode("set", data)
-        val actual = preferences.decode<Set<Weekday>>("set")
+        // can't handle null at the end of a collection
+        checkAll(Arb.set(Arb.enum<Weekday>().orNull(0.1), range = 1..8).filter { it.last() != null }) { expected ->
+            preferences.encode("set", expected)
+            val actual = preferences.decode<Set<Weekday?>>("set")
 
-        assertEquals(data, actual)
-        assertEquals(setOf("set.0", "set.1"), sharedPreferences.all.keys)
+            assertEquals(expected, actual)
+            val expectedKeys =
+                expected.mapIndexedNotNullTo(mutableSetOf()) { index, element -> element?.let { "set.$index" } }
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+        }
     }
 
     @Test
-    fun testWrappedStringSet() {
-        val data = listOf(setOf("1", "2"), setOf("foo", null, "bar"))
+    fun testWrappedStringSet() = runTest {
+        checkAll(Arb.list(Arb.set(Arb.string().orNull(0.1), range = 1..10), range = 1..4)) { expected ->
+            preferences.encode("wrapper", expected)
+            val actual = preferences.decode<List<Set<String?>>>("wrapper")
 
-        preferences.encode("wrapper", data)
-        val actual = preferences.decode<List<Set<String?>>>("wrapper")
-
-        assertEquals(data, actual)
-        assertEquals(setOf("wrapper.0", "wrapper.1"), sharedPreferences.all.keys)
+            assertEquals(expected, actual)
+            val expectedKeys = List(expected.size) { "wrapper.$it" }.toSet()
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+        }
     }
 
     @Test
-    fun testNativeOnlyListDescriptor() {
+    fun testNativeOnlyListDescriptor() = runTest {
         preferences = Preferences(preferences) {
             stringSetDescriptorNames.clear()
             stringSetDescriptorNames += "kotlin.collections.ArrayList"
         }
-        val data = StringSetWrapper(setOf("1", "2"), listOf("foo", "bar"))
+        checkAll(
+            Arb.forClass<StringSetWrapper>(StringSetWrapper::class).filter { it.kotlinSet.isNotEmpty() },
+        ) { expected ->
+            preferences.encode("wrapper", expected)
+            val actual = preferences.decode<StringSetWrapper>("wrapper")
 
-        preferences.encode("wrapper", data)
-        val actual = preferences.decode<StringSetWrapper>("wrapper")
-
-        assertEquals(data.kotlinSet, actual.kotlinSet)
-        assertEquals(data.customSet.toSet(), actual.customSet.toSet())
-        assertEquals(
-            setOf("wrapper.kotlinSet.0", "wrapper.kotlinSet.1", "wrapper.customSet"),
-            sharedPreferences.all.keys,
-        )
+            assertEquals(expected.kotlinSet, actual.kotlinSet)
+            assertEquals(expected.customSet.toSet(), actual.customSet.toSet())
+            val expectedKeys = List(expected.kotlinSet.size) { "wrapper.kotlinSet.$it" } + "wrapper.customSet"
+            assertEquals(expectedKeys.toSet(), sharedPreferences.all.keys)
+        }
     }
 }
