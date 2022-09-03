@@ -30,11 +30,23 @@ internal class PreferenceDecoder(
 
     private var currentIndex = 0
     private val isCollection = descriptor.kind == StructureKind.LIST || descriptor.kind == StructureKind.MAP
-    private val size = if (isCollection) Int.MAX_VALUE else descriptor.elementsCount
+    private val size: Int by lazy(LazyThreadSafetyMode.NONE) {
+        if (isCollection) collectionSize() else descriptor.elementsCount
+    }
 
     internal fun pushInitialTag(name: String) {
         pushTag(nested(name))
     }
+
+    private fun collectionSize(): Int {
+        val currentTag = "$currentTag."
+        val indices = sharedPreferences.all.keys
+            .filter { it.startsWith(currentTag) }
+            .map { key -> key.drop(currentTag.length).takeWhile { it != '.' } }
+        return indices.maxOfOrNull { it.toInt() + 1 } ?: 0
+    }
+
+    override fun decodeCollectionSize(descriptor: SerialDescriptor): Int = size
 
     override fun beginStructure(descriptor: SerialDescriptor): CompositeDecoder {
         if (preferences.configuration.shouldSerializeStringSet(descriptor)) {
