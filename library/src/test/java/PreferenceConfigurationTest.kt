@@ -6,11 +6,9 @@ package net.edwardday.serialization.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
 import kotlinx.serialization.modules.EmptySerializersModule
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -20,8 +18,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
+@RunWith(RobolectricTestRunner::class)
 class PreferenceConfigurationTest {
 
     lateinit var sharedPreferences: SharedPreferences
@@ -29,8 +26,7 @@ class PreferenceConfigurationTest {
 
     @BeforeTest
     fun setup() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        sharedPreferences = context.getSharedPreferences("test_preferences", Context.MODE_PRIVATE)
+        sharedPreferences = createContext().getSharedPreferences("test_preferences", Context.MODE_PRIVATE)
         preferences = Preferences(sharedPreferences)
     }
 

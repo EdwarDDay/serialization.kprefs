@@ -23,19 +23,16 @@ import kotlin.contracts.contract
 /* Knit setup
 <!--- INCLUDE .*-preferences-.*
 import android.content.*
-import androidx.test.filters.SmallTest
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.test.*
 import kotlinx.serialization.*
 import net.edwardday.serialization.preferences.*
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
+@RunWith(RobolectricTestRunner::class)
 class PreferencesTest {
 
-    val sharedPreferences = ApplicationProvider.getApplicationContext<Context>()
+    val sharedPreferences = createContext()
         .getSharedPreferences("test_preferences", Context.MODE_PRIVATE)
 
     @AfterTest
