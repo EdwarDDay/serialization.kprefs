@@ -6,19 +6,16 @@
 package net.edwardday.serialization.preferences.example.exampleReadme02
 
 import android.content.*
-import androidx.test.filters.SmallTest
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.test.*
 import kotlinx.serialization.*
 import net.edwardday.serialization.preferences.*
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
+@RunWith(RobolectricTestRunner::class)
 class ReadmeExample {
 
-    val sharedPreferences = ApplicationProvider.getApplicationContext<Context>().getSharedPreferences("test_preferences", Context.MODE_PRIVATE)
+    val sharedPreferences = createContext().getSharedPreferences("test_preferences", Context.MODE_PRIVATE)
 
     @AfterTest
     fun tearDown() {

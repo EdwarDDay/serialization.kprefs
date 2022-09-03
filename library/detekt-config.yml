@@ -5,3 +5,6 @@
 naming:
   InvalidPackageDeclaration:
     rootPackage: 'net.edwardday.serialization.preferences'
+    excludes: ["**/example/**"]
+  MatchingDeclarationName:
+    excludes: ["**/example/**"]
