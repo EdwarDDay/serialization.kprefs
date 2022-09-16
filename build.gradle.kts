@@ -29,7 +29,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:7.2.2")
+        classpath("com.android.tools.build:gradle:7.3.0")
         classpath("org.jetbrains.kotlinx:kotlinx-knit:0.2.3")
     }
 }
