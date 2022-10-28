@@ -89,7 +89,7 @@ dependencies {
     testImplementation(kotlin("test-junit"))
     testImplementation("org.robolectric:robolectric:4.8.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-    testImplementation("io.kotest:kotest-property:5.4.2")
+    testImplementation("io.kotest:kotest-property:5.5.3")
 }
 
 tasks.withType<DokkaTask> {
