@@ -27,9 +27,8 @@ internal class PreferenceEncoder(
 
     override val serializersModule: SerializersModule = preferences.serializersModule
 
-    internal fun pushInitialTag(name: String) {
+    internal fun cleanup(name: String) {
         val tag = nested(name)
-        pushTag(tag)
         editor.remove(tag)
         sharedPreferences.all.keys
             .filter { it.startsWith("$tag.") }

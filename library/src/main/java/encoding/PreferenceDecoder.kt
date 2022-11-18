@@ -34,10 +34,6 @@ internal class PreferenceDecoder(
         if (isCollection) collectionSize() else descriptor.elementsCount
     }
 
-    internal fun pushInitialTag(name: String) {
-        pushTag(nested(name))
-    }
-
     private fun collectionSize(): Int {
         val currentTag = "$currentTag."
         val indices = sharedPreferences.all.keys
@@ -57,15 +53,16 @@ internal class PreferenceDecoder(
         return PreferenceDecoder(preferences, descriptor).also { copyTagsTo(it) }
     }
 
+    private fun couldBeInPreferences(tag: String): Boolean =
+        tag in sharedPreferences || // found key
+            sharedPreferences.all.any { it.key.startsWith("$tag.") } // found key of child
+
     override fun decodeElementIndex(descriptor: SerialDescriptor): Int {
         while (currentIndex < size) {
             val name = descriptor.getTag(currentIndex)
             val childDescriptor = descriptor.getElementDescriptor(currentIndex++)
-            if (
-                name in sharedPreferences || // found key
-                sharedPreferences.all.any { it.key.startsWith("$name.") } || // found key of child
-                childDescriptor.isNullable // doesn't encode null, so could be null
-            ) {
+            // doesn't encode null, so could be null
+            if (couldBeInPreferences(name) || childDescriptor.isNullable) {
                 return currentIndex - 1
             }
             if (isCollection) {
@@ -81,8 +78,7 @@ internal class PreferenceDecoder(
         return enumDescriptor.getElementIndexOrThrow(value)
     }
 
-    override fun decodeTaggedNotNullMark(tag: String): Boolean =
-        tag in sharedPreferences || sharedPreferences.all.any { it.key.startsWith("$tag.") }
+    override fun decodeTaggedNotNullMark(tag: String): Boolean = couldBeInPreferences(tag)
 
     override fun decodeTaggedBoolean(tag: String): Boolean {
         checkTagIsStored(tag)

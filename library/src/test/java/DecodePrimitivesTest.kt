@@ -74,6 +74,26 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun getBooleanDefault() = runTest {
+        checkAll(Exhaustive.boolean()) { expected ->
+            val actual = preferences.decodeOrDefault("useFancyFeature", expected)
+
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
+    fun getBooleanValueAndNotDefault() = runTest {
+        checkAll(Exhaustive.boolean()) { expected ->
+            sharedPreferences.edit().putBoolean("useFancyFeature", expected).apply()
+
+            val actual = preferences.decodeOrDefault("useFancyFeature", !expected)
+
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
     fun getByte() = runTest {
         checkAll(Exhaustive.bytes()) { expected ->
             sharedPreferences.edit().putInt("windowFlags", expected.toInt()).apply()
@@ -88,6 +108,15 @@ class DecodePrimitivesTest {
     fun failOnNotStoredByte() {
         assertFailsWith<SerializationException> {
             preferences.decode<Byte>("windowFlags")
+        }
+    }
+
+    @Test
+    fun getByteDefault() = runTest {
+        checkAll(Exhaustive.bytes()) { expected ->
+            val actual = preferences.decodeOrDefault("windowFlags", expected)
+
+            assertEquals(expected, actual)
         }
     }
 
@@ -110,6 +139,15 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun getShortDefault() = runTest {
+        checkAll(Arb.short()) { expected ->
+            val actual = preferences.decodeOrDefault("age", expected)
+
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
     fun getInt() = runTest {
         checkAll(Arb.int()) { expected ->
             sharedPreferences.edit().putInt("amount", expected).apply()
@@ -124,6 +162,15 @@ class DecodePrimitivesTest {
     fun failOnNotStoredInt() {
         assertFailsWith<SerializationException> {
             preferences.decode<Int>("amount")
+        }
+    }
+
+    @Test
+    fun getIntDefault() = runTest {
+        checkAll(Arb.int()) { expected ->
+            val actual = preferences.decodeOrDefault("amount", expected)
+
+            assertEquals(expected, actual)
         }
     }
 
@@ -146,6 +193,15 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun getLongDefault() = runTest {
+        checkAll(Arb.long()) { expected ->
+            val actual = preferences.decodeOrDefault("count", expected)
+
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
     fun getFloat() = runTest {
         checkAll(Arb.float()) { expected ->
             sharedPreferences.edit().putFloat("wallet", expected).apply()
@@ -160,6 +216,15 @@ class DecodePrimitivesTest {
     fun failOnNotStoredFloat() {
         assertFailsWith<SerializationException> {
             preferences.decode<Float>("wallet")
+        }
+    }
+
+    @Test
+    fun getFloatDefault() = runTest {
+        checkAll(Arb.float()) { expected ->
+            val actual = preferences.decodeOrDefault("wallet", expected)
+
+            assertEquals(expected, actual)
         }
     }
 
@@ -213,6 +278,15 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun getDoubleDefault() = runTest {
+        checkAll(Arb.double()) { expected ->
+            val actual = preferences.decodeOrDefault("a_value", expected)
+
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
     fun getChar() = runTest {
         checkAll(Arb.char()) { expected ->
             sharedPreferences.edit().putString("letter", expected.toString()).apply()
@@ -231,6 +305,15 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun getCharDefault() = runTest {
+        checkAll(Arb.char()) { expected ->
+            val actual = preferences.decodeOrDefault("a_value", expected)
+
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
     fun getString() = runTest {
         checkAll(Arb.string()) { expected ->
             sharedPreferences.edit().putString("theText", expected).apply()
@@ -245,6 +328,15 @@ class DecodePrimitivesTest {
     fun failOnNotStoredString() {
         assertFailsWith<SerializationException> {
             preferences.decode<String>("theText")
+        }
+    }
+
+    @Test
+    fun getStringDefault() = runTest {
+        checkAll(Arb.string()) { expected ->
+            val actual = preferences.decodeOrDefault("theText", expected)
+
+            assertEquals(expected, actual)
         }
     }
 
@@ -272,6 +364,26 @@ class DecodePrimitivesTest {
     fun decodeNotStoredEnum() {
         assertFailsWith<SerializationException> {
             preferences.decode<Weekday>("enum")
+        }
+    }
+
+    @Test
+    fun getEnumDefault() = runTest {
+        checkAll(Exhaustive.enum<Weekday>()) { expected ->
+            val actual = preferences.decodeOrDefault("enum", expected)
+
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
+    fun getEnumValueAndNotDefault() = runTest {
+        checkAll(Exhaustive.enum<Weekday>(), Exhaustive.enum<Weekday>()) { expected, default ->
+            sharedPreferences.edit().putString("enum", expected.name).apply()
+
+            val actual = preferences.decodeOrDefault("enum", default)
+
+            assertEquals(expected, actual)
         }
     }
 }
