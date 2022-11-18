@@ -286,7 +286,8 @@ public enum class DoubleRepresentation {
      * [Double] will be encoded as and decoded from [String] using [Double.toString] and
      * [String.toDouble]
      */
-    STRING;
+    STRING,
+    ;
 }
 
 private class PreferencesImpl(configuration: PreferenceConfiguration) : Preferences(configuration)
