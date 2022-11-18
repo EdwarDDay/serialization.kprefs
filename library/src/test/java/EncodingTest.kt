@@ -13,7 +13,6 @@ import io.kotest.property.arbitrary.byte
 import io.kotest.property.arbitrary.char
 import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.filter
-import io.kotest.property.arbitrary.forClass
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.list
 import io.kotest.property.arbitrary.map
@@ -21,6 +20,7 @@ import io.kotest.property.arbitrary.orNull
 import io.kotest.property.arbitrary.set
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
+import io.kotest.property.resolution.default
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import org.junit.runner.RunWith
@@ -52,7 +52,7 @@ class EncodingTest {
 
     @Test
     fun testPrimitivesContainer() = runTest {
-        checkAll(Arb.forClass<SimplePrimitivesContainer>(SimplePrimitivesContainer::class)) { expected ->
+        checkAll(Arb.default<SimplePrimitivesContainer>()) { expected ->
             preferences.encode("container", expected)
             val actual = preferences.decode<SimplePrimitivesContainer>("container")
 
@@ -85,7 +85,7 @@ class EncodingTest {
 
     @Test
     fun testComplexData() = runTest {
-        checkAll(Arb.forClass<Complex>(Complex::class)) { expected ->
+        checkAll(Arb.default<Complex>()) { expected ->
             preferences.encode("complex", expected)
             val actual = preferences.decode<Complex>("complex")
 
@@ -104,7 +104,7 @@ class EncodingTest {
 
     @Test
     fun testNonNullDecoding() = runTest {
-        checkAll(Arb.forClass<Complex>(Complex::class).orNull(0.01)) { expected ->
+        checkAll(Arb.default<Complex>().orNull(0.01)) { expected ->
             preferences.encode("complex", expected)
             val actual = preferences.decode<Complex?>("complex")
 
@@ -121,7 +121,7 @@ class EncodingTest {
 
     @Test
     fun testList() = runTest {
-        checkAll(Arb.list(Arb.forClass<SimpleContainer>(SimpleContainer::class), range = 1..100)) { expected ->
+        checkAll(Arb.list(Arb.default<SimpleContainer>(), range = 1..100)) { expected ->
             preferences.encode("list", expected)
             val actual = preferences.decode<List<SimpleContainer>>("list")
 
@@ -186,7 +186,7 @@ class EncodingTest {
 
     @Test
     fun testMap() = runTest {
-        checkAll(Arb.map(Arb.string(), Arb.forClass<SimpleContainer>(SimpleContainer::class))) { expected ->
+        checkAll(Arb.map(Arb.string(), Arb.default<SimpleContainer>())) { expected ->
             preferences.encode("map", expected)
             val actual = preferences.decode<Map<String, SimpleContainer>>("map")
 
@@ -233,12 +233,7 @@ class EncodingTest {
 
     @Test
     fun testComplexMap() = runTest {
-        checkAll(
-            Arb.map(
-                Arb.forClass<SimpleContainer>(SimpleContainer::class),
-                Arb.forClass<DateWithOptional>(DateWithOptional::class),
-            ),
-        ) { expected ->
+        checkAll(Arb.map(Arb.default<SimpleContainer>(), Arb.default<DateWithOptional>())) { expected ->
             preferences.encode("map", expected)
             val actual = preferences.decode<Map<SimpleContainer, DateWithOptional>>("map")
 
@@ -547,9 +542,7 @@ class EncodingTest {
             stringSetDescriptorNames.clear()
             stringSetDescriptorNames += "kotlin.collections.ArrayList"
         }
-        checkAll(
-            Arb.forClass<StringSetWrapper>(StringSetWrapper::class).filter { it.kotlinSet.isNotEmpty() },
-        ) { expected ->
+        checkAll(Arb.default<StringSetWrapper>().filter { it.kotlinSet.isNotEmpty() }) { expected ->
             preferences.encode("wrapper", expected)
             val actual = preferences.decode<StringSetWrapper>("wrapper")
 

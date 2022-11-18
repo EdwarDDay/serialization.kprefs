@@ -11,7 +11,6 @@ import io.kotest.property.Exhaustive
 import io.kotest.property.arbitrary.char
 import io.kotest.property.arbitrary.double
 import io.kotest.property.arbitrary.float
-import io.kotest.property.arbitrary.forClass
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.short
@@ -19,6 +18,7 @@ import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.boolean
 import io.kotest.property.exhaustive.bytes
+import io.kotest.property.resolution.default
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import org.junit.runner.RunWith
@@ -188,7 +188,7 @@ class DelegatesTest {
 
     @Test
     fun classDelegate() = runTest {
-        checkAll(Arb.forClass<Complex>(Complex::class)) { expected ->
+        checkAll(Arb.default<Complex>()) { expected ->
             val wrapper = object {
                 var test: Complex by preferences.asProperty()
             }
@@ -202,7 +202,7 @@ class DelegatesTest {
 
     @Test
     fun classDelegateWithDefault() = runTest {
-        checkAll(Arb.forClass<Complex>(Complex::class)) { expected ->
+        checkAll(Arb.default<Complex>()) { expected ->
             val wrapper = object {
                 var test: Complex by preferences.asProperty(default = expected)
             }
