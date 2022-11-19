@@ -35,7 +35,7 @@ internal class PreferenceDecoder(
     }
 
     private fun collectionSize(): Int {
-        val currentTag = "$currentTag."
+        val currentTag = composeName(currentTag, "")
         val indices = sharedPreferences.all.keys
             .filter { it.startsWith(currentTag) }
             .map { key -> key.drop(currentTag.length).takeWhile { it != '.' } }
@@ -59,10 +59,8 @@ internal class PreferenceDecoder(
 
     override fun decodeElementIndex(descriptor: SerialDescriptor): Int {
         while (currentIndex < size) {
-            val name = descriptor.getTag(currentIndex)
-            val childDescriptor = descriptor.getElementDescriptor(currentIndex++)
-            // doesn't encode null, so could be null
-            if (couldBeInPreferences(name) || childDescriptor.isNullable) {
+            val name = descriptor.getTag(currentIndex++)
+            if (couldBeInPreferences(name)) {
                 return currentIndex - 1
             }
             if (isCollection) {
@@ -78,7 +76,15 @@ internal class PreferenceDecoder(
         return enumDescriptor.getElementIndexOrThrow(value)
     }
 
-    override fun decodeTaggedNotNullMark(tag: String): Boolean = couldBeInPreferences(tag)
+    override fun decodeTaggedNotNullMark(tag: String): Boolean {
+        val notNullMarkTag = nested(NOT_NULL_MARK_TAG_NAME)
+        return if (notNullMarkTag in sharedPreferences) {
+            decodeTaggedBoolean(notNullMarkTag)
+        } else {
+            // still read old behavior
+            couldBeInPreferences(tag)
+        }
+    }
 
     override fun decodeTaggedBoolean(tag: String): Boolean {
         checkTagIsStored(tag)

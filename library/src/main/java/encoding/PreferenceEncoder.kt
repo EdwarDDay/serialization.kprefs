@@ -29,14 +29,21 @@ internal class PreferenceEncoder(
 
     internal fun cleanup(name: String) {
         val tag = nested(name)
+        val tagAsParent = composeName(tag, "")
         editor.remove(tag)
         sharedPreferences.all.keys
-            .filter { it.startsWith("$tag.") }
-            .forEach { editor.remove(it) }
+            .filter { it.startsWith(tagAsParent) }
+            .forEach(editor::remove)
     }
 
     override fun encodeTaggedNull(tag: String) {
-        // null is supported, so do not throw an exception
+        val notNullMarkTag = composeName(tag, NOT_NULL_MARK_TAG_NAME)
+        editor.putBoolean(notNullMarkTag, false)
+    }
+
+    override fun encodeNotNullMark() {
+        val notNullMarkTag = nested(NOT_NULL_MARK_TAG_NAME)
+        editor.putBoolean(notNullMarkTag, true)
     }
 
     override fun encodeTaggedEnum(tag: String, enumDescriptor: SerialDescriptor, ordinal: Int) {

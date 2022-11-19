@@ -16,6 +16,7 @@ import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.short
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
+import io.kotest.property.exhaustive.andNull
 import io.kotest.property.exhaustive.boolean
 import io.kotest.property.exhaustive.bytes
 import io.kotest.property.exhaustive.enum
@@ -60,6 +61,38 @@ class DecodePrimitivesTest {
     }
 
     @Test
+    fun getStoredNullableBoolean() = runTest {
+        checkAll(Exhaustive.boolean().andNull()) { expected ->
+            if (expected != null) {
+                sharedPreferences.edit().putBoolean("useFancyFeature", expected).apply()
+            }
+
+            val actual = preferences.decodeOrDefault<Boolean?>("useFancyFeature", null)
+
+            assertEquals(expected, actual)
+
+            sharedPreferences.edit().clear().apply()
+        }
+    }
+
+    @Test
+    fun getBooleanNullable() = runTest {
+        checkAll(Exhaustive.boolean().andNull()) { expected ->
+            sharedPreferences.edit().apply {
+                putBoolean("useFancyFeature.\$isNotNull", expected != null)
+                if (expected != null) {
+                    putBoolean("useFancyFeature", expected)
+                }
+            }.apply()
+
+            val actual = preferences.decode<Boolean?>("useFancyFeature")
+
+            assertEquals(expected, actual)
+            sharedPreferences.edit().clear().apply()
+        }
+    }
+
+    @Test
     fun failOnNotStoredBoolean() {
         assertFailsWith<SerializationException> {
             preferences.decode<Boolean>("useFancyFeature")
@@ -67,10 +100,10 @@ class DecodePrimitivesTest {
     }
 
     @Test
-    fun getBooleanNullable() {
-        val actual = preferences.decode<Boolean?>("useFancyFeature")
-
-        assertNull(actual)
+    fun failOnNotStoredNullableBoolean() {
+        assertFailsWith<SerializationException> {
+            preferences.decode<Boolean?>("useFancyFeature")
+        }
     }
 
     @Test
@@ -80,6 +113,13 @@ class DecodePrimitivesTest {
 
             assertEquals(expected, actual)
         }
+    }
+
+    @Test
+    fun getBooleanNullableOrDefault() {
+        val actual = preferences.decodeOrDefault<Boolean?>("useFancyFeature", null)
+
+        assertNull(actual)
     }
 
     @Test

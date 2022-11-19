@@ -36,3 +36,5 @@ internal fun SerialDescriptor.getElementIndexOrThrow(name: String): Int {
         throw SerializationException("Value of enum entry in has unknown value $name")
     }
 }
+
+internal const val NOT_NULL_MARK_TAG_NAME = "\$isNotNull"
