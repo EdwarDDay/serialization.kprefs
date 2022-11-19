@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020-2022 Eduard Wolf
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package net.edwardday.serialization.preferences.encoding
 
 import kotlinx.serialization.DeserializationStrategy
