@@ -6,7 +6,6 @@ package net.edwardday.serialization.preferences
 
 import android.content.SharedPreferences
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.builtins.nullable
 import kotlinx.serialization.serializer
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -77,15 +76,11 @@ public fun <T> Preferences.asProperty(
  * @param default optional default value for not initialized preferences
  */
 // <!--- KNIT example-property-with-default-01.kt -->
-public fun <T : Any> Preferences.asProperty(
+public fun <T> Preferences.asProperty(
     serializer: KSerializer<T>,
     tag: String? = null,
-    default: T? = null,
-): ReadWriteProperty<Any?, T> = if (default == null) {
-    PreferenceProperty(this, serializer, tag)
-} else {
-    PreferencePropertyWithDefault(this, serializer.nullable, tag, default)
-}
+    default: T,
+): ReadWriteProperty<Any?, T> = PreferencePropertyWithDefault(this, serializer, tag, default)
 
 /**
  * Encodes changes to the delegated property into the [SharedPreferences] and decodes the current value from them.
@@ -97,7 +92,7 @@ public fun <T : Any> Preferences.asProperty(
  */
 // <!--- KNIT example-property-without-default-02.kt -->
 public inline fun <reified T> Preferences.asProperty(tag: String? = null): ReadWriteProperty<Any?, T> =
-    asProperty<T>(serializersModule.serializer(), tag)
+    asProperty(serializersModule.serializer(), tag)
 
 /**
  * Encodes changes to the delegated property into the [SharedPreferences] and decodes the current value from them.
@@ -109,9 +104,9 @@ public inline fun <reified T> Preferences.asProperty(tag: String? = null): ReadW
  * @param default optional default value for not initialized preferences
  */
 // <!--- KNIT example-property-with-default-02.kt -->
-public inline fun <reified T : Any> Preferences.asProperty(
+public inline fun <reified T> Preferences.asProperty(
     tag: String? = null,
-    default: T? = null,
+    default: T,
 ): ReadWriteProperty<Any?, T> = asProperty(serializersModule.serializer(), tag, default)
 
 private class PreferenceProperty<T>(
@@ -131,16 +126,16 @@ private class PreferenceProperty<T>(
     }
 }
 
-private class PreferencePropertyWithDefault<T : Any>(
+private class PreferencePropertyWithDefault<T>(
     private val preferences: Preferences,
-    private val serializer: KSerializer<T?>,
+    private val serializer: KSerializer<T>,
     private val tag: String?,
     private val default: T,
 ) : ReadWriteProperty<Any?, T> {
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         val tag = this.tag ?: property.name
-        return preferences.decode(serializer, tag) ?: default
+        return preferences.decodeOrDefault(serializer, tag, default)
     }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {

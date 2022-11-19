@@ -27,6 +27,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -314,6 +315,8 @@ class EncodingTest {
 
     @Test
     fun testUseOptionalData() {
+        sharedPreferences.edit().putString("optional", "unused").apply()
+
         val actual = preferences.decode<DateWithOptional>("optional")
 
         assertEquals(DateWithOptional(), actual)
@@ -329,6 +332,7 @@ class EncodingTest {
     }
 
     @Test
+    @Ignore("need proper null handling")
     fun testObjectWithNullField() {
         preferences.encode("nullable", DateWithNullable(null))
 
@@ -550,6 +554,26 @@ class EncodingTest {
             assertEquals(expected.customSet.toSet(), actual.customSet.toSet())
             val expectedKeys = List(expected.kotlinSet.size) { "wrapper.kotlinSet.$it" } + "wrapper.customSet"
             assertEquals(expectedKeys.toSet(), sharedPreferences.all.keys)
+        }
+    }
+
+    @Test
+    fun testUseDefault() = runTest {
+        checkAll(Arb.default<SimpleContainer>()) { expected ->
+            val actual = preferences.decodeOrDefault("foo", expected)
+
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
+    fun testUseValueAndNotDefault() = runTest {
+        checkAll(Arb.default<SimpleContainer>(), Arb.default<SimpleContainer>()) { expected, default ->
+            sharedPreferences.edit().putInt("foo.bar", expected.bar).apply()
+
+            val actual = preferences.decodeOrDefault("foo", default)
+
+            assertEquals(expected, actual)
         }
     }
 }

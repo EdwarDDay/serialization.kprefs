@@ -16,6 +16,9 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
 import net.edwardday.serialization.preferences.encoding.PreferenceDecoder
 import net.edwardday.serialization.preferences.encoding.PreferenceEncoder
+import net.edwardday.serialization.preferences.encoding.SerializationWrapper
+import net.edwardday.serialization.preferences.encoding.WrapperDeserializationStrategy
+import net.edwardday.serialization.preferences.encoding.WrapperSerializationStrategy
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -88,8 +91,8 @@ public sealed class Preferences(internal val configuration: PreferenceConfigurat
         maybeExecuteSynchronized {
             val editor = configuration.sharedPreferences.edit()
             val encoder = PreferenceEncoder(this, editor, configuration.sharedPreferences)
-            encoder.pushInitialTag(tag)
-            encoder.encodeSerializableValue(serializer, value)
+            encoder.cleanup(tag)
+            encoder.encodeSerializableValue(WrapperSerializationStrategy(serializer, tag), SerializationWrapper(value))
             editor.apply()
         }
     }
@@ -101,10 +104,23 @@ public sealed class Preferences(internal val configuration: PreferenceConfigurat
      * @param deserializer strategy used to decode the data
      * @param tag key to decode data from
      */
-    public fun <T> decode(deserializer: DeserializationStrategy<T>, tag: String): T = maybeExecuteSynchronized {
+    public fun <T> decode(deserializer: DeserializationStrategy<T>, tag: String): T =
+        decodeWrapped(WrapperDeserializationStrategy(deserializer, tag))
+
+    /**
+     * Decodes and deserializes from the [SharedPreferences] at the specified [tag] to the value of type [T] using the
+     * given [deserializer]
+     *
+     * @param deserializer strategy used to decode the data
+     * @param tag key to decode data from
+     * @param default default value, if no object was encoded at [tag]
+     */
+    public fun <T> decodeOrDefault(deserializer: DeserializationStrategy<T>, tag: String, default: T): T =
+        decodeWrapped(WrapperDeserializationStrategy(deserializer, tag, default))
+
+    private fun <T> decodeWrapped(deserializer: WrapperDeserializationStrategy<T>): T = maybeExecuteSynchronized {
         val decoder = PreferenceDecoder(this, deserializer.descriptor)
-        decoder.pushInitialTag(tag)
-        return decoder.decodeSerializableValue(deserializer)
+        decoder.decodeSerializableValue(deserializer).value
     }
 
     private inline fun <T> maybeExecuteSynchronized(block: () -> T): T {
@@ -136,6 +152,16 @@ public inline fun <reified T> Preferences.encode(tag: String, value: T) {
  * @param tag key to decode data from
  */
 public inline fun <reified T> Preferences.decode(tag: String): T = decode(serializersModule.serializer(), tag)
+
+/**
+ * Decodes and deserializes from the [SharedPreferences] at the specified [tag] to the value of type [T] using
+ * deserializer retrieved from the reified type parameter.
+ *
+ * @param tag key to decode data from
+ * @param default default value, if no object was encoded at [tag]
+ */
+public inline fun <reified T> Preferences.decodeOrDefault(tag: String, default: T): T =
+    decodeOrDefault(serializersModule.serializer(), tag, default)
 
 /**
  * Creates an instance of [Preferences] encoding and decoding data from the given
