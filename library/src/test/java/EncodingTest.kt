@@ -27,10 +27,10 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -111,12 +111,16 @@ class EncodingTest {
 
             assertEquals(expected, actual)
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("complex.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("complex.\$isNotNull", true))
             } else {
-                assertEquals(setOf("complex.simple.bar", "complex.optional.foo"), sharedPreferences.all.keys)
+                val expectedKeys = setOf("complex.\$isNotNull", "complex.simple.bar", "complex.optional.foo")
+                assertEquals(expectedKeys, sharedPreferences.all.keys)
+                assertTrue(sharedPreferences.getBoolean("complex.\$isNotNull", false))
                 assertEquals(expected.simple.bar, sharedPreferences.getInt("complex.simple.bar", 0))
                 assertEquals(expected.optional.foo, sharedPreferences.getString("complex.optional.foo", null))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 
@@ -332,7 +336,6 @@ class EncodingTest {
     }
 
     @Test
-    @Ignore("need proper null handling")
     fun testObjectWithNullField() {
         preferences.encode("nullable", DateWithNullable(null))
 
@@ -444,14 +447,12 @@ class EncodingTest {
         val preferences = Preferences(preferences) {
             encodeStringSetNatively = false
         }
-        // can't handle null at the end of a collection
-        checkAll(Arb.set(Arb.string().orNull(0.1), range = 1..10).filter { it.last() != null }) { expected ->
+        checkAll(Arb.set(Arb.string().orNull(0.1), range = 1..10)) { expected ->
             preferences.encode("set", expected)
             val actual = preferences.decode<Set<String?>>("set")
 
             assertEquals(expected, actual)
-            val expectedKeys =
-                expected.mapIndexedNotNullTo(mutableSetOf()) { index, element -> element?.let { "set.$index" } }
+            val expectedKeys = expected.extractKeys("set")
             assertEquals(expectedKeys, sharedPreferences.all.keys)
         }
     }
@@ -473,14 +474,12 @@ class EncodingTest {
         val preferences = Preferences(preferences) {
             encodeStringSetNatively = false
         }
-        // can't handle null at the end of a collection
-        checkAll(Arb.set(Arb.char().orNull(0.1), range = 1..10).filter { it.last() != null }) { expected ->
+        checkAll(Arb.set(Arb.char().orNull(0.1), range = 1..10)) { expected ->
             preferences.encode("set", expected)
             val actual = preferences.decode<Set<Char?>>("set")
 
             assertEquals(expected, actual)
-            val expectedKeys =
-                expected.mapIndexedNotNullTo(mutableSetOf()) { index, element -> element?.let { "set.$index" } }
+            val expectedKeys = expected.extractKeys("set")
             assertEquals(expectedKeys, sharedPreferences.all.keys)
         }
     }
@@ -499,14 +498,12 @@ class EncodingTest {
 
     @Test
     fun testNonNativeIntSet() = runTest {
-        // can't handle null at the end of a collection
-        checkAll(Arb.set(Arb.int().orNull(0.1), range = 1..10).filter { it.last() != null }) { expected ->
+        checkAll(Arb.set(Arb.int().orNull(0.1), range = 1..10)) { expected ->
             preferences.encode("set", expected)
             val actual = preferences.decode<Set<Int?>>("set")
 
             assertEquals(expected, actual)
-            val expectedKeys =
-                expected.mapIndexedNotNullTo(mutableSetOf()) { index, element -> element?.let { "set.$index" } }
+            val expectedKeys = expected.extractKeys("set")
             assertEquals(expectedKeys, sharedPreferences.all.keys)
         }
     }
@@ -516,14 +513,12 @@ class EncodingTest {
         val preferences = Preferences(preferences) {
             encodeStringSetNatively = false
         }
-        // can't handle null at the end of a collection
-        checkAll(Arb.set(Arb.enum<Weekday>().orNull(0.1), range = 1..8).filter { it.last() != null }) { expected ->
+        checkAll(Arb.set(Arb.enum<Weekday>().orNull(0.1), range = 1..8)) { expected ->
             preferences.encode("set", expected)
             val actual = preferences.decode<Set<Weekday?>>("set")
 
             assertEquals(expected, actual)
-            val expectedKeys =
-                expected.mapIndexedNotNullTo(mutableSetOf()) { index, element -> element?.let { "set.$index" } }
+            val expectedKeys = expected.extractKeys("set")
             assertEquals(expectedKeys, sharedPreferences.all.keys)
         }
     }
@@ -576,4 +571,14 @@ class EncodingTest {
             assertEquals(expected, actual)
         }
     }
+
+    private fun Iterable<Any?>.extractKeys(root: String): Set<String> =
+        flatMapIndexedTo(mutableSetOf()) { index, element ->
+            buildList {
+                add("$root.$index.\$isNotNull")
+                if (element != null) {
+                    add("$root.$index")
+                }
+            }
+        }
 }

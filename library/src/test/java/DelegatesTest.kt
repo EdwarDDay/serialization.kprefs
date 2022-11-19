@@ -28,6 +28,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -213,17 +214,34 @@ class DelegatesTest {
     }
 
     @Test
-    fun nullableIntDelegate() {
+    fun nullableIntWithDefaultDelegate() {
         val wrapper = object {
-            var test: Int? by preferences.asProperty()
+            var test: Int? by preferences.asProperty(default = null)
         }
 
         assertNull(wrapper.test)
         assertTrue(sharedPreferences.all.isEmpty())
         wrapper.test = null
-        assertTrue(sharedPreferences.all.isEmpty())
+        assertEquals(setOf("test.\$isNotNull"), sharedPreferences.all.keys)
+        assertFalse(sharedPreferences.getBoolean("test.\$isNotNull", true))
         wrapper.test = 5
         assertEquals(5, sharedPreferences.getInt("test", 0))
+        assertTrue(sharedPreferences.getBoolean("test.\$isNotNull", false))
+    }
+
+    @Test
+    fun nullableIntDelegate() {
+        val wrapper = object {
+            var test: Int? by preferences.asProperty()
+        }
+
+        assertTrue(sharedPreferences.all.isEmpty())
+        wrapper.test = null
+        assertEquals(setOf("test.\$isNotNull"), sharedPreferences.all.keys)
+        assertFalse(sharedPreferences.getBoolean("test.\$isNotNull", true))
+        wrapper.test = 5
+        assertEquals(5, sharedPreferences.getInt("test", 0))
+        assertTrue(sharedPreferences.getBoolean("test.\$isNotNull", false))
     }
 
     @Test

@@ -28,6 +28,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
@@ -64,11 +65,14 @@ class EncodePrimitivesTest {
             preferences.encode("useFancyFeature", expected)
 
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("useFancyFeature.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("useFancyFeature.\$isNotNull", true))
             } else {
                 val actual = sharedPreferences.getBoolean("useFancyFeature", false)
                 assertEquals(expected, actual)
+                assertTrue(sharedPreferences.getBoolean("useFancyFeature.\$isNotNull", false))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 
@@ -88,11 +92,14 @@ class EncodePrimitivesTest {
             preferences.encode("windowFlags", expected)
 
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("windowFlags.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("windowFlags.\$isNotNull", true))
             } else {
                 val actual = sharedPreferences.getInt("windowFlags", 0)
                 assertEquals(expected.toInt(), actual)
+                assertTrue(sharedPreferences.getBoolean("windowFlags.\$isNotNull", false))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 
@@ -113,11 +120,14 @@ class EncodePrimitivesTest {
             preferences.encode("age", expected)
 
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("age.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("age.\$isNotNull", true))
             } else {
                 val actual = sharedPreferences.getInt("age", 0)
                 assertEquals(expected.toInt(), actual)
+                assertTrue(sharedPreferences.getBoolean("age.\$isNotNull", false))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 
@@ -138,11 +148,14 @@ class EncodePrimitivesTest {
             preferences.encode("amount", expected)
 
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("amount.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("amount.\$isNotNull", true))
             } else {
                 val actual = sharedPreferences.getInt("amount", 0)
-                assertEquals(expected.toInt(), actual)
+                assertEquals(expected, actual)
+                assertTrue(sharedPreferences.getBoolean("amount.\$isNotNull", false))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 
@@ -162,11 +175,14 @@ class EncodePrimitivesTest {
             preferences.encode("count", expected)
 
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("count.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("count.\$isNotNull", true))
             } else {
                 val actual = sharedPreferences.getLong("count", 0)
                 assertEquals(expected, actual)
+                assertTrue(sharedPreferences.getBoolean("count.\$isNotNull", false))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 
@@ -186,11 +202,14 @@ class EncodePrimitivesTest {
             preferences.encode("wallet", expected)
 
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("wallet.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("wallet.\$isNotNull", true))
             } else {
                 val actual = sharedPreferences.getFloat("wallet", 0f)
                 assertEquals(expected, actual)
+                assertTrue(sharedPreferences.getBoolean("wallet.\$isNotNull", false))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 
@@ -250,11 +269,14 @@ class EncodePrimitivesTest {
             preferences.encode("letter", expected)
 
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("letter.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("letter.\$isNotNull", true))
             } else {
                 val actual = sharedPreferences.getString("letter", null)
                 assertEquals(expected.toString(), actual)
+                assertTrue(sharedPreferences.getBoolean("letter.\$isNotNull", false))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 
@@ -274,11 +296,14 @@ class EncodePrimitivesTest {
             preferences.encode("theText", expected)
 
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("theText.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("theText.\$isNotNull", true))
             } else {
                 val actual = sharedPreferences.getString("theText", null)
                 assertEquals(expected, actual)
+                assertTrue(sharedPreferences.getBoolean("theText.\$isNotNull", false))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 
@@ -297,10 +322,14 @@ class EncodePrimitivesTest {
             preferences.encode("enum", expected)
 
             if (expected == null) {
-                assertTrue(sharedPreferences.all.isEmpty())
+                assertEquals(setOf("enum.\$isNotNull"), sharedPreferences.all.keys)
+                assertFalse(sharedPreferences.getBoolean("enum.\$isNotNull", true))
             } else {
-                assertEquals(expected.name, sharedPreferences.getString("enum", null))
+                val actual = sharedPreferences.getString("enum", null)
+                assertEquals(expected.name, actual)
+                assertTrue(sharedPreferences.getBoolean("enum.\$isNotNull", false))
             }
+            sharedPreferences.edit().clear().apply()
         }
     }
 }

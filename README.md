@@ -25,7 +25,6 @@ The documentation can be found on the projects
 * [Delegated Properties Example](#delegated-properties-example)
 * [Setup](#setup)
 * [Features](#features)
-* [What doesn't work](#what-doesn't-work)
 * [Building](#building)
 
 <!--- INCLUDE .*-readme-.*
@@ -123,31 +122,13 @@ Note: additional information to the serialization plugin can be found in the
     * Float - with loss of precision
     * String - with the string representation
     * Long - with the bits representation
+* support nullability (stored in extra field)
 * support for native `Set<String>` encoding
 * support for encoding classes
 * support for sealed classes
 * support for objects by encoding an object start with a Boolean
 * support for property delegated properties
 * support for synchronization (synchronize on every object read / write)
-
-## What doesn't work
-
-`SharedPreferences` don't support nullability. So I decided to decode nonexistent values as `null`. That's why nullable
-parameters with a non null default value will be decoded to `null`, if the value wasn't encoded.
-
-```kotlin
-@Serializable
-data class DataClass(val foo: Int, val bar: Int? = 42)
-
-sharedPreferences.edit().putInt("test.foo", 21).apply()
-val preferences = Preferences(sharedPreferences)
-
-val test: DataClass = preferences.decode("test")
-
-assertEquals(DataClass(21, null), test)
-```
-
-> You can get the full code [here](library/src/test/java/example/example-readme-03.kt).
 
 ## Building
 
