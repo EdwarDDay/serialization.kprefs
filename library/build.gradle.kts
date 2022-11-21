@@ -84,7 +84,7 @@ detekt {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.4.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.4.1")
 
     testImplementation(kotlin("test-junit"))
     testImplementation("org.robolectric:robolectric:4.9")
