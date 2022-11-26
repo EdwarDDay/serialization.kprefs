@@ -7,6 +7,22 @@ SPDX-License-Identifier: Apache-2.0
 Change Log
 ==========
 
+Version 0.12.0 *(2022-11-26)*
+----------------------------
+
+BREAKING CHANGE:
+
+`null` isn't handled as default value anymore. If you relied on this behavior, please explicitly declare `null` as
+default value.
+
+Better support for `null` values
+
+Support for default values at root level
+
+Upgrade kotlin to 1.7.21
+
+Upgrade kotlinx.serialization to 1.4.1
+
 Version 0.11.0 *(2021-10-03)*
 ----------------------------
 
