@@ -7,6 +7,7 @@ package net.edwardday.serialization.preferences
 import android.content.Context
 import android.content.SharedPreferences
 import io.kotest.property.Arb
+import io.kotest.property.Exhaustive
 import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.byte
@@ -20,6 +21,8 @@ import io.kotest.property.arbitrary.orNull
 import io.kotest.property.arbitrary.set
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
+import io.kotest.property.exhaustive.andNull
+import io.kotest.property.exhaustive.enum
 import io.kotest.property.resolution.default
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
@@ -135,6 +138,56 @@ class EncodingTest {
             assertEquals(expectedKeys, sharedPreferences.all.keys)
             expected.forEachIndexed { index, value ->
                 assertEquals(value.bar, sharedPreferences.getInt("list.$index.bar", 0))
+            }
+        }
+    }
+
+    @Test
+    fun testNullableList() = runTest {
+        checkAll(Arb.list(Arb.default<SimpleContainer>(), range = 1..100).orNull(0.01)) { expected ->
+            preferences.encode("list", expected)
+            val actual = preferences.decode<List<SimpleContainer>?>("list")
+
+            assertEquals(expected, actual)
+            val expectedKeys = expected?.indices?.map { "list.$it.bar" }.orEmpty().toSet() + "list.\$isNotNull"
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+            if (expected != null) {
+                assertTrue(sharedPreferences.getBoolean("list.\$isNotNull", false))
+                expected.forEachIndexed { index, value ->
+                    assertEquals(value.bar, sharedPreferences.getInt("list.$index.bar", 0))
+                }
+            } else {
+                assertFalse(sharedPreferences.getBoolean("list.\$isNotNull", true))
+            }
+        }
+    }
+
+    @Test
+    fun testNullablePrimitiveList() = runTest {
+        checkAll(Arb.list(Arb.int(min = 1).orNull(0.01), range = 1..100).orNull(0.01)) { expected ->
+            preferences.encode("list", expected)
+            val actual = preferences.decode<List<Int?>?>("list")
+
+            assertEquals(expected, actual)
+            val expectedKeys = expected?.flatMapIndexed { index, element ->
+                buildList {
+                    if (element != null) add("list.$index")
+                    add("list.$index.\$isNotNull")
+                }
+            }.orEmpty().toSet() + "list.\$isNotNull"
+            assertEquals(expectedKeys, sharedPreferences.all.keys)
+            if (expected != null) {
+                assertTrue(sharedPreferences.getBoolean("list.\$isNotNull", false))
+                expected.forEachIndexed { index, value ->
+                    if (value != null) {
+                        assertTrue(sharedPreferences.getBoolean("list.$index.\$isNotNull", false))
+                        assertEquals(value, sharedPreferences.getInt("list.$index", 0))
+                    } else {
+                        assertFalse(sharedPreferences.getBoolean("list.$index.\$isNotNull", true))
+                    }
+                }
+            } else {
+                assertFalse(sharedPreferences.getBoolean("list.\$isNotNull", true))
             }
         }
     }
@@ -486,7 +539,7 @@ class EncodingTest {
 
     @Test
     fun testNativeEnumSet() = runTest {
-        checkAll(Arb.set(Arb.enum<Weekday>().orNull(0.1), range = 1..8)) { expected ->
+        checkAll(Arb.set(Exhaustive.enum<Weekday>().andNull(), range = 1..8)) { expected ->
             preferences.encode("set", expected)
             val actual = preferences.decode<Set<Weekday?>>("set")
 

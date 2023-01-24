@@ -39,7 +39,7 @@ internal class PreferenceDecoder(
         val indices = sharedPreferences.all.keys
             .filter { it.startsWith(currentTag) }
             .map { key -> key.drop(currentTag.length).takeWhile { it != '.' } }
-        return indices.maxOfOrNull { it.toInt() + 1 } ?: 0
+        return indices.mapNotNull { it.toIntOrNull() }.maxOrNull()?.let { it + 1 } ?: 0
     }
 
     override fun decodeCollectionSize(descriptor: SerialDescriptor): Int = size
