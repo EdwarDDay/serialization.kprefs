@@ -7,6 +7,11 @@ SPDX-License-Identifier: Apache-2.0
 Change Log
 ==========
 
+Version 0.12.1 *(2023-01-24)*
+----------------------------
+
+Fix issue with reading encoded nullable collections
+
 Version 0.12.0 *(2022-11-26)*
 ----------------------------
 
