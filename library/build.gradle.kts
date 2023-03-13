@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-2022 Eduard Wolf
+// SPDX-FileCopyrightText: 2020-2023 Eduard Wolf
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -7,16 +7,18 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
+// https://youtrack.jetbrains.com/issue/KTIJ-19369
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.library")
-    kotlin("android")
-    kotlin("plugin.serialization")
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 
-    id("org.jmailen.kotlinter")
-    id("io.gitlab.arturbosch.detekt")
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
 
-    id("app.cash.licensee")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.licensee)
+    alias(libs.plugins.dokka)
 
     id("publishing.maven-convention")
 }
@@ -84,12 +86,12 @@ detekt {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.4.1")
+    api(libs.kotlinx.serialization.core)
 
-    testImplementation(kotlin("test-junit"))
-    testImplementation("org.robolectric:robolectric:4.9.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-    testImplementation("io.kotest:kotest-property:5.5.5")
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotest.property)
 }
 
 tasks.withType<DokkaTask> {

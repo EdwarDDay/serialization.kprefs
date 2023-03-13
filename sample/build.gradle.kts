@@ -1,11 +1,13 @@
-// SPDX-FileCopyrightText: 2020-2022 Eduard Wolf
+// SPDX-FileCopyrightText: 2020-2023 Eduard Wolf
 //
 // SPDX-License-Identifier: Apache-2.0
 
+// https://youtrack.jetbrains.com/issue/KTIJ-19369
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.application")
-    kotlin("android")
-    kotlin("plugin.serialization")
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 repositories {
@@ -47,7 +49,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 }
 
@@ -55,10 +57,9 @@ dependencies {
     implementation(project(":library"))
 
     // Integration with activities
-    implementation("androidx.activity:activity-compose:1.6.1")
-    val composeLibrariesVersion = "1.3.1"
+    implementation(libs.androidx.activity.compose)
     // Compose Material Design
-    implementation("androidx.compose.material:material:$composeLibrariesVersion")
+    implementation(libs.androidx.compose.material)
     // Tooling support (Previews, etc.)
-    implementation("androidx.compose.ui:ui-tooling:$composeLibrariesVersion")
+    implementation(libs.androidx.compose.ui.tooling)
 }
