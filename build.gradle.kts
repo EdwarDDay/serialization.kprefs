@@ -1,21 +1,20 @@
-// SPDX-FileCopyrightText: 2020-2022 Eduard Wolf
+// SPDX-FileCopyrightText: 2020-2023 Eduard Wolf
 //
 // SPDX-License-Identifier: Apache-2.0
 
+// https://youtrack.jetbrains.com/issue/KTIJ-19369
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     base // needed for knit
-    val kotlinVersion = "1.7.21"
-    @Suppress("RemoveSingleExpressionStringTemplate") // needed for dependabot
-    kotlin("android") version "$kotlinVersion" apply false
-    @Suppress("RemoveSingleExpressionStringTemplate") // needed for dependabot
-    kotlin("plugin.serialization") version "$kotlinVersion" apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
 
-    id("org.jmailen.kotlinter") version "3.13.0"
-    id("io.gitlab.arturbosch.detekt") version "1.22.0" apply false
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt) apply false
 
-    id("org.jetbrains.dokka") version "1.7.20" apply false
+    alias(libs.plugins.dokka) apply false
 
-    id("app.cash.licensee") version "1.6.0" apply false
+    alias(libs.plugins.licensee) apply false
 }
 
 apply {
@@ -29,7 +28,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:7.3.1")
-        classpath("org.jetbrains.kotlinx:kotlinx-knit:0.2.3")
+        classpath(libs.android.build.tools.gradle)
+        classpath(libs.kotlinx.knit)
     }
 }
