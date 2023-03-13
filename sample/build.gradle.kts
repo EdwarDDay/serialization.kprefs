@@ -54,7 +54,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":library"))
+    implementation(projects.library)
 
     // Integration with activities
     implementation(libs.androidx.activity.compose)
