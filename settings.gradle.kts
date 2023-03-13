@@ -1,8 +1,10 @@
-// SPDX-FileCopyrightText: 2020-2022 Eduard Wolf
+// SPDX-FileCopyrightText: 2020-2023 Eduard Wolf
 //
 // SPDX-License-Identifier: Apache-2.0
+
+rootProject.name = "serialization-kprefs"
 
 include(":library")
 include(":sample")
 
-enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
