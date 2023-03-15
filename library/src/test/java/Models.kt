@@ -76,7 +76,6 @@ enum class Weekday {
     FRIDAY,
     SATURDAY,
     SUNDAY,
-    ;
 }
 
 @Serializable
