@@ -313,7 +313,6 @@ public enum class DoubleRepresentation {
      * [String.toDouble]
      */
     STRING,
-    ;
 }
 
 private class PreferencesImpl(configuration: PreferenceConfiguration) : Preferences(configuration)
