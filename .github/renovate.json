@@ -12,6 +12,18 @@
     {
       "matchPackageNames": ["androidx.compose.compiler:compiler"],
       "groupName": "Kotlin & Compose compiler"
+    },
+    {
+      "matchPackagePrefixes": ["org.jetbrains.kotlinx:kotlinx-coroutines"],
+      "groupName": "Kotlinx Coroutines"
+    },
+    {
+      "matchPackagePrefixes": ["org.jetbrains.kotlinx:kotlinx-knit"],
+      "groupName": "Kotlinx Knit"
+    },
+    {
+      "matchPackagePrefixes": ["org.jetbrains.kotlinx:kotlinx-serialization"],
+      "groupName": "Kotlinx Serialization"
     }
   ]
 }
