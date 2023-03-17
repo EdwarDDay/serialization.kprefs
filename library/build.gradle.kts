@@ -5,7 +5,6 @@
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jmailen.gradle.kotlinter.tasks.LintTask
 
 // https://youtrack.jetbrains.com/issue/KTIJ-19369
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -76,9 +75,11 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-tasks.withType<LintTask> {
-    // ktlint should ignore knit generated files
-    exclude("**/example/**")
+ktlint {
+    filter {
+        // ktlint should ignore knit generated files
+        exclude("**/example/**")
+    }
 }
 
 detekt {

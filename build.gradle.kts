@@ -17,6 +17,10 @@ plugins {
     alias(libs.plugins.licensee) apply false
 }
 
+repositories {
+    mavenCentral()
+}
+
 apply {
     plugin("kotlinx-knit")
 }
