@@ -244,7 +244,7 @@ class EncodingTest {
 
     @Test
     fun testMap() = runTest {
-        checkAll(Arb.map(Arb.string(), Arb.default<SimpleContainer>())) { expected ->
+        checkAll(Arb.map(Arb.string(), Arb.default<SimpleContainer>(), minSize = 0)) { expected ->
             preferences.encode("map", expected)
             val actual = preferences.decode<Map<String, SimpleContainer>>("map")
 
@@ -253,7 +253,8 @@ class EncodingTest {
                 val keyIndex = entryIndex * 2
                 val valueIndex = keyIndex + 1
                 listOf("map.$keyIndex", "map.$valueIndex.bar")
-            }
+            }.ifEmpty { mutableSetOf("map") }
+
             assertEquals(expectedKeys, sharedPreferences.all.keys)
             expected.entries.forEachIndexed { entryIndex, (key, value) ->
                 val keyIndex = entryIndex * 2
@@ -291,7 +292,7 @@ class EncodingTest {
 
     @Test
     fun testComplexMap() = runTest {
-        checkAll(Arb.map(Arb.default<SimpleContainer>(), Arb.default<DateWithOptional>())) { expected ->
+        checkAll(Arb.map(Arb.default<SimpleContainer>(), Arb.default<DateWithOptional>(), minSize = 0)) { expected ->
             preferences.encode("map", expected)
             val actual = preferences.decode<Map<SimpleContainer, DateWithOptional>>("map")
 
@@ -300,7 +301,8 @@ class EncodingTest {
                 val keyIndex = entryIndex * 2
                 val valueIndex = keyIndex + 1
                 listOf("map.$keyIndex.bar", "map.$valueIndex.foo")
-            }
+            }.ifEmpty { mutableSetOf("map") }
+
             assertEquals(expectedKeys, sharedPreferences.all.keys)
             expected.entries.forEachIndexed { entryIndex, (key, value) ->
                 val keyIndex = entryIndex * 2
@@ -320,11 +322,13 @@ class EncodingTest {
                 valueArb = Arb.list(
                     gen = Arb.map(
                         keyArb = Arb.string(),
-                        valueArb = Arb.map(keyArb = Arb.string(), valueArb = Arb.int(), maxSize = 10),
+                        valueArb = Arb.map(keyArb = Arb.string(), valueArb = Arb.int(), minSize = 0, maxSize = 10),
+                        minSize = 0,
                         maxSize = 10,
                     ),
-                    range = 1..10,
+                    range = 0..10,
                 ),
+                minSize = 0,
                 maxSize = 10,
             ),
         ) { expected ->

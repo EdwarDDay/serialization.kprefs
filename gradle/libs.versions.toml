@@ -16,7 +16,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 androidx-compose-material = { module = "androidx.compose.material:material", version = "1.4.2" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version = "1.4.2" }
-kotest-property = { module = "io.kotest:kotest-property", version = "5.5.5" }
+kotest-property = { module = "io.kotest:kotest-property", version = "5.6.1" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.6.4" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm", version = "1.5.0" }
