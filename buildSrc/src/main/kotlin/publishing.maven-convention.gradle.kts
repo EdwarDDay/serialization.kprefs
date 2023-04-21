@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-2022 Eduard Wolf
+// SPDX-FileCopyrightText: 2020-2023 Eduard Wolf
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -41,7 +41,6 @@ afterEvaluate {
 
 fun MavenPublication.configurePublication() {
     from(components["release"])
-    artifact(getSourcesArtifactTask())
     artifact(getJavaDocArtifactTask())
     groupId = "net.edwardday.serialization"
     artifactId = "kprefs"
@@ -72,14 +71,6 @@ fun MavenPublication.configurePublication() {
             }
         }
     }
-}
-
-fun getSourcesArtifactTask(): Task {
-    return tasks.filterIsInstance<Jar>()
-        .single {
-            it.name.contains("releaseSources", ignoreCase = true) &&
-                it.archiveClassifier.get() == "sources"
-        }
 }
 
 fun getJavaDocArtifactTask(): Task {

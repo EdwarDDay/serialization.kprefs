@@ -4,8 +4,8 @@
 
 [versions]
 compileSdk = "33"
-compose-compiler = "1.4.4"
-kotlin = "1.8.10"
+compose-compiler = "1.4.6"
+kotlin = "1.8.20"
 
 [libraries]
 # gradle classpath plugins
