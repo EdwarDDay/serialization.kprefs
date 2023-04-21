@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2020-2022 Eduard Wolf
+# SPDX-FileCopyrightText: 2020-2023 Eduard Wolf
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -9,17 +9,17 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: checkout
         uses: actions/checkout@v3
 
       - name: set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.11.0
         with:
           distribution: 'adopt'
-          java-version: 11
+          java-version: 17
 
       - name: Upload to maven central snapshot
         run: ./gradlew :library:publishSnapshotPublicationToMavenCentralSnapshotsRepository

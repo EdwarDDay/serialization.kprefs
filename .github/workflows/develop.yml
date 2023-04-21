@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2020-2022 Eduard Wolf
+# SPDX-FileCopyrightText: 2020-2023 Eduard Wolf
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: checkout
@@ -25,10 +25,10 @@ jobs:
         uses: gradle/wrapper-validation-action@v1.0.6
 
       - name: set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.11.0
         with:
           distribution: 'adopt'
-          java-version: 11
+          java-version: 17
 
       - name: Build
         run: ./gradlew build
