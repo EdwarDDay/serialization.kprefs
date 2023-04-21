@@ -33,14 +33,20 @@ repositories {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
+    namespace = "net.edwardday.serialization.preferences"
 
     defaultConfig {
         minSdk = 11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
         allWarningsAsErrors = true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     lint {

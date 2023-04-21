@@ -18,6 +18,7 @@ repositories {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
+    namespace = "net.edwardday.serialization.preferences.testapplication"
 
     defaultConfig {
         applicationId = "net.edwardday.serialization.preferences.testapplication"
@@ -33,7 +34,12 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     lint {
