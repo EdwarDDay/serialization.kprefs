@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                     person = person,
                     onValueChange = { person = it },
                     onLoad = {
-                        preferences.decode(Person.serializer().nullable, "person")
+                        preferences.decodeOrDefault(Person.serializer().nullable, "person", null)
                             ?.also { person = it }
                     },
                     onSave = { preferences.encode(Person.serializer(), "person", person) },
