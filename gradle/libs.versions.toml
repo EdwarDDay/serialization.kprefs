@@ -27,5 +27,5 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.0" }
 dokka = { id = "org.jetbrains.dokka", version = "1.8.10" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "11.4.2" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "11.5.0" }
 licensee = { id = "app.cash.licensee", version = "1.7.0" }
