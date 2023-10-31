@@ -20,7 +20,7 @@ kotest-property = { module = "io.kotest:kotest-property", version = "5.7.2" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.7.3" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm", version = "1.6.0" }
-robolectric = { module = "org.robolectric:robolectric", version = "4.10.3" }
+robolectric = { module = "org.robolectric:robolectric", version = "4.11.1" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.1" }
