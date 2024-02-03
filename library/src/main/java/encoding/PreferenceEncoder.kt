@@ -90,10 +90,7 @@ internal class PreferenceEncoder(
         editor.putString(tag, value)
     }
 
-    override fun beginCollection(
-        descriptor: SerialDescriptor,
-        collectionSize: Int,
-    ): CompositeEncoder {
+    override fun beginCollection(descriptor: SerialDescriptor, collectionSize: Int): CompositeEncoder {
         if (preferences.configuration.shouldSerializeStringSet(descriptor)) {
             return PreferencesStringSetEncoder(preferences, editor, popTag())
         }

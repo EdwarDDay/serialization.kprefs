@@ -60,10 +60,8 @@ class PropertyTest {
  * @param tag optional tag which is used as SharedPreferences key - default to property name
  */
 // <!--- KNIT example-property-without-default-01.kt -->
-public fun <T> Preferences.asProperty(
-    serializer: KSerializer<T>,
-    tag: String? = null,
-): ReadWriteProperty<Any?, T> = PreferenceProperty(this, serializer, tag)
+public fun <T> Preferences.asProperty(serializer: KSerializer<T>, tag: String? = null): ReadWriteProperty<Any?, T> =
+    PreferenceProperty(this, serializer, tag)
 
 /**
  * Encodes changes to the delegated property into the [SharedPreferences] and decodes the current value from them.
@@ -104,10 +102,8 @@ public inline fun <reified T> Preferences.asProperty(tag: String? = null): ReadW
  * @param default optional default value for not initialized preferences
  */
 // <!--- KNIT example-property-with-default-02.kt -->
-public inline fun <reified T> Preferences.asProperty(
-    tag: String? = null,
-    default: T,
-): ReadWriteProperty<Any?, T> = asProperty(serializersModule.serializer(), tag, default)
+public inline fun <reified T> Preferences.asProperty(tag: String? = null, default: T): ReadWriteProperty<Any?, T> =
+    asProperty(serializersModule.serializer(), tag, default)
 
 private class PreferenceProperty<T>(
     private val preferences: Preferences,
