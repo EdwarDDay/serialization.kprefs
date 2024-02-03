@@ -171,7 +171,6 @@ public inline fun <reified T> Preferences.decodeOrDefault(tag: String, default: 
  * @param builderAction builder to change the behavior of the [Preferences] format
  */
 @OptIn(ExperimentalContracts::class)
-@Suppress("FunctionName")
 public fun Preferences(
     sharedPreferences: SharedPreferences,
     builderAction: PreferencesBuilder.() -> Unit = {},
@@ -190,11 +189,7 @@ public fun Preferences(
  * @param builderAction builder to change the behavior of the [Preferences] format
  */
 @OptIn(ExperimentalContracts::class)
-@Suppress("FunctionName")
-public fun Preferences(
-    preferences: Preferences,
-    builderAction: PreferencesBuilder.() -> Unit = {},
-): Preferences {
+public fun Preferences(preferences: Preferences, builderAction: PreferencesBuilder.() -> Unit = {}): Preferences {
     contract {
         callsInPlace(builderAction, InvocationKind.EXACTLY_ONCE)
     }

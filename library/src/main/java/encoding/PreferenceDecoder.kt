@@ -53,9 +53,8 @@ internal class PreferenceDecoder(
         return PreferenceDecoder(preferences, descriptor).also { copyTagsTo(it) }
     }
 
-    private fun couldBeInPreferences(tag: String): Boolean =
-        tag in sharedPreferences || // found key
-            sharedPreferences.all.any { it.key.startsWith("$tag.") } // found key of child
+    private fun couldBeInPreferences(tag: String): Boolean = tag in sharedPreferences || // found key
+        sharedPreferences.all.any { it.key.startsWith("$tag.") } // found key of child
 
     override fun decodeElementIndex(descriptor: SerialDescriptor): Int {
         while (currentIndex < size) {
@@ -108,12 +107,11 @@ internal class PreferenceDecoder(
         return sharedPreferences.getFloat(tag, 0f)
     }
 
-    override fun decodeTaggedDouble(tag: String): Double =
-        when (preferences.configuration.doubleRepresentation) {
-            DoubleRepresentation.FLOAT -> decodeTaggedFloat(tag).toDouble()
-            DoubleRepresentation.LONG_BITS -> decodeTaggedLong(tag).let(Double.Companion::fromBits)
-            DoubleRepresentation.STRING -> decodeTaggedString(tag).toDouble()
-        }
+    override fun decodeTaggedDouble(tag: String): Double = when (preferences.configuration.doubleRepresentation) {
+        DoubleRepresentation.FLOAT -> decodeTaggedFloat(tag).toDouble()
+        DoubleRepresentation.LONG_BITS -> decodeTaggedLong(tag).let(Double.Companion::fromBits)
+        DoubleRepresentation.STRING -> decodeTaggedString(tag).toDouble()
+    }
 
     override fun decodeTaggedChar(tag: String): Char = decodeTaggedString(tag).first()
 
