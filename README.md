@@ -108,7 +108,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.edwardday.serialization:kprefs:0.12.1")
+    implementation("net.edwardday.serialization:kprefs:0.12.2")
 }
 ```
 

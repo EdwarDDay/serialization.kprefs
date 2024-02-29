@@ -7,6 +7,11 @@ SPDX-License-Identifier: Apache-2.0
 Change Log
 ==========
 
+Version 0.12.2 *(2024-02-29)*
+----------------------------
+
+Upgrade dependencies
+
 Version 0.12.1 *(2023-01-24)*
 ----------------------------
 
