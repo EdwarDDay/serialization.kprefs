@@ -15,7 +15,7 @@ kotlinx-knit = { module = "org.jetbrains.kotlinx:kotlinx-knit", version = "0.5.0
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version = "1.8.2" }
 androidx-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 androidx-compose-material = { module = "androidx.compose.material:material", version = "1.6.2" }
-androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version = "1.6.0" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version = "1.6.2" }
 kotest-property = { module = "io.kotest:kotest-property", version = "5.8.0" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.8.0" }
