@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>PreferencesBuilder</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
     if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -18,12 +19,13 @@
         }
     }
     </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
-<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
@@ -32,136 +34,146 @@
 <script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 </head>
 <body>
-<div class="navigation-wrapper" id="navigation-wrapper">
-    <div id="leftToggler"><span class="icon-toggler"></span></div>
-    <div class="library-name">
-            <a href="../../../index.html">
-                    <span>kprefs</span>
-            </a>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            kprefs
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":library:dokkaHtml/release">androidJvm</button>
+        </div>
     </div>
-    <div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
     </div>
-    <div class="pull-right d-flex">
-        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
-        <div id="searchBar"></div>
-    </div>
-</div>
-<div id="container">
-    <div id="leftColumn">
-        <div id="sideMenu"></div>
-    </div>
-    <div id="main">
-<div class="main-content" id="content" pageIds="kprefs::net.edwardday.serialization.preferences/PreferencesBuilder///PointingToDeclaration//-1887420133">
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="kprefs::net.edwardday.serialization.preferences/PreferencesBuilder///PointingToDeclaration//-1887420133">
   <div class="breadcrumbs"><a href="../../../index.html">kprefs</a><span class="delimiter">/</span><a href="../index.html">net.edwardday.serialization.preferences</a><span class="delimiter">/</span><span class="current">PreferencesBuilder</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Preferences</span><wbr></wbr><span><span>Builder</span></span></h1>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">PreferencesBuilder</a></div><p class="paragraph">Builder of the <a href="../-preferences/index.html">Preferences</a> instance provided by <code class="lang-kotlin">Preferences(sharedPreferences) { ... }</code> factory function.</p></div></div>
   </div>
   <div class="tabbedcontent">
-    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
-      <h2 class="">Properties</h2>
-      <div class="table" data-togglable="Properties"><a data-name="-588521946%2FProperties%2F-1887420133" anchor-label="doubleRepresentation" id="-588521946%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a>
-        <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="double-representation.html"><span>double</span><wbr></wbr><span><span>Representation</span></span></a></div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-588521946%2FProperties%2F-1887420133" anchor-label="doubleRepresentation" id="-588521946%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="double-representation.html"><span>double</span><wbr></wbr><span><span>Representation</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-588521946%2FProperties%2F-1887420133"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><a data-name="-588521946%2FProperties%2F-1887420133" anchor-label="doubleRepresentation" id="-588521946%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="double-representation.html">doubleRepresentation</a><span class="token operator">: </span><a href="../-double-representation/index.html">DoubleRepresentation</a></div><div class="brief "><a data-name="-588521946%2FProperties%2F-1887420133" anchor-label="doubleRepresentation" id="-588521946%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><p class="paragraph">Specifies how <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a> fields will be encoded. <a href="../-double-representation/-l-o-n-g_-b-i-t-s/index.html">DoubleRepresentation.LONG_BITS</a> by default</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="double-representation.html">doubleRepresentation</a><span class="token operator">: </span><a href="../-double-representation/index.html">DoubleRepresentation</a></div><div class="brief "><p class="paragraph">Specifies how <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a> fields will be encoded. <a href="../-double-representation/-l-o-n-g_-b-i-t-s/index.html">DoubleRepresentation.LONG_BITS</a> by default</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="2014067262%2FProperties%2F-1887420133" anchor-label="encodeObjectStarts" id="2014067262%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a>
-        <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="encode-object-starts.html"><span>encode</span><wbr></wbr><span>Object</span><wbr></wbr><span><span>Starts</span></span></a></div>
+          <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="encode-object-starts.html"><span>encode</span><wbr></wbr><span>Object</span><wbr></wbr><span><span>Starts</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2014067262%2FProperties%2F-1887420133"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><a data-name="2014067262%2FProperties%2F-1887420133" anchor-label="encodeObjectStarts" id="2014067262%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="encode-object-starts.html">encodeObjectStarts</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><a data-name="2014067262%2FProperties%2F-1887420133" anchor-label="encodeObjectStarts" id="2014067262%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><p class="paragraph">Specifies whether objects, empty classes and empty collections will be serialized by encoding a marker at the position.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="encode-object-starts.html">encodeObjectStarts</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Specifies whether objects, empty classes and empty collections will be serialized by encoding a marker at the position.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="397613431%2FProperties%2F-1887420133" anchor-label="encodeStringSetNatively" id="397613431%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a>
-        <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="encode-string-set-natively.html"><span>encode</span><wbr></wbr><span>String</span><wbr></wbr><span>Set</span><wbr></wbr><span><span>Natively</span></span></a></div>
+          <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="encode-string-set-natively.html"><span>encode</span><wbr></wbr><span>String</span><wbr></wbr><span>Set</span><wbr></wbr><span><span>Natively</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="397613431%2FProperties%2F-1887420133"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><a data-name="397613431%2FProperties%2F-1887420133" anchor-label="encodeStringSetNatively" id="397613431%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="encode-string-set-natively.html">encodeStringSetNatively</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><a data-name="397613431%2FProperties%2F-1887420133" anchor-label="encodeStringSetNatively" id="397613431%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><p class="paragraph">Specifies whether <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a>s of <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char/index.html">Char</a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a> will be encoded with <a href="https://developer.android.com/reference/kotlin/android/content/SharedPreferences.Editor.html#putstringset">putStringSet</a> or not.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="encode-string-set-natively.html">encodeStringSetNatively</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Specifies whether <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a>s of <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char/index.html">Char</a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a> will be encoded with <a href="https://developer.android.com/reference/kotlin/android/content/SharedPreferences.Editor.html#putstringset">putStringSet</a> or not.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1865187113%2FProperties%2F-1887420133" anchor-label="serializersModule" id="1865187113%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a>
-        <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="serializers-module.html"><span>serializers</span><wbr></wbr><span><span>Module</span></span></a></div>
+          <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="serializers-module.html"><span>serializers</span><wbr></wbr><span><span>Module</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1865187113%2FProperties%2F-1887420133"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><a data-name="1865187113%2FProperties%2F-1887420133" anchor-label="serializersModule" id="1865187113%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="serializers-module.html">serializersModule</a><span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-core/kotlinx.serialization.modules/-serializers-module/index.html">SerializersModule</a></div><div class="brief "><a data-name="1865187113%2FProperties%2F-1887420133" anchor-label="serializersModule" id="1865187113%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><p class="paragraph">Module with contextual and polymorphic serializers to be used in the resulting <a href="../-preferences/index.html">Preferences</a> instance.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="serializers-module.html">serializersModule</a><span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-core/kotlinx.serialization.modules/-serializers-module/index.html">SerializersModule</a></div><div class="brief "><p class="paragraph">Module with contextual and polymorphic serializers to be used in the resulting <a href="../-preferences/index.html">Preferences</a> instance.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1854965885%2FProperties%2F-1887420133" anchor-label="sharedPreferences" id="-1854965885%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a>
-        <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="shared-preferences.html"><span>shared</span><wbr></wbr><span><span>Preferences</span></span></a></div>
+          <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="shared-preferences.html"><span>shared</span><wbr></wbr><span><span>Preferences</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1854965885%2FProperties%2F-1887420133"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><a data-name="-1854965885%2FProperties%2F-1887420133" anchor-label="sharedPreferences" id="-1854965885%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="shared-preferences.html">sharedPreferences</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/SharedPreferences.html">SharedPreferences</a></div><div class="brief "><a data-name="-1854965885%2FProperties%2F-1887420133" anchor-label="sharedPreferences" id="-1854965885%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><p class="paragraph">Specifies the <a href="https://developer.android.com/reference/kotlin/android/content/SharedPreferences.html">SharedPreferences</a> where everything will be encoded to and decoded from.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="shared-preferences.html">sharedPreferences</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/SharedPreferences.html">SharedPreferences</a></div><div class="brief "><p class="paragraph">Specifies the <a href="https://developer.android.com/reference/kotlin/android/content/SharedPreferences.html">SharedPreferences</a> where everything will be encoded to and decoded from.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="817812124%2FProperties%2F-1887420133" anchor-label="stringSetDescriptorNames" id="817812124%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a>
-        <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="string-set-descriptor-names.html"><span>string</span><wbr></wbr><span>Set</span><wbr></wbr><span>Descriptor</span><wbr></wbr><span><span>Names</span></span></a></div>
+          <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="string-set-descriptor-names.html"><span>string</span><wbr></wbr><span>Set</span><wbr></wbr><span>Descriptor</span><wbr></wbr><span><span>Names</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="817812124%2FProperties%2F-1887420133"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><a data-name="817812124%2FProperties%2F-1887420133" anchor-label="stringSetDescriptorNames" id="817812124%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="string-set-descriptor-names.html">stringSetDescriptorNames</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><a data-name="817812124%2FProperties%2F-1887420133" anchor-label="stringSetDescriptorNames" id="817812124%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><p class="paragraph">Specifies the names of the <a href="https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-core/kotlinx.serialization.descriptors/-serial-descriptor/index.html">SerialDescriptor</a> which are used to detect Set<String> to encode these natively.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="string-set-descriptor-names.html">stringSetDescriptorNames</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Specifies the names of the <a href="https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-core/kotlinx.serialization.descriptors/-serial-descriptor/index.html">SerialDescriptor</a> which are used to detect Set<String> to encode these natively.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="1497439699%2FProperties%2F-1887420133" anchor-label="synchronizeEncoding" id="1497439699%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a>
-        <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="synchronize-encoding.html"><span>synchronize</span><wbr></wbr><span><span>Encoding</span></span></a></div>
+          <div class="table-row" data-filterable-current=":library:dokkaHtml/release" data-filterable-set=":library:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="synchronize-encoding.html"><span>synchronize</span><wbr></wbr><span><span>Encoding</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1497439699%2FProperties%2F-1887420133"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><a data-name="1497439699%2FProperties%2F-1887420133" anchor-label="synchronizeEncoding" id="1497439699%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="synchronize-encoding.html">synchronizeEncoding</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><a data-name="1497439699%2FProperties%2F-1887420133" anchor-label="synchronizeEncoding" id="1497439699%2FProperties%2F-1887420133" data-filterable-set=":library:dokkaHtml/release"></a><p class="paragraph">Specifies the usage of synchronize blocks over <a href="shared-preferences.html">PreferencesBuilder.sharedPreferences</a> while serialization.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="synchronize-encoding.html">synchronizeEncoding</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Specifies the usage of synchronize blocks over <a href="shared-preferences.html">PreferencesBuilder.sharedPreferences</a> while serialization.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
@@ -171,11 +183,12 @@
   </div>
 </div>
       <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
                 class="pull-right"><span>Generated by </span><a
                 href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
       </div>
+            </div>
+        </div>
     </div>
-</div>
 </body>
 </html>
