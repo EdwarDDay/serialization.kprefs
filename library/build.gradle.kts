@@ -4,7 +4,6 @@
 
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.android.library")
@@ -59,24 +58,7 @@ android {
 }
 
 kotlin {
-    sourceSets.all {
-        languageSettings {
-            optIn("kotlin.RequiresOptIn")
-            if (name.contains("test", ignoreCase = true)) {
-                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
-            }
-        }
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        // workaround, because explicit api mode is not yet supported for android projects
-        // https://youtrack.jetbrains.com/issue/KT-37652
-        if (!name.contains("test", ignoreCase = true)) {
-            freeCompilerArgs = listOf("-Xexplicit-api=strict")
-        }
-    }
+    explicitApi()
 }
 
 ktlint {
