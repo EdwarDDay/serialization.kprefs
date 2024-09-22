@@ -18,7 +18,7 @@ androidx-compose-material = { module = "androidx.compose.material:material", ver
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version = "1.7.2" }
 kotest-property = { module = "io.kotest:kotest-property", version = "5.9.1" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.8.0" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.9.0" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm", version = "1.6.3" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.13" }
 
