@@ -23,7 +23,7 @@ kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 robolectric = { module = "org.robolectric:robolectric", version = "4.12.1" }
 
 [plugins]
-detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.6" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.7" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
