@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// https://youtrack.jetbrains.com/issue/KTIJ-19369
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.application")
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 repositories {
@@ -52,10 +51,6 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
         }
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 }
 

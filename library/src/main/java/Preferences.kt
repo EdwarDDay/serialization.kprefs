@@ -196,10 +196,14 @@ public fun Preferences(preferences: Preferences, builderAction: PreferencesBuild
     return generatePreferences(preferences.configuration, builderAction)
 }
 
+@OptIn(ExperimentalContracts::class)
 private inline fun generatePreferences(
     preferenceConfiguration: PreferenceConfiguration,
     builderAction: PreferencesBuilder.() -> Unit,
 ): Preferences {
+    contract {
+        callsInPlace(builderAction, InvocationKind.EXACTLY_ONCE)
+    }
     val builder = PreferencesBuilder(preferenceConfiguration)
     builder.builderAction()
     val conf = builder.build()
