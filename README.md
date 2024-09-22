@@ -100,7 +100,7 @@ Kotlin DSL:
 
 ```
 plugins {
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 repositories {
@@ -108,7 +108,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.edwardday.serialization:kprefs:0.12.2")
+    implementation("net.edwardday.serialization:kprefs:0.13.0")
 }
 ```
 

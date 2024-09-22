@@ -7,6 +7,11 @@ SPDX-License-Identifier: Apache-2.0
 Change Log
 ==========
 
+Version 0.13.0 *(2024-09-22)*
+----------------------------
+
+Update Kotlin to 2.0.20
+
 Version 0.12.2 *(2024-02-29)*
 ----------------------------
 
