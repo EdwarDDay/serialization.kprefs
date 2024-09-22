@@ -4,8 +4,7 @@
 
 [versions]
 compileSdk = "34"
-compose-compiler = "1.5.15"
-kotlin = "1.9.25"
+kotlin = "2.0.20"
 
 [libraries]
 # gradle classpath plugins
@@ -13,7 +12,6 @@ android-build-tools-gradle = { module = "com.android.tools.build:gradle", versio
 kotlinx-knit = { module = "org.jetbrains.kotlinx:kotlinx-knit", version = "0.5.0" }
 # dependencies
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version = "1.9.2" }
-androidx-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 androidx-compose-material = { module = "androidx.compose.material:material", version = "1.7.2" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version = "1.7.2" }
 kotest-property = { module = "io.kotest:kotest-property", version = "5.9.1" }
@@ -23,6 +21,7 @@ kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 robolectric = { module = "org.robolectric:robolectric", version = "4.13" }
 
 [plugins]
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.7" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
