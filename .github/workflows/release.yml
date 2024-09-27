@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: checkout
@@ -58,7 +58,7 @@ jobs:
             ./library/build/outputs/aar/library-release.aar
 
   docs:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: checkout
