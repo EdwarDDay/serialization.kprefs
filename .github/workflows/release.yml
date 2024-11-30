@@ -74,7 +74,7 @@ jobs:
         run: ./gradlew :library:dokkaHtml
 
       - name: Upload html documentation
-        uses: JamesIves/github-pages-deploy-action@v4.6.9
+        uses: JamesIves/github-pages-deploy-action@v4.7.1
         with:
           branch: gh-pages
           folder: library/build/dokka/html
