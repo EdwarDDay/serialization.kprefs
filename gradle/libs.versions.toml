@@ -18,7 +18,7 @@ kotest-property = { module = "io.kotest:kotest-property", version = "5.9.1" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.10.2" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm", version = "1.7.3" }
-robolectric = { module = "org.robolectric:robolectric", version = "4.14.1" }
+robolectric = { module = "org.robolectric:robolectric", version = "4.15.1" }
 
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
