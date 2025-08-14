@@ -48,10 +48,11 @@ android {
 
     lint {
         warningsAsErrors = true
+        disable += "GradleDependency"
     }
 
+    androidResources.enable = false
     buildFeatures {
-        androidResources = false
         buildConfig = false
         resValues = false
     }
