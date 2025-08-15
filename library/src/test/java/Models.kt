@@ -30,10 +30,7 @@ data class DateWithOptional(val foo: String = "optional")
 data class SimpleContainer(val bar: Int)
 
 @Serializable
-data class Complex(
-    val simple: SimpleContainer,
-    val optional: DateWithOptional,
-)
+data class Complex(val simple: SimpleContainer, val optional: DateWithOptional)
 
 @Serializable
 data class DateWithNullable(val foo: String?)
@@ -79,7 +76,4 @@ enum class Weekday {
 }
 
 @Serializable
-data class StringSetWrapper(
-    val kotlinSet: Set<String>,
-    val customSet: List<String>,
-)
+data class StringSetWrapper(val kotlinSet: Set<String>, val customSet: List<String>)
