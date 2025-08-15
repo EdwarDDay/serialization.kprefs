@@ -19,10 +19,8 @@ import net.edwardday.serialization.preferences.Preferences
 
 @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
 @Suppress("TooManyFunctions")
-internal class PreferenceDecoder(
-    private val preferences: Preferences,
-    descriptor: SerialDescriptor,
-) : NamedValueDecoder() {
+internal class PreferenceDecoder(private val preferences: Preferences, descriptor: SerialDescriptor) :
+    NamedValueDecoder() {
 
     override val serializersModule: SerializersModule = preferences.configuration.serializersModule
 
@@ -53,8 +51,9 @@ internal class PreferenceDecoder(
         return PreferenceDecoder(preferences, descriptor).also { copyTagsTo(it) }
     }
 
-    private fun couldBeInPreferences(tag: String): Boolean = tag in sharedPreferences || // found key
-        sharedPreferences.all.any { it.key.startsWith("$tag.") } // found key of child
+    // found key || found key of child
+    private fun couldBeInPreferences(tag: String): Boolean = tag in sharedPreferences ||
+        sharedPreferences.all.any { it.key.startsWith("$tag.") }
 
     override fun decodeElementIndex(descriptor: SerialDescriptor): Int {
         while (currentIndex < size) {
@@ -115,9 +114,8 @@ internal class PreferenceDecoder(
 
     override fun decodeTaggedChar(tag: String): Char = decodeTaggedString(tag).first()
 
-    override fun decodeTaggedString(tag: String): String {
-        return sharedPreferences.getString(tag, null) ?: throw SerializationException("missing property $tag")
-    }
+    override fun decodeTaggedString(tag: String): String =
+        sharedPreferences.getString(tag, null) ?: throw SerializationException("missing property $tag")
 
     private fun checkTagIsStored(tag: String) {
         if (tag !in sharedPreferences) throw SerializationException("missing property $tag")
@@ -125,10 +123,8 @@ internal class PreferenceDecoder(
 }
 
 @OptIn(ExperimentalSerializationApi::class)
-internal class PreferencesStringSetDecoder(
-    private val preferences: Preferences,
-    set: Set<String?>,
-) : AbstractDecoder() {
+internal class PreferencesStringSetDecoder(private val preferences: Preferences, set: Set<String?>) :
+    AbstractDecoder() {
 
     override val serializersModule: SerializersModule get() = preferences.serializersModule
     private val values = set.iterator()
@@ -146,13 +142,11 @@ internal class PreferencesStringSetDecoder(
 
     override fun decodeChar(): Char = decodeString().first()
 
-    override fun decodeString(): String {
-        return if (useCachedValue) {
-            useCachedValue = false
-            cache!!
-        } else {
-            values.next()!!
-        }
+    override fun decodeString(): String = if (useCachedValue) {
+        useCachedValue = false
+        cache!!
+    } else {
+        values.next()!!
     }
 
     override fun decodeEnum(enumDescriptor: SerialDescriptor): Int =

@@ -14,17 +14,15 @@ import kotlinx.serialization.encoding.CompositeDecoder
 import net.edwardday.serialization.preferences.PreferenceConfiguration
 
 @OptIn(ExperimentalSerializationApi::class)
-internal fun PreferenceConfiguration.shouldSerializeStringSet(descriptor: SerialDescriptor): Boolean {
-    return if (
-        encodeStringSetNatively &&
-        descriptor.kind === StructureKind.LIST &&
-        descriptor.serialName in stringSetDescriptorNames
-    ) {
-        val elementKind = descriptor.getElementDescriptor(0).kind
-        elementKind === PrimitiveKind.STRING || elementKind === PrimitiveKind.CHAR || elementKind === SerialKind.ENUM
-    } else {
-        false
-    }
+internal fun PreferenceConfiguration.shouldSerializeStringSet(descriptor: SerialDescriptor): Boolean = if (
+    encodeStringSetNatively &&
+    descriptor.kind === StructureKind.LIST &&
+    descriptor.serialName in stringSetDescriptorNames
+) {
+    val elementKind = descriptor.getElementDescriptor(0).kind
+    elementKind === PrimitiveKind.STRING || elementKind === PrimitiveKind.CHAR || elementKind === SerialKind.ENUM
+} else {
+    false
 }
 
 @OptIn(ExperimentalSerializationApi::class)

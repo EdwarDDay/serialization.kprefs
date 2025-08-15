@@ -123,14 +123,12 @@ public sealed class Preferences(internal val configuration: PreferenceConfigurat
         decoder.decodeSerializableValue(deserializer).value
     }
 
-    private inline fun <T> maybeExecuteSynchronized(block: () -> T): T {
-        return if (configuration.synchronizeEncoding) {
-            synchronized(configuration.sharedPreferences) {
-                block()
-            }
-        } else {
+    private inline fun <T> maybeExecuteSynchronized(block: () -> T): T = if (configuration.synchronizeEncoding) {
+        synchronized(configuration.sharedPreferences) {
             block()
         }
+    } else {
+        block()
     }
 }
 

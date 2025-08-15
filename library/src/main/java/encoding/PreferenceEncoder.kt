@@ -129,9 +129,8 @@ internal class PreferencesStringSetEncoder(
     override val serializersModule: SerializersModule get() = preferences.serializersModule
     private val setBuilder = mutableSetOf<String?>()
 
-    override fun encodeValue(value: Any) {
+    override fun encodeValue(value: Any): Unit =
         throw SerializationException("${value::class} encoding is not supported while encoding a string set")
-    }
 
     override fun encodeNull() {
         setBuilder.add(null)

@@ -48,31 +48,29 @@ internal class WrapperDeserializationStrategy<T>(
 
     override val descriptor: SerialDescriptor = buildWrapperDescriptor(serializer.descriptor, tag, default)
 
-    override fun deserialize(decoder: Decoder): SerializationWrapper<T> {
-        return decoder.decodeStructure(descriptor) {
-            var value: Any? = NOT_SET
+    override fun deserialize(decoder: Decoder): SerializationWrapper<T> = decoder.decodeStructure(descriptor) {
+        var value: Any? = NOT_SET
 
-            mainLoop@ while (true) {
-                when (val index = decodeElementIndex(descriptor)) {
-                    CompositeDecoder.DECODE_DONE -> {
-                        break@mainLoop
-                    }
-                    0 -> {
-                        value = decodeSerializableElement(descriptor, index, serializer)
-                    }
-                    else -> throw SerializationException(
-                        "Invalid index in wrapper deserialization. Expected 0 or DECODE_DONE(-1), but found $index",
-                    )
+        mainLoop@ while (true) {
+            when (val index = decodeElementIndex(descriptor)) {
+                CompositeDecoder.DECODE_DONE -> {
+                    break@mainLoop
                 }
+                0 -> {
+                    value = decodeSerializableElement(descriptor, index, serializer)
+                }
+                else -> throw SerializationException(
+                    "Invalid index in wrapper deserialization. Expected 0 or DECODE_DONE(-1), but found $index",
+                )
             }
-            @Suppress("UNCHECKED_CAST")
-            val element = when {
-                value !== NOT_SET -> value as T
-                default !== NOT_SET -> default as T
-                else -> throw SerializationException("Value has not been read")
-            }
-            SerializationWrapper(element)
         }
+        @Suppress("UNCHECKED_CAST")
+        val element = when {
+            value !== NOT_SET -> value as T
+            default !== NOT_SET -> default as T
+            else -> throw SerializationException("Value has not been read")
+        }
+        SerializationWrapper(element)
     }
 }
 
