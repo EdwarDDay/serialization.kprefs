@@ -1,21 +1,29 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "packageRules": [
     {
-      "matchPackagePrefixes": ["org.jetbrains.kotlinx:kotlinx-coroutines"],
-      "groupName": "Kotlinx Coroutines"
+      "groupName": "Kotlinx Coroutines",
+      "matchPackageNames": [
+        "org.jetbrains.kotlinx:kotlinx-coroutines{/,}**"
+      ]
     },
     {
-      "matchPackagePrefixes": ["org.jetbrains.kotlinx:kotlinx-knit"],
-      "groupName": "Kotlinx Knit"
+      "groupName": "Kotlinx Knit",
+      "matchPackageNames": [
+        "org.jetbrains.kotlinx:kotlinx-knit{/,}**"
+      ]
     },
     {
-      "matchPackagePrefixes": ["org.jetbrains.kotlinx:kotlinx-serialization"],
-      "groupName": "Kotlinx Serialization"
+      "groupName": "Kotlinx Serialization",
+      "matchPackageNames": [
+        "org.jetbrains.kotlinx:kotlinx-serialization{/,}**"
+      ]
     }
   ]
 }
