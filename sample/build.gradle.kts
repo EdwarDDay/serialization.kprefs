@@ -52,6 +52,16 @@ android {
             isShrinkResources = true
         }
     }
+
+    packaging {
+        resources {
+            pickFirsts += "META-INF/*"
+            pickFirsts += "META-INF/**/*"
+            pickFirsts += "**/manifest"
+            pickFirsts += "**/module"
+            pickFirsts += "**/*.knm"
+        }
+    }
 }
 
 dependencies {

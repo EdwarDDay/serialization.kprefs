@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [versions]
-compileSdk = "34"
+compileSdk = "35"
 kotlin = "2.0.21"
 
 [libraries]
