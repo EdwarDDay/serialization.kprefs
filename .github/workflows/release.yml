@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set VCS tag
         id: variables
@@ -62,7 +62,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: set up JDK
         uses: actions/setup-java@v4.7.1
