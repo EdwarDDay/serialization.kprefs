@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+import app.cash.licensee.SpdxId
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.dokka.gradle.DokkaTask
 
@@ -101,5 +102,5 @@ tasks.register<Jar>("dokkaJavadocJar") {
 }
 
 licensee {
-    allow("Apache-2.0")
+    allow(SpdxId.Apache_20)
 }
